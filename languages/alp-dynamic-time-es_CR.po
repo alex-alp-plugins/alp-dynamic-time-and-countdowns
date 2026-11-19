@@ -1,0 +1,2182 @@
+
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2026-11-06 01:50+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: es_CR\n"
+"Language-Team: es_CR <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.18.0\n"
+
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] "%d día"
+msgstr[1] "%d días"
+
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] "%d mes"
+msgstr[1] "%d meses"
+
+#, python-format
+msgid "%d saved date"
+msgid_plural "%d saved dates"
+msgstr[0] "%d fecha guardada"
+msgstr[1] "%d fechas guardadas"
+
+#, python-format
+msgid "%d saved shortcode"
+msgid_plural "%d saved shortcodes"
+msgstr[0] "%d shortcode guardado"
+msgstr[1] "%d shortcodes guardados"
+
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] "%d semana"
+msgstr[1] "%d semanas"
+
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] "%d año"
+msgstr[1] "%d años"
+
+msgid "3 seconds"
+msgstr "3 segundos"
+
+msgid "3D Odometer"
+msgstr "Odómetro 3D"
+
+msgid "5 seconds"
+msgstr "5 segundos"
+
+msgid "8 seconds"
+msgstr "8 segundos"
+
+msgid "A friendly name to help you recognize this date in the list."
+msgstr "Un nombre fácil de reconocer en la lista."
+
+msgid ""
+"A short name used in the shortcode. Choose it once; it cannot be changed "
+"after saving."
+msgstr ""
+"Un nombre corto para el shortcode. Elígelo bien porque no se puede cambiar "
+"después de guardar."
+
+msgid "ALP Dynamic Time"
+msgstr "ALP Dynamic Time"
+
+msgid "ALP Dynamic Time & Countdowns"
+msgstr "ALP Dynamic Time & Countdowns"
+
+msgid "ALP Dynamic Time & Countdowns: current year"
+msgstr "ALP Dynamic Time & Countdowns: año actual"
+
+#, python-format
+msgid "ALP Dynamic Time & Countdowns: saved text %s"
+msgstr "ALP Dynamic Time & Countdowns: texto guardado %s"
+
+#, python-format
+msgid "ALP Dynamic Time & Countdowns: years since %s"
+msgstr "ALP Dynamic Time & Countdowns: años desde %s"
+
+msgid "ALP Dynamic Time: current year"
+msgstr "ALP Dynamic Time: año actual"
+
+#, python-format
+msgid "ALP Dynamic Time: saved text %s"
+msgstr "ALP Dynamic Time: texto guardado %s"
+
+#, python-format
+msgid "ALP Dynamic Time: years since %s"
+msgstr "ALP Dynamic Time: años desde %s"
+
+msgid "ALP Plugins"
+msgstr "ALP Plugins"
+
+msgid "About & guide"
+msgstr "Información y guía"
+
+msgid "Access denied."
+msgstr "Acceso denegado."
+
+msgid "Add a saved date"
+msgstr "Añadir fecha guardada"
+
+msgid "Add color"
+msgstr "Añadir color"
+
+msgid "Add current color to Quick Colors"
+msgstr "Añadir el color actual a Colores rápidos"
+
+msgid "Adjust number cards, corners and individual sides."
+msgstr "Ajustá las tarjetas numéricas, las esquinas y cada lado."
+
+msgid "Adjust number size, unit labels and corners."
+msgstr "Ajustá el tamaño de los números, las etiquetas y las esquinas."
+
+msgid "Adjust spacing inside each number container. Circular dials keep their shape."
+msgstr ""
+"Ajustá la separación de cada contenedor numérico. Los relojes circulares "
+"conservan su forma."
+
+msgid "After the anniversary"
+msgstr "Después del aniversario"
+
+msgid "Animated underline"
+msgstr "Subrayado animado"
+
+msgid "Anniversary message"
+msgstr "Mensaje de aniversario"
+
+msgid "Anniversary number"
+msgstr "Número de aniversario"
+
+msgid "Another plugin currently handles the old shortcode."
+msgstr "Otro plugin está gestionando el shortcode antiguo."
+
+msgid "Autumn"
+msgstr "Otoño"
+
+#, php-format, python-format
+msgid "Balloon color %d"
+msgstr "Color del globo %d"
+
+msgid "Balloon colors"
+msgstr "Colores de los globos"
+
+msgid "Before the anniversary"
+msgstr "Antes del aniversario"
+
+msgid "Birthday confetti & streamers"
+msgstr "Confeti de cumpleaños y serpentinas"
+
+msgid "Blood Dripping"
+msgstr "Sangre goteando"
+
+msgid "Blood Dripping font"
+msgstr "Fuente de Blood Dripping"
+
+msgid "Bottom padding (px)"
+msgstr "Inferior (px)"
+
+msgid "Calendar-year difference"
+msgstr "Diferencia entre años calendario"
+
+msgid ""
+"Calendar: 2026 minus 2000 = 26. Completed anniversaries: count only "
+"birthdays or anniversaries that have already happened."
+msgstr ""
+"Calendario: 2026 menos 2000 = 26. Aniversarios cumplidos: cuenta solo los "
+"aniversarios que ya ocurrieron."
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Cancel editing"
+msgstr "Cancelar edición"
+
+msgid "Card / circle background"
+msgstr "Fondo de tarjetas o círculos"
+
+msgid "Celebration burst duration"
+msgstr "Duración de cada celebración"
+
+msgid "Changes the message before, on and after your anniversary."
+msgstr "Cambia el mensaje antes, durante y después de tu aniversario."
+
+msgid "Check official PHP support dates"
+msgstr "Consultar las fechas oficiales de soporte de PHP"
+
+msgid "Check the date and options before saving."
+msgstr "Revisá la fecha y las opciones antes de guardar."
+
+#, python-format
+msgid "Choose %s"
+msgstr "Elegir %s"
+
+msgid "Choose a saved shortcode"
+msgstr "Elegí un shortcode guardado"
+
+msgid "Choose a system font or a seasonal display face."
+msgstr "Elegí una fuente del sistema o una tipografía de temporada."
+
+msgid "Choose a topic to learn how to use dynamic dates and countdowns."
+msgstr "Elegí un tema para aprender a usar fechas y cuentas regresivas dinámicas."
+
+msgid ""
+"Choose an animation for your countdown. Customize its colors and size below."
+" Decorative motion pauses off-screen and respects reduced-motion settings."
+msgstr ""
+"Elegí una animación para la cuenta regresiva. Personalizá los colores y "
+"tamaños abajo. El movimiento decorativo se pausa fuera de pantalla y respeta"
+" la preferencia de movimiento reducido."
+
+msgid ""
+"Choose an appearance for your countdown. Use the Layout option below to "
+"place the first letter of each unit beside the number while keeping the "
+"selected style and animation. Decorative motion pauses off-screen and "
+"respects reduced-motion settings."
+msgstr ""
+"Elegí la apariencia del contador. Usá la opción Disposición para colocar la "
+"inicial de cada unidad junto al número sin cambiar el estilo ni su "
+"animación. El movimiento decorativo se detiene fuera de pantalla y respeta "
+"la preferencia de movimiento reducido."
+
+msgid "Choose an option"
+msgstr "Selecciona una opción"
+
+msgid "Choose clock panel background"
+msgstr "Elegir el color de fondo del panel del reloj"
+
+msgid "Choose colorful bulbs or a warm white Christmas strand."
+msgstr "Elegí bombillos de colores o una guirnalda navideña de luz blanca cálida."
+
+msgid "Choose countdown units"
+msgstr "Selecciona las unidades del contador"
+
+msgid ""
+"Choose just the current year or a range from your first year to today, ideal"
+" for your website footer."
+msgstr ""
+"Elige solo el año actual o un rango desde el año inicial hasta hoy, ideal "
+"para el pie de página."
+
+msgid ""
+"Choose the current year for © 2026 or a year range for © 1999–2026. Next "
+"year updates automatically."
+msgstr ""
+"Elige el año actual para © 2026 o un rango para © 1999–2026. El próximo año "
+"se actualizará automáticamente."
+
+msgid "Choose the date and format"
+msgstr "Elige la fecha y el formato"
+
+msgid ""
+"Choose the exact day and hour of your event. The clock follows the time zone"
+" set in WordPress Settings → General. For example, 15 December 2026 at "
+"18:30."
+msgstr ""
+"Elige el día y la hora exactos del evento. El reloj utiliza la zona horaria "
+"de Ajustes → Generales. Ejemplo: 15 de diciembre de 2026 a las 18:30."
+
+msgid ""
+"Choose the way the date is written. The examples show the day, month and "
+"year so you can distinguish 15 December from 12 May. Month and weekday names"
+" use your website language."
+msgstr ""
+"Elige cómo se muestra la fecha. Los ejemplos permiten distinguir el 15 de "
+"diciembre del 12 de mayo. Los nombres se mostrarán en el idioma del sitio."
+
+msgid ""
+"Choose up to four colors for the balloons, independently of the confetti and"
+" countdown numbers."
+msgstr ""
+"Elegí hasta cuatro colores para los globos, independientemente del confeti y"
+" los números del contador."
+
+msgid ""
+"Choose what you want to show in Generator, such as the current year, years "
+"of experience, or a countdown."
+msgstr ""
+"En Generador, elige qué deseas mostrar, como el año actual, años de "
+"experiencia o una cuenta regresiva."
+
+msgid ""
+"Choose what you want to show, check the result, then copy the shortcode into"
+" a page, post or compatible Divi text field."
+msgstr ""
+"Elige qué mostrar, revisa el resultado y copia el shortcode en una página, "
+"entrada o campo compatible de Divi."
+
+msgid ""
+"Choose when the effect runs. The original completion-only behavior remains "
+"the default."
+msgstr ""
+"Elegí cuándo se reproduce el efecto. Por defecto, se mantiene la celebración"
+" al terminar."
+
+msgid ""
+"Choose whether to show years of experience, months, weeks or days. Calendar-"
+"year mode applies only to years."
+msgstr ""
+"Elige si deseas mostrar años de experiencia, meses, semanas o días. El modo "
+"calendario solo se aplica a años."
+
+msgid "Christmas Lights"
+msgstr "Luces navideñas"
+
+msgid "Christmas Lights background"
+msgstr "Fondo de luces navideñas"
+
+msgid "Christmas bulb colors"
+msgstr "Colores de las bombillas navideñas"
+
+msgid "Christmas light colors"
+msgstr "Colores de las luces navideñas"
+
+msgid "Circle diameter (px)"
+msgstr "Diámetro del círculo (px)"
+
+msgid "Circle dimensions for compatible styles."
+msgstr "Dimensiones de los círculos en los estilos compatibles."
+
+msgid "Circular progress dial"
+msgstr "Dial circular de progreso"
+
+msgid "Clock appearance"
+msgstr "Apariencia del reloj"
+
+msgid "Clock appearance settings"
+msgstr "Ajustes de apariencia del reloj"
+
+msgid "Clock colors, size and typography"
+msgstr "Colores, tamaño y tipografía del reloj"
+
+msgid "Clock panel background"
+msgstr "Fondo del panel del reloj"
+
+msgid "Clock panel background (HEX)"
+msgstr "Fondo del panel del reloj (HEX)"
+
+msgid "Close color picker"
+msgstr "Cerrar selector de color"
+
+msgid "Color Picker"
+msgstr "Selector de color"
+
+msgid "Color added to Quick Colors."
+msgstr "Color añadido a Colores rápidos."
+
+msgid "Color removed from Quick Colors."
+msgstr "Color eliminado de Colores rápidos."
+
+msgid "Colors"
+msgstr "Colores"
+
+msgid "Compatibility"
+msgstr "Compatibilidad"
+
+msgid "Compatibility and migration"
+msgstr "Compatibilidad y migración"
+
+msgid "Completed anniversaries"
+msgstr "Aniversarios cumplidos"
+
+#, php-format, python-format
+msgid "Confetti color %d"
+msgstr "Color del confeti %d"
+
+msgid "Confetti colors"
+msgstr "Colores del confeti"
+
+msgid ""
+"Content is never rewritten automatically. Review results before removing the"
+" old plugin."
+msgstr ""
+"El contenido nunca se modifica automáticamente. Revisa los resultados antes "
+"de quitar el plugin antiguo."
+
+msgid "Copy SEO variable"
+msgstr "Copiar variable SEO"
+
+msgid "Copy shortcode"
+msgstr "Copiar shortcode"
+
+msgid ""
+"Copy the shortcode into a WordPress or Divi field that supports shortcodes. "
+"The value is calculated when the page is displayed."
+msgstr ""
+"Copia el shortcode en un campo de WordPress o Divi que admita shortcodes. El"
+" valor se calcula al mostrar la página."
+
+msgid "Copyright display"
+msgstr "Formato del copyright"
+
+msgid "Copyright starting year"
+msgstr "Año inicial del copyright"
+
+msgid "Copyright years"
+msgstr "Años de copyright"
+
+msgid "Could not save Quick Colors. Try again."
+msgstr "No se pudieron guardar los Colores rápidos. Intentá de nuevo."
+
+msgid ""
+"Could not save shortcode. Check the identifier, name, configuration and "
+"duplicates."
+msgstr ""
+"No se pudo guardar. Revisá el identificador, el nombre, la configuración y "
+"los posibles duplicados."
+
+msgid ""
+"Could not save. Check the date, required fields and identifier (it may "
+"already exist)."
+msgstr ""
+"No se pudo guardar. Revisa la fecha, los campos obligatorios y el "
+"identificador (puede que ya exista)."
+
+msgid ""
+"Count down to a specific date and time, with an optional live clock showing "
+"days, hours, minutes and seconds."
+msgstr ""
+"Cuenta el tiempo restante hasta una fecha y hora exactas, con un reloj "
+"opcional de días, horas, minutos y segundos."
+
+msgid "Countdown"
+msgstr "Cuenta regresiva"
+
+msgid "Countdown Units"
+msgstr "Unidades del contador"
+
+msgid "Countdown border radius (px)"
+msgstr "Radio de esquinas del countdown (px)"
+
+msgid "Countdown display"
+msgstr "Formato de la cuenta regresiva"
+
+msgid "Countdown layout"
+msgstr "Disposición del contador"
+
+msgid "Countdown padding (px)"
+msgstr "Padding del contador (px)"
+
+msgid "Countdown schedule"
+msgstr "Programación de la cuenta regresiva"
+
+msgid "Countdown settings"
+msgstr "Opciones de cuenta regresiva"
+
+msgid "Countdown unit labels (optional)"
+msgstr "Etiquetas del contador (opcional)"
+
+msgid "Countdowns"
+msgstr "Cuentas regresivas"
+
+msgid ""
+"Create and save your shortcode in the ALP Dynamic Time & Countdowns "
+"dashboard. In Divi 5, select that Saved Shortcode in the simplified ALP "
+"Dynamic Time & Countdowns module. Optional Design controls change only that "
+"module instance. You can also paste the shortcode into a Divi Code module. "
+"Test the Visual Builder and frontend with your installed Divi release."
+msgstr ""
+"Creá y guardá el shortcode en ALP Dynamic Time & Countdowns. En Divi 5, "
+"elegí ese shortcode guardado en el módulo simplificado. Los ajustes "
+"opcionales de Diseño afectan solo esa instancia. También podés pegar el "
+"shortcode en un módulo Código de Divi. Comprobá el Visual Builder y el "
+"frontend con tu versión instalada de Divi."
+
+msgid ""
+"Create and save your shortcode in the ALP Dynamic Time dashboard. In Divi 5,"
+" select that Saved Shortcode in the simplified ALP Dynamic Time module. "
+"Optional Design controls change only that module instance. You can also "
+"paste the shortcode into a Divi Code module. Test the Visual Builder and "
+"frontend with your installed Divi release."
+msgstr ""
+"Creá y guardá el shortcode en ALP Dynamic Time. En Divi 5, elegí ese "
+"shortcode guardado en el módulo simplificado. Los ajustes opcionales de "
+"Diseño afectan solo esa instancia. También podés pegar el shortcode en un "
+"módulo Código de Divi. Comprobá el Visual Builder y el frontend con tu "
+"versión instalada de Divi."
+
+msgid "Create new shortcode"
+msgstr "Crear nuevo shortcode"
+
+msgid "Current date"
+msgstr "Fecha actual"
+
+msgid "Current month"
+msgstr "Mes actual"
+
+msgid "Current post last modified"
+msgstr "Última modificación de la entrada actual"
+
+msgid "Current post publication date"
+msgstr "Fecha de publicación de la entrada actual"
+
+msgid "Current quarter (1–4)"
+msgstr "Trimestre actual (1–4)"
+
+msgid "Current year"
+msgstr "Año actual"
+
+msgid "Current year only (example: 2026)"
+msgstr "Solo el año actual (ejemplo: 2026)"
+
+msgid "Custom live clock: choose which units to display"
+msgstr "Reloj personalizado: selecciona las unidades"
+
+msgid "Customize numbers, labels and surfaces."
+msgstr "Personalizá números, etiquetas y superficies."
+
+msgid ""
+"Customize the numbers, labels, card surface and progress ring. Leave colors "
+"unchanged for the recommended style."
+msgstr ""
+"Personaliza números, etiquetas, tarjetas y el anillo de progreso. Conserva "
+"los colores predeterminados para el estilo recomendado."
+
+msgid "Cyber Glitch"
+msgstr "Distorsión digital"
+
+msgid "Date"
+msgstr "Fecha"
+
+msgid "Date deleted."
+msgstr "Fecha eliminada."
+
+msgid "Date expression"
+msgstr "Expresión de fecha"
+
+msgid "Date format"
+msgstr "Formato de fecha"
+
+msgid "Date saved. You can reuse it anywhere on your site."
+msgstr "Fecha guardada. Puedes reutilizarla en cualquier parte del sitio."
+
+msgid ""
+"Date updated. Every shortcode using this identifier will display the new "
+"value."
+msgstr ""
+"Fecha actualizada. Todos los shortcodes con este identificador mostrarán el "
+"nuevo valor."
+
+msgid "Dates to compare"
+msgstr "Fechas para comparar"
+
+msgid ""
+"Dates use YYYY-MM-DD: the first four digits are the year, the middle two are"
+" the month, and the final two are the day. For example, 2000-12-15 is 15 "
+"December 2000. Countdown targets can additionally include hours and minutes,"
+" using your WordPress site timezone."
+msgstr ""
+"Las fechas usan AAAA-MM-DD: los cuatro primeros dígitos son el año, los dos "
+"centrales son el mes y los dos finales son el día. Por ejemplo, 2000-12-15 "
+"es el 15 de diciembre de 2000. Las cuentas regresivas también pueden incluir"
+" horas y minutos según la zona horaria de WordPress."
+
+msgid "Dates, countdowns and Divi"
+msgstr "Fechas, cuentas regresivas y Divi"
+
+msgid "Day month year (25 October 2026)"
+msgstr "Día mes año (25 de octubre de 2026)"
+
+msgid "Day of the month (1–31)"
+msgstr "Día del mes (1–31)"
+
+msgid "Day of the week"
+msgstr "Día de la semana"
+
+msgid "Day/month/year (25/10/2026)"
+msgstr "Día/mes/año (25/10/2026)"
+
+msgid "Days"
+msgstr "Días"
+
+msgid "Days between two dates"
+msgstr "Días entre dos fechas"
+
+msgid "Days remaining (number only)"
+msgstr "Días restantes (solo número)"
+
+msgid ""
+"Decorative fonts may use synthetic bold or italic if the selected face has "
+"only one style."
+msgstr ""
+"Las fuentes decorativas pueden simular negrita o cursiva si la familia solo "
+"tiene un estilo."
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Delete"
+msgstr "Eliminar"
+
+#, python-format
+msgid "Delete %s"
+msgstr "Eliminar %s"
+
+msgid "Delete saved date?"
+msgstr "¿Eliminar fecha guardada?"
+
+msgid "Delete saved shortcode?"
+msgstr "¿Eliminar shortcode guardado?"
+
+msgid "Delete this date"
+msgstr "Eliminar esta fecha"
+
+msgid "Displayed after the anniversary until the next anniversary year."
+msgstr "Se muestra después del aniversario y hasta el próximo año."
+
+msgid "Displayed on the exact anniversary date."
+msgstr "Se muestra exactamente el día del aniversario."
+
+msgid "Displayed until the day before the anniversary."
+msgstr "Se muestra hasta el día anterior al aniversario."
+
+msgid ""
+"Displays signed calendar days. A negative value means the end date precedes "
+"the start date."
+msgstr ""
+"Muestra días naturales con signo. Un valor negativo indica que la fecha "
+"final es anterior a la inicial."
+
+msgid "Divi"
+msgstr "Divi"
+
+msgid "Done"
+msgstr "Listo"
+
+msgid "Dynamic shortcodes"
+msgstr "Shortcodes dinámicos"
+
+msgid "Dynamic text calculated by ALP Dynamic Time & Countdowns."
+msgstr "Texto dinámico calculado por ALP Dynamic Time & Countdowns."
+
+msgid "Dynamic text calculated by ALP Dynamic Time."
+msgstr "Texto dinámico calculado por ALP Dynamic Time."
+
+msgid "Edit"
+msgstr "Editar"
+
+#, python-format
+msgid "Edit %s"
+msgstr "Editar %s"
+
+msgid "Edit saved date"
+msgstr "Editar fecha guardada"
+
+msgid ""
+"Editing a saved date. Its identifier stays the same so your existing "
+"shortcodes keep working."
+msgstr ""
+"Estás editando una fecha. El identificador se mantiene para que los "
+"shortcodes existentes sigan funcionando."
+
+msgid "Editing saved shortcode"
+msgstr "Editando shortcode guardado"
+
+msgid "Elapsed time"
+msgstr "Tiempo transcurrido"
+
+msgid "End date"
+msgstr "Fecha final"
+
+msgid "End message"
+msgstr "Mensaje de finalización"
+
+msgid "Enter a date below"
+msgstr "Escribir una fecha abajo"
+
+msgid "Enter a name to save this shortcode."
+msgstr "Escribí un nombre para guardar este shortcode."
+
+msgid "Enter a starting year below"
+msgstr "Escribir un año inicial abajo"
+
+msgid "Enter a valid date to see the result."
+msgstr "Introduce una fecha válida para ver el resultado."
+
+msgid ""
+"Enter a year such as 2000, or a full date in YYYY-MM-DD order. Example: "
+"2000-12-15 means year 2000, month 12 (December), day 15. The middle number "
+"is always the month; the final number is always the day."
+msgstr ""
+"Escribe un año, como 2000, o una fecha completa AAAA-MM-DD. Ejemplo: "
+"2000-12-15 significa año 2000, mes 12 (diciembre), día 15. El número central"
+" siempre es el mes; el último es el día."
+
+msgid ""
+"Enter the date if needed, and choose a format. The example and shortcode "
+"update as you change the options."
+msgstr ""
+"Introduce la fecha, si corresponde, y elige un formato. El ejemplo y el "
+"shortcode se actualizan al cambiar las opciones."
+
+msgid ""
+"Enter the first copyright year, for example 1999. You may also enter a full "
+"date in YYYY-MM-DD order: 1999-12-15 means 15 December 1999 (month 12, day "
+"15). The copyright range uses only the year."
+msgstr ""
+"Escribe el primer año de copyright, por ejemplo 1999. También puedes usar "
+"una fecha completa AAAA-MM-DD: 1999-12-15 significa 15 de diciembre de 1999 "
+"(mes 12, día 15). El rango solo utiliza el año."
+
+msgid "Event date and time"
+msgstr "Fecha y hora del evento"
+
+msgid "Event or end date and time"
+msgstr "Fecha y hora del evento o finalización"
+
+msgid "Every day"
+msgstr "Todos los días"
+
+msgid "Every month"
+msgstr "Todos los meses"
+
+msgid "Every week"
+msgstr "Todas las semanas"
+
+msgid "Examples"
+msgstr "Ejemplos"
+
+msgid "Export JSON"
+msgstr "Exportar JSON"
+
+msgid "Fireworks celebration"
+msgstr "Celebración con fuegos artificiales"
+
+msgid "Five colors repeat across the light strand."
+msgstr "Los cinco colores se repiten a lo largo de la guirnalda."
+
+msgid "Fixed event date"
+msgstr "Fecha fija del evento"
+
+msgid "Flip digits"
+msgstr "Volteo de números"
+
+msgid "Font family"
+msgstr "Familia tipográfica"
+
+msgid "Font style"
+msgstr "Estilo de fuente"
+
+msgid "Font weight"
+msgstr "Grosor de fuente"
+
+msgid ""
+"For PHP2Shell (October 2026), use PHP 8.2.35+, 8.3.36+, 8.4.27+ or 8.5.12+, "
+"or a distribution-provided fixed package. PHP 8.2 security support ends on "
+"31 December 2026; consider a supported newer branch. Changing PHP versions "
+"is a hosting task, not a plugin setting."
+msgstr ""
+"Para PHP2Shell (octubre de 2026), usá PHP 8.2.35+, 8.3.36+, 8.4.27+ o "
+"8.5.12+, o un paquete corregido por tu distribución. El soporte de seguridad"
+" de PHP 8.2 termina el 31 de diciembre de 2026; considerá una rama más "
+"reciente con soporte. El cambio de versión de PHP se realiza en el hosting, "
+"no desde el plugin."
+
+msgid ""
+"For Rank Math and Yoast SEO, use short native SEO variables instead. The "
+"current year is available as a variable; each saved date also receives its "
+"own variable."
+msgstr ""
+"En Rank Math y Yoast SEO puedes usar variables SEO nativas más cortas. Hay "
+"una variable para el año actual y otra para cada fecha guardada."
+
+#, no-python-format, python-format
+msgid ""
+"For a saved date with identifier company-founded, use "
+"%alpdt_since_company_founded% in Rank Math or "
+"%%alpdt_since_company_founded%% in Yoast. Create the saved date first. SEO "
+"editor character counters and previews may not reflect the resolved value; "
+"inspect the rendered metadata."
+msgstr ""
+"Para una fecha guardada con identificador company-founded, utiliza "
+"%alpdt_since_company_founded% en Rank Math o %%alpdt_since_company_founded%%"
+" en Yoast. Primero crea esa fecha. Es posible que los contadores y vistas "
+"previas de los editores SEO no reflejen el valor definitivo: comprueba los "
+"metadatos publicados."
+
+msgid "For text values"
+msgstr "Para valores de texto"
+
+msgid ""
+"For year/anniversary rollover, configure page-cache expiration or use "
+"live=\"true\" for visible numbers. This does not guarantee refreshed SEO "
+"meta cached by a CDN."
+msgstr ""
+"Para el cambio de año o aniversario, configura la caducidad de caché o usa "
+"live=\"true\" en los números visibles. Esto no garantiza actualizar los "
+"metadatos SEO almacenados por la CDN."
+
+msgid ""
+"Four independent confetti colors. Customize them for birthdays, Black Friday"
+" or another celebration."
+msgstr ""
+"Cuatro colores independientes para el confeti. Personalizalos para "
+"cumpleaños, Viernes Negro u otra celebración."
+
+msgid "Friday"
+msgstr "Viernes"
+
+msgid "Generator"
+msgstr "Generador"
+
+msgid "Gentle pulse"
+msgstr "Pulso suave"
+
+msgid "Global · all sides"
+msgstr "Global · todos los lados"
+
+msgid ""
+"Google Fonts are requested only when a selected clock uses them. Special "
+"drawing effects may retain their own typography."
+msgstr ""
+"Las fuentes de Google Fonts se solicitan únicamente si el contador "
+"seleccionado las utiliza. Algunos efectos mantienen su tipografía especial."
+
+msgid "Guide topics"
+msgstr "Temas de ayuda"
+
+msgid "HEX color"
+msgstr "Color HEX"
+
+msgid "Hemisphere"
+msgstr "Hemisferio"
+
+msgid "Hide countdown"
+msgstr "Ocultar cuenta regresiva"
+
+msgid "Hourglass Countdown"
+msgstr "Reloj de arena"
+
+msgid "Hours"
+msgstr "Horas"
+
+msgid "How it works"
+msgstr "Cómo funciona"
+
+msgid "Hue"
+msgstr "Tono"
+
+msgid "ISO year-month-day (2026-10-25)"
+msgstr "ISO año-mes-día (2026-10-25)"
+
+msgid "Identifier"
+msgstr "Identificador"
+
+msgid "In 30 days"
+msgstr "Dentro de 30 días"
+
+msgid "In 7 days"
+msgstr "Dentro de 7 días"
+
+msgid ""
+"In Rank Math, Yoast SEO or SEOPress, enter an ALP Dynamic Time & Countdowns "
+"shortcode inside an SEO title or meta description. The plugin replaces "
+"supported shortcodes in the published metadata."
+msgstr ""
+"En Rank Math, Yoast SEO o SEOPress, introduce un shortcode de ALP Dynamic "
+"Time & Countdowns en el título SEO o la metadescripción. El plugin reemplaza"
+" los shortcodes admitidos en los metadatos publicados."
+
+msgid ""
+"In Rank Math, Yoast SEO or SEOPress, enter an ALP Dynamic Time shortcode "
+"inside an SEO title or meta description. The plugin replaces supported "
+"shortcodes in the published metadata."
+msgstr ""
+"En Rank Math, Yoast SEO o SEOPress, introduce un shortcode de ALP Dynamic "
+"Time en el título SEO o la metadescripción. El plugin reemplaza los "
+"shortcodes admitidos en los metadatos publicados."
+
+msgid "Include unit names"
+msgstr "Incluir nombres de unidades"
+
+msgid "Individual · top, right, bottom, left"
+msgstr "Individual · superior, derecho, inferior e izquierdo"
+
+msgid ""
+"Insert inline in content fields that process WordPress shortcodes; Divi and "
+"third-party builders must be tested in your installed versions."
+msgstr ""
+"Insértalo en campos que procesen shortcodes de WordPress; verifica Divi y "
+"otros constructores en las versiones instaladas."
+
+msgid "Internal page path"
+msgstr "Ruta de página interna"
+
+msgid "Invalid color palette."
+msgstr "Paleta de colores inválida."
+
+msgid "Italic"
+msgstr "Cursiva"
+
+msgid "It’s time to celebrate!"
+msgstr "¡Es momento de celebrar!"
+
+msgid "Keep showing zero"
+msgstr "Seguir mostrando cero"
+
+msgid ""
+"Keep your anniversaries, experience and important dates up to date "
+"automatically."
+msgstr ""
+"Mantén tus aniversarios, años de experiencia y fechas importantes siempre "
+"actualizados."
+
+msgid ""
+"Keep your existing pages and check how the old shortcodes behave before "
+"making any changes."
+msgstr ""
+"Conserva tus páginas y comprueba cómo funcionan los shortcodes antiguos "
+"antes de hacer cambios."
+
+msgid "Label"
+msgstr "Etiqueta"
+
+msgid "Label color"
+msgstr "Color de las etiquetas"
+
+msgid "Label size (px)"
+msgstr "Tamaño de etiquetas (px)"
+
+msgid ""
+"Labels follow the WordPress site language automatically. You can replace any"
+" label with your own text, in any language. Leave a field empty for the "
+"automatic translation."
+msgstr ""
+"Las etiquetas usan automáticamente el idioma de WordPress. Puedes escribir "
+"un texto propio en cualquier idioma. Deja un campo vacío para utilizar la "
+"traducción automática."
+
+msgid "Last day of this month"
+msgstr "Último día de este mes"
+
+msgid "Lato"
+msgstr "Lato"
+
+msgid ""
+"Lato is not bundled and uses Arial as fallback. Snowburst One is fetched "
+"from Google Fonts only for the Snowfall appearance."
+msgstr ""
+"Lato no está incluido y utiliza Arial como alternativa. Snowburst One se "
+"solicita a Google Fonts únicamente para la apariencia Nevada."
+
+msgid ""
+"Lato is not bundled: when your theme or system does not load it, Arial is "
+"used instead. No font is downloaded by this plugin."
+msgstr ""
+"Lato no viene incluida. Si el tema o el sistema no carga esta fuente, se "
+"utilizará Arial. Este plugin no descarga fuentes."
+
+msgid "Left padding (px)"
+msgstr "Izquierdo (px)"
+
+msgid "Liquid Countdown"
+msgstr "Cuenta regresiva líquida"
+
+msgid "Liquid circle diameter (px)"
+msgstr "Diámetro del círculo líquido (px)"
+
+msgid "Live clock"
+msgstr "Reloj en vivo"
+
+msgid ""
+"Live clock updates each second on the page without reloading it. The "
+"animation pauses if reduced motion is enabled."
+msgstr ""
+"El reloj se actualiza cada segundo sin recargar la página. La animación se "
+"desactiva si se prefiere reducir el movimiento."
+
+msgid "Live clock: days, hours, minutes and seconds"
+msgstr "Reloj en vivo: días, horas, minutos y segundos"
+
+msgid "Live preview"
+msgstr "Vista previa"
+
+msgid ""
+"Loop plays only while the countdown is running and visible, with a pause "
+"between bursts. Reduced-motion preferences disable decorative motion."
+msgstr ""
+"El bucle funciona únicamente durante la cuenta regresiva y cuando el "
+"contador está visible, con pausas entre explosiones. La preferencia de "
+"movimiento reducido desactiva los efectos decorativos."
+
+msgid "Loop while counting down"
+msgstr "En bucle durante la cuenta regresiva"
+
+msgid "Manage colors"
+msgstr "Administrar colores"
+
+msgid "Message when countdown ends"
+msgstr "Mensaje al terminar la cuenta regresiva"
+
+msgid "Minimal, inline text"
+msgstr "Texto discreto integrado"
+
+msgid "Minimalist"
+msgstr "Minimalista"
+
+msgid "Minimalist / Horizontal"
+msgstr "Minimalista / Horizontal"
+
+msgid "Minutes"
+msgstr "Minutos"
+
+msgid "Monday"
+msgstr "Lunes"
+
+msgid "Month and year (October 2026)"
+msgstr "Mes y año (octubre de 2026)"
+
+msgid "Month day, year (October 25, 2026)"
+msgstr "Mes día, año (octubre 25, 2026)"
+
+msgid "Month/day/year (10/25/2026)"
+msgstr "Mes/día/año (10/25/2026)"
+
+msgid "Months"
+msgstr "Meses"
+
+msgid "Multicolor"
+msgstr "Multicolor"
+
+msgid "Name this configuration to find, copy or edit it later."
+msgstr ""
+"Poné un nombre a la configuración para encontrarla, copiarla o editarla "
+"después."
+
+msgid ""
+"Need the same date in several places? Save it under Saved dates and use its "
+"identifier. Editing that date updates every reference."
+msgstr ""
+"¿Necesitas la misma fecha en varios lugares? Guárdala en Fechas guardadas y "
+"utiliza su identificador. Al editarla, se actualizan todas las referencias."
+
+msgid "Neon Digital"
+msgstr "Neón digital"
+
+msgid "Next Friday"
+msgstr "Próximo viernes"
+
+msgid "Next Monday"
+msgstr "Próximo lunes"
+
+msgid "Next Saturday"
+msgstr "Próximo sábado"
+
+msgid "Next Sunday"
+msgstr "Próximo domingo"
+
+msgid "Next Thursday"
+msgstr "Próximo jueves"
+
+msgid "Next Tuesday"
+msgstr "Próximo martes"
+
+msgid "Next Wednesday"
+msgstr "Próximo miércoles"
+
+msgid "Next batch"
+msgstr "Lote siguiente"
+
+msgid "No matching content in this batch."
+msgstr "No hay contenido coincidente en este lote."
+
+msgid "No quick colors saved. Use + to add one."
+msgstr "No hay colores rápidos guardados. Usá + para añadir uno."
+
+msgid "No saved shortcodes yet. Create one in Generator and select Save shortcode."
+msgstr ""
+"Todavía no hay shortcodes guardados. Creá uno en Generador y pulsá Guardar "
+"shortcode."
+
+msgid "Normal"
+msgstr "Normal"
+
+msgid "Northern"
+msgstr "Norte"
+
+msgid "Number color"
+msgstr "Color de los números"
+
+msgid "Number container padding"
+msgstr "Padding del contenedor de números"
+
+msgid "Number size (px)"
+msgstr "Tamaño de números (px)"
+
+msgid "On the anniversary"
+msgstr "El día del aniversario"
+
+msgid "Once when countdown ends"
+msgstr "Una vez cuando termine el contador"
+
+msgid ""
+"Only controls relevant to the selected clock appearance are shown. Blank "
+"spacing retains its default."
+msgstr ""
+"Solo se muestran los controles pertinentes al estilo seleccionado. Si dejás "
+"el espaciado vacío, se conserva el predeterminado."
+
+msgid ""
+"Only for fixed dates. Recurring timers automatically continue to the next "
+"occurrence."
+msgstr ""
+"Solo para fechas fijas. Los temporizadores recurrentes continúan "
+"automáticamente hasta el próximo vencimiento."
+
+msgid "Opacity"
+msgstr "Opacidad"
+
+msgid ""
+"Optional spacing around the entire countdown. Leave blank to keep this "
+"style’s original padding."
+msgstr ""
+"Espacio interior alrededor del contador completo. Dejá el campo vacío para "
+"conservar el espaciado original."
+
+msgid "Orbit Motion"
+msgstr "Movimiento orbital"
+
+msgid "Orbit diameter (px)"
+msgstr "Diámetro de órbita (px)"
+
+msgid "Our anniversary is coming soon"
+msgstr "Se acerca nuestro aniversario"
+
+msgid "PHP 8.2 or newer is recommended; use a patched release."
+msgstr ""
+"Se recomienda PHP 8.2 o superior, siempre con las actualizaciones de "
+"seguridad."
+
+msgid "Padding (px)"
+msgstr "Padding (px)"
+
+msgid ""
+"Pages using the reusable shortcode identifier will stop displaying a value. "
+"A copied full shortcode will keep working."
+msgstr ""
+"Las páginas que usen el identificador reutilizable dejarán de mostrar el "
+"valor. Un shortcode completo copiado seguirá funcionando."
+
+msgid "Particle Morph"
+msgstr "Transformación de partículas"
+
+msgid "Pixel Matrix"
+msgstr "Matriz de píxeles"
+
+msgid "Plugin highlights"
+msgstr "Características del plugin"
+
+msgid "Preview celebration"
+msgstr "Previsualizar celebración"
+
+msgid "Preview unavailable. Please check your connection."
+msgstr "Vista previa no disponible. Comprueba tu conexión."
+
+msgid "Progress / accent color"
+msgstr "Color del progreso y acentos"
+
+msgid "Progress track color"
+msgstr "Color del anillo de fondo"
+
+msgid "Quick colors"
+msgstr "Colores rápidos"
+
+msgid "Read-only legacy scan"
+msgstr "Búsqueda heredada de solo lectura"
+
+msgid ""
+"Ready for the selected SEO plugin. Confirm the final metadata on the "
+"published page."
+msgstr ""
+"Lista para el plugin SEO seleccionado. Revisá los metadatos definitivos en "
+"la página publicada."
+
+msgid "Recommended PHP security version"
+msgstr "Versión de PHP recomendada por seguridad"
+
+msgid "Redirect to a page on this website"
+msgstr "Redirigir a una página de este sitio"
+
+msgid ""
+"Reduce the fixed empty width inside each Snowfall number card without "
+"changing digit size or making the countdown jump when numbers change. Try 0 "
+"for the most compact cards."
+msgstr ""
+"Reducí el ancho vacío dentro de cada tarjeta de Snowfall sin cambiar el "
+"tamaño del número ni el ancho al actualizarse. Usá 0 para las tarjetas más "
+"compactas."
+
+msgid "Refresh the displayed date after cached pages load"
+msgstr "Actualizar la fecha mostrada en páginas con caché"
+
+msgid "Remove color"
+msgstr "Eliminar color"
+
+#, python-format
+msgid "Remove color %s from Quick Colors"
+msgstr "Eliminar el color %s de Colores rápidos"
+
+msgid "Remove this quick color?"
+msgstr "¿Eliminar este color rápido?"
+
+msgid "Repeats at local time"
+msgstr "Hora local de repetición"
+
+msgid ""
+"Repeats in the WordPress timezone. A nonexistent daylight-saving time is "
+"skipped. Monthly day 31 means the last day of shorter months."
+msgstr ""
+"Se repite según la zona horaria de WordPress. Se omiten las horas "
+"inexistentes por el cambio de horario. El día 31 se ajusta al último día de "
+"los meses más cortos."
+
+msgid "Reset appearance to defaults"
+msgstr "Restablecer apariencia predeterminada"
+
+msgid ""
+"Restores the clock colors, sizes and font. Your dates and countdown settings"
+" stay unchanged."
+msgstr ""
+"Restaura los colores, tamaños y fuente del reloj. Las fechas y los ajustes "
+"de la cuenta regresiva no cambian."
+
+msgid "Reusable milestones"
+msgstr "Fechas reutilizables"
+
+msgid "Reusable shortcode"
+msgstr "Shortcode reutilizable"
+
+msgid "Right padding (px)"
+msgstr "Derecho (px)"
+
+msgid ""
+"Rounds the visible countdown panel or number cards. Leave blank to keep the "
+"selected appearance."
+msgstr ""
+"Redondeá las esquinas del panel o de los recuadros de números. Dejalo vacío "
+"para conservar el diseño original."
+
+msgid "Runtime notes"
+msgstr "Información técnica"
+
+msgid ""
+"SEO filters: Yoast, Rank Math, SEOPress. Divi 4/5: inline shortcode in "
+"supported render contexts; Divi 5 standalone module is an experimental "
+"integration until verified on a live builder."
+msgstr ""
+"Filtros SEO: Yoast, Rank Math, SEOPress. Divi 4/5: shortcodes en campos "
+"compatibles; el módulo Divi 5 es experimental hasta probarse en un "
+"constructor real."
+
+msgid "SEO plugin"
+msgstr "Plugin SEO"
+
+msgid "SEO plugins"
+msgstr "Plugins SEO"
+
+msgid "SEO variable"
+msgstr "Variable SEO"
+
+msgid "SEO variable copied."
+msgstr "Variable SEO copiada."
+
+msgid "SEO variables"
+msgstr "Variables SEO"
+
+msgid "SEO variables are only available for text values, not live countdown clocks."
+msgstr "SEO variables are only available for text values, not live countdown clocks."
+
+msgid "SEO variables for this text"
+msgstr "Variables SEO para este texto"
+
+msgid "Saturation and brightness"
+msgstr "Saturación y brillo"
+
+msgid "Saturday"
+msgstr "Sábado"
+
+msgid ""
+"Save an important date once, like the founding of your company. Use its "
+"shortcode in as many places as you like. If the date changes, edit it here "
+"and all those places will use the new date automatically."
+msgstr ""
+"Guarda una fecha importante, como la fundación de tu empresa. Usa su "
+"shortcode en tantas páginas como quieras. Si cambia, edítala aquí y se "
+"actualizará automáticamente en todas ellas."
+
+msgid "Save as new"
+msgstr "Guardar como nuevo"
+
+msgid "Save changes"
+msgstr "Guardar cambios"
+
+msgid "Save configuration"
+msgstr "Guardar configuración"
+
+msgid "Save date"
+msgstr "Guardar fecha"
+
+msgid "Save shortcode"
+msgstr "Guardar shortcode"
+
+msgid "Save this configuration in Saved Shortcodes to create an SEO variable."
+msgstr ""
+"Guardá esta configuración en Shortcodes guardados para crear una variable "
+"SEO."
+
+msgid ""
+"Save your complete countdowns and dynamic texts with a name. Copy the "
+"reusable identifier to update every linked page when you edit its "
+"configuration."
+msgstr ""
+"Guardá tus cuentas regresivas y textos dinámicos con un nombre. Copiá el "
+"identificador reutilizable para actualizar todas las páginas vinculadas al "
+"editarlo."
+
+msgid ""
+"Saved Shortcodes now also provide native SEO variables for non-countdown "
+"text. Save your configuration, then open its SEO variables section or edit "
+"it in Generator to copy the marker for Rank Math or Yoast. Unsaved custom "
+"text has no registered SEO variable."
+msgstr ""
+"Los shortcodes de texto guardados también tienen variables SEO nativas. "
+"Guardá la configuración y abrí su sección de variables SEO o editála en el "
+"Generador para copiar el marcador de Rank Math o Yoast. Los textos "
+"personalizados sin guardar no tienen una variable registrada."
+
+msgid "Saved dates"
+msgstr "Fechas guardadas"
+
+msgid "Saved dates can be changed once and updated everywhere."
+msgstr ""
+"Puedes modificar una fecha guardada y se actualizará en todos los lugares "
+"donde se utilice."
+
+msgid "Saved shortcode deleted."
+msgstr "Shortcode guardado eliminado."
+
+msgid "Saved shortcodes"
+msgstr "Shortcodes guardados"
+
+msgid "Season of the year"
+msgstr "Estación del año"
+
+msgid "Seconds"
+msgstr "Segundos"
+
+msgid "Select a saved shortcode in Content."
+msgstr "Seleccioná un shortcode guardado en Contenido."
+
+msgid ""
+"Select any combination. Unselected larger units are included in the next "
+"unit you choose. For example: months and days, or days and hours."
+msgstr ""
+"Selecciona cualquier combinación. Las unidades mayores que no selecciones se"
+" acumulan en la siguiente unidad visible. Por ejemplo, meses y días o días y"
+" horas."
+
+msgid "Select the exact date of the event, such as the company founding day."
+msgstr "Selecciona la fecha exacta del evento, por ejemplo, el día de fundación."
+
+msgid "Select the shortcode and copy it."
+msgstr "Selecciona el shortcode y cópialo."
+
+msgid ""
+"Set the background behind Flip, Fireworks or Confetti. To remove it, choose "
+"Transparent below."
+msgstr ""
+"Configurá el fondo de Flip, Fireworks o Confeti. Para quitarlo, elegí "
+"Transparente abajo."
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Shortcode"
+msgstr "Shortcode"
+
+msgid "Shortcode copied successfully"
+msgstr "Shortcode copiado correctamente"
+
+msgid "Shortcode generator"
+msgstr "Generador de shortcodes"
+
+msgid "Shortcode name"
+msgstr "Nombre del shortcode"
+
+msgid "Shortcode saved. Copy its reusable identifier or its complete code."
+msgstr "Shortcode guardado. Copiá el identificador reutilizable o el código completo."
+
+msgid ""
+"Shortcode updated. All pages using its reusable identifier will display the "
+"new configuration."
+msgstr ""
+"Shortcode actualizado. Las páginas que usen su identificador reutilizable "
+"mostrarán la nueva configuración."
+
+msgid "Show a message"
+msgstr "Mostrar un mensaje"
+
+msgid "Show complete configuration"
+msgstr "Mostrar configuración completa"
+
+msgid "Shown when the timer reaches zero. Leave empty for the default message."
+msgstr ""
+"Se muestra cuando el contador llega a cero. Dejalo vacío para usar el "
+"mensaje predeterminado."
+
+msgid "Shows an anniversary number, such as 20th or 20.º."
+msgstr "Muestra el número de aniversario, por ejemplo 20.º."
+
+msgid "Shows how much time has passed since a date, such as 26 years of experience."
+msgstr "Muestra cuánto tiempo ha pasado desde una fecha, como 26 años de experiencia."
+
+msgid "Shows the current year and updates automatically every January."
+msgstr "Muestra el año actual y cambia automáticamente cada enero."
+
+msgid ""
+"Shows the initial of each unit to the right of the number, without changing "
+"the selected clock animation. Ideal for compact promotional top bars."
+msgstr ""
+"Muestra la inicial de cada unidad a la derecha del número, sin cambiar la "
+"animación elegida. Ideal para barras superiores promocionales compactas."
+
+msgid "Shows the name of the current month in your site language."
+msgstr "Muestra el nombre del mes actual en el idioma del sitio."
+
+msgid "Shows today’s date in the format you choose."
+msgstr "Muestra la fecha de hoy en el formato elegido."
+
+msgid "Size & shape"
+msgstr "Tamaño y forma"
+
+msgid "Sliding numbers"
+msgstr "Deslizamiento de números"
+
+msgid "Smart date / calendar expression"
+msgstr "Fecha inteligente / expresión de calendario"
+
+msgid "Smart dates, reusable milestones and animated countdowns, all in one place."
+msgstr ""
+"Fechas inteligentes, hitos reutilizables y cuentas regresivas animadas en un"
+" solo lugar."
+
+msgid "Snowfall"
+msgstr "Nevada"
+
+msgid "Snowfall background"
+msgstr "Fondo de nieve"
+
+msgid "Snowfall number card spacing (px)"
+msgstr "Espacio interno de las tarjetas de Snowfall (px)"
+
+msgid "Soft glow"
+msgstr "Brillo suave"
+
+msgid "Southern"
+msgstr "Sur"
+
+msgid "Spacing"
+msgstr "Espaciado"
+
+msgid "Spring"
+msgstr "Primavera"
+
+msgid "Start date"
+msgstr "Fecha de inicio"
+
+msgid "Start year or date"
+msgstr "Año o fecha de inicio"
+
+msgid "Starting year – current year (example: 1999–2026)"
+msgstr "Año inicial – año actual (ejemplo: 1999–2026)"
+
+msgid "Style"
+msgstr "Estilo"
+
+msgid "Style default"
+msgstr "Predeterminado del estilo"
+
+msgid "Style default (recommended)"
+msgstr "Predeterminada del estilo (recomendada)"
+
+msgid "Summer"
+msgstr "Verano"
+
+msgid "Sunday"
+msgstr "Domingo"
+
+msgid "System · UI sans serif"
+msgstr "Sistema · Sans serif"
+
+msgid "Thank you for celebrating with us"
+msgstr "Gracias por celebrar con nosotros"
+
+msgid ""
+"The Minimalist style shows the number and abbreviated unit side by side, "
+"ideal for compact top bars, early-bird offers and Black Friday promotions."
+msgstr ""
+"El estilo Minimalista muestra el número y la abreviatura de la unidad uno al"
+" lado del otro, ideal para barras superiores compactas, ofertas anticipadas "
+"y promociones del Black Friday."
+
+msgid ""
+"The SEO editor preview may still display the shortcode. Verify the published"
+" page source, including the title and meta description, because editor "
+"previews and caches vary. This does not automatically update an article "
+"publishing date or guarantee immediate reindexing by search engines."
+msgstr ""
+"La vista previa del editor SEO puede seguir mostrando el shortcode. "
+"Comprueba el código fuente publicado, incluido el título y la "
+"metadescripción, porque las vistas previas y las cachés varían. Esto no "
+"modifica automáticamente la fecha de publicación ni garantiza una "
+"reindexación inmediata."
+
+msgid ""
+"The Years Since - Timeless Texts plugin was removed from the WordPress.org "
+"repository. ALP Dynamic Time & Countdowns independently supports its "
+"existing shortcode syntax so old pages can continue to work after you "
+"deactivate the original plugin. ALP Dynamic Time & Countdowns is an "
+"independent product, with no affiliation with, endorsement by, or "
+"relationship to the developers of the removed plugin."
+msgstr ""
+"El plugin Years Since - Timeless Texts fue retirado del repositorio "
+"WordPress.org. ALP Dynamic Time & Countdowns admite de forma independiente "
+"su sintaxis de shortcodes para que las páginas antiguas puedan seguir "
+"funcionando tras desactivar el plugin original. ALP Dynamic Time & "
+"Countdowns es un producto independiente, sin afiliación, respaldo ni "
+"relación con los desarrolladores del plugin retirado."
+
+msgid ""
+"The Years Since - Timeless Texts plugin was removed from the WordPress.org "
+"repository. ALP Dynamic Time independently supports its existing shortcode "
+"syntax so old pages can continue to work after you deactivate the original "
+"plugin. ALP Dynamic Time is an independent product, with no affiliation "
+"with, endorsement by, or relationship to the developers of the removed "
+"plugin."
+msgstr ""
+"El plugin Years Since - Timeless Texts fue retirado del repositorio "
+"WordPress.org. ALP Dynamic Time admite de forma independiente su sintaxis de"
+" shortcodes para que las páginas antiguas puedan seguir funcionando tras "
+"desactivar el plugin original. ALP Dynamic Time es un producto "
+"independiente, sin afiliación, respaldo ni relación con los desarrolladores "
+"del plugin retirado."
+
+msgid ""
+"The color will disappear from your personal Quick Colors palette. It will "
+"not change the colors already used in clocks or shortcodes."
+msgstr ""
+"El color desaparecerá de tus Colores rápidos personales. No cambiará los "
+"colores ya utilizados en relojes ni shortcodes."
+
+#, python-brace-format
+msgid ""
+"The message changes automatically each year. For the correct anniversary "
+"day, enter a full date above, such as 2000-12-15 (15 December 2000). Write "
+"{years} wherever you want the anniversary number to appear."
+msgstr ""
+"El mensaje cambia automáticamente cada año. Para obtener el día exacto del "
+"aniversario, escribe una fecha completa como 2000-12-15 (15 de diciembre de "
+"2000). Escribe {years} donde quieras mostrar el número de años."
+
+msgid "The old shortcode is handled by ALP Dynamic Time & Countdowns."
+msgstr "ALP Dynamic Time & Countdowns está gestionando el shortcode antiguo."
+
+msgid "The old shortcode is handled by ALP Dynamic Time."
+msgstr "ALP Dynamic Time está gestionando el shortcode antiguo."
+
+msgid ""
+"The pages listed below contain shortcodes from the Years Since - Timeless "
+"Texts plugin. This scan only finds references and never edits your content."
+msgstr ""
+"Las páginas y entradas que aparecen a continuación contienen shortcodes del "
+"plugin Years Since - Timeless Texts. El escaneo solo encuentra referencias y"
+" nunca modifica el contenido."
+
+msgid "These two fonts are exclusive to Blood Dripping."
+msgstr "Estas dos fuentes son exclusivas de Blood Dripping."
+
+msgid "This color is already saved."
+msgstr "Este color ya está guardado."
+
+msgid ""
+"This date will be permanently removed. Pages using its identifier will no "
+"longer display a value."
+msgstr ""
+"Esta fecha se eliminará permanentemente. Las páginas que utilizan su "
+"identificador dejarán de mostrar un valor."
+
+msgid "This identifier stays the same when you edit a saved shortcode."
+msgstr "Este identificador permanece igual al editar un shortcode guardado."
+
+msgid "This is how the dynamic value will appear on your site."
+msgstr "Así se mostrará el valor dinámico en el sitio."
+
+msgid "This saved shortcode is no longer available."
+msgstr "Este shortcode guardado ya no está disponible."
+
+msgid "Thursday"
+msgstr "Jueves"
+
+msgid "Time is up!"
+msgstr "¡Se acabó el tiempo!"
+
+msgid "Today"
+msgstr "Hoy"
+
+msgid "Today is our anniversary"
+msgstr "Hoy es nuestro aniversario"
+
+msgid "Tomorrow"
+msgstr "Mañana"
+
+msgid "Top padding (px)"
+msgstr "Superior (px)"
+
+msgid "Transparent / remove panel background"
+msgstr "Transparente / quitar el fondo del panel"
+
+msgid "Tuesday"
+msgstr "Martes"
+
+msgid "Turn on for “26 years” or off to show only “26”."
+msgstr "Actívalo para mostrar «26 años» o desactívalo para mostrar solo «26»."
+
+msgid "Typography"
+msgstr "Tipografía"
+
+msgid "Unit"
+msgstr "Unidad"
+
+msgid "Unit Labels"
+msgstr "Etiquetas de unidades"
+
+msgid "Update saved shortcode"
+msgstr "Actualizar shortcode guardado"
+
+msgid "Use a saved date (optional)"
+msgstr "Usar una fecha guardada (opcional)"
+
+msgid ""
+"Use an internal path starting with /, never an external address. Redirects "
+"occur only if the timer was running on the page."
+msgstr ""
+"Usá una ruta interna que empiece con /, nunca una dirección externa. La "
+"redirección solo ocurre si el contador estaba en marcha en la página."
+
+msgid "Use one value or customize each side."
+msgstr "Usá un solo valor o personalizá cada lado."
+
+msgid "Use zero for the current year, or 1 for next year."
+msgstr "Escribe 0 para el año actual o 1 para el siguiente."
+
+msgid ""
+"Useful with page caching. Dates from individual posts cannot be refreshed "
+"through the public endpoint."
+msgstr ""
+"Útil cuando se usa caché de páginas. Las fechas de entradas individuales no "
+"pueden actualizarse desde el endpoint público."
+
+msgid ""
+"Uses the WordPress site timezone. Post dates work only inside a published "
+"post or page. Calendar seasons are meteorological."
+msgstr ""
+"Utiliza la zona horaria del sitio. Las fechas de entradas solo funcionan "
+"dentro de una entrada o página publicada. Las estaciones se calculan "
+"meteorológicamente."
+
+msgid "Using it with SEO plugins"
+msgstr "Uso con plugins SEO"
+
+msgid "Warm white"
+msgstr "Blanco cálido"
+
+msgid "Wednesday"
+msgstr "Miércoles"
+
+msgid "Weekday, day month year (Sunday, 25 October 2026)"
+msgstr "Día de semana, día mes año (domingo, 25 de octubre de 2026)"
+
+msgid "Weeks"
+msgstr "Semanas"
+
+msgid "What do you want to display?"
+msgstr "¿Qué quieres mostrar?"
+
+msgid "When fixed countdown finishes"
+msgstr "Al finalizar la cuenta regresiva fija"
+
+msgid "When to play celebration"
+msgstr "Cuándo reproducir la celebración"
+
+msgid "Winter"
+msgstr "Invierno"
+
+msgid "Year calculation"
+msgstr "Cálculo de años"
+
+msgid "Year offset (optional)"
+msgstr "Desplazamiento de año (opcional)"
+
+msgid "Years"
+msgstr "Años"
+
+msgid "Years Since - Timeless Texts plugin migration"
+msgstr "Migración desde el plugin Years Since - Timeless Texts"
+
+msgid "You are not allowed to edit Quick Colors."
+msgstr "No tenés permiso para editar Colores rápidos."
+
+msgid "You can save up to 24 quick colors."
+msgstr "Podés guardar hasta 24 colores rápidos."
+
+msgid ""
+"You changed this configuration. Save your changes before copying its SEO "
+"variable."
+msgstr ""
+"Cambiaste esta configuración. Guardá los cambios antes de copiar su variable"
+" SEO."
+
+msgid "You have not saved any dates yet. Add your first date using the form."
+msgstr "Todavía no hay fechas guardadas. Añade la primera con el formulario."
+
+msgid "Your anniversary messages"
+msgstr "Tus mensajes de aniversario"
+
+msgid "Your saved dates"
+msgstr "Tus fechas guardadas"
+
+msgid "Your session has expired. Reload the page and try again."
+msgstr "Tu sesión caducó. Recargá la página e intentá de nuevo."
+
+msgid "Number size"
+msgstr "Tamaño de los números"
+
+msgid "Label size"
+msgstr "Tamaño de las etiquetas"
+
+#, python-format
+msgid "%s unit"
+msgstr "Unidad de %s"
+
+msgid "Choose a unit or clamp() for fluid sizing, e.g. clamp(20px, 4vw, 72px)."
+msgstr ""
+"Elegí una unidad o clamp() para un tamaño adaptable, por ejemplo clamp(20px,"
+" 4vw, 72px)."
+
+msgid "Link top and bottom padding"
+msgstr "Vincular relleno superior e inferior"
+
+msgid "Link left and right padding"
+msgstr "Vincular relleno izquierdo y derecho"
+
+msgid "Link or unlink padding values"
+msgstr "Vincular o desvincular los valores del relleno"
+
+msgid "Enter a valid font size for the selected unit."
+msgstr "Ingresá un tamaño de letra válido para la unidad seleccionada."
+
+msgid "ALP Dynamic Time & CD"
+msgstr "ALP Dynamic Time & CD"
+
+msgid "Number card padding (px)"
+msgstr "Relleno de las tarjetas numéricas (px)"
+
+msgid ""
+"Edit each side, or use the chain buttons to link opposite sides or all four."
+" Empty values retain the style defaults."
+msgstr ""
+"Ajustá cada lado o usá los botones de cadena para vincular lados opuestos o "
+"los cuatro. Los campos vacíos mantienen los valores predeterminados del "
+"estilo."
+
+msgid "Top"
+msgstr "Arriba"
+
+msgid "Bottom"
+msgstr "Abajo"
+
+msgid "Left"
+msgstr "Izquierda"
+
+msgid "Right"
+msgstr "Derecha"
+
+msgid "Link padding on all four sides"
+msgstr "Vincular el relleno de los cuatro lados"
+
+msgid "Link or unlink all four padding values"
+msgstr "Vincular o desvincular el relleno de los cuatro lados"
+
+msgid "All four"
+msgstr "Los cuatro"
+
+msgid "Bulbs to number cards spacing (px)"
+msgstr "Separación entre bombillas y tarjetas numéricas (px)"
+
+msgid ""
+"Christmas Lights only. Set 0 for the tightest vertical gap beneath the "
+"bulbs. Leave empty for the original spacing."
+msgstr ""
+"Solo para Christmas Lights. Usá 0 para la menor separación vertical debajo "
+"de las bombillas. Dejalo vacío para mantener la separación original."
+
+msgid "Countdown width"
+msgstr "Ancho del contador"
+
+msgid "Automatic (content width)"
+msgstr "Automático (ancho del contenido)"
+
+msgid "Full width (100%)"
+msgstr "Ancho completo (100 %)"
+
+msgid ""
+"Expand the countdown to its parent container. Christmas Lights stretch "
+"across the available width while numbers and labels remain centered."
+msgstr ""
+"Extendé el contador hasta el ancho de su contenedor. En Christmas Lights, "
+"las bombillas ocupan todo el ancho disponible mientras los números y las "
+"etiquetas permanecen centrados."
+
+msgid "Space around the entire countdown. The number card padding below is separate."
+msgstr ""
+"Espacio alrededor de todo el contador. El relleno de las tarjetas numéricas "
+"se configura por separado."
+
+msgid "Space inside the number cards. Empty values keep the style defaults."
+msgstr ""
+"Espacio dentro de las tarjetas numéricas. Los campos vacíos conservan los "
+"valores predeterminados del estilo."
+
+msgid "Link %1$s %2$s padding values"
+msgstr "Vincular valores de relleno %1$s %2$s"
+
+msgid "vertical"
+msgstr "vertical"
+
+msgid "horizontal"
+msgstr "horizontal"
+
+msgid "Customize confetti colors, and use Add confetti color for more variety."
+msgstr ""
+"Personalizá los colores del confeti y usá Añadir color de confeti para mayor"
+" variedad."
+
+#. %d: posición del color en la paleta
+#, python-format
+msgid "Bulb color %d"
+msgstr "Color de bombilla %d"
+
+msgid "Add confetti color"
+msgstr "Añadir color de confeti"
+
+msgid "Add balloon color"
+msgstr "Añadir color de globo"
+
+msgid "Add bulb color"
+msgstr "Añadir color de bombilla"
+
+msgid "Soft Glow background color"
+msgstr "Color de fondo de Soft Glow"
+
+msgid "Soft Glow background color (HEX)"
+msgstr "Color de fondo de Soft Glow (HEX)"
+
+msgid "Choose Soft Glow background"
+msgstr "Elegir fondo de Soft Glow"
+
+msgid ""
+"Leave empty to keep the original pale green-blue glow. Choose a HEX color to"
+" replace it."
+msgstr ""
+"Dejá este campo vacío para conservar el degradado verde azulado original. "
+"Elegí un color HEX para cambiarlo."
+
+msgid "Number of Christmas bulbs"
+msgstr "Cantidad de bombillas navideñas"
+
+#, python-format
+msgid ""
+"More bulbs reduce the horizontal space between them, including at 100% "
+"countdown width. Leave empty for 15 bulbs."
+msgstr ""
+"Más bombillas reducen la separación horizontal, incluso con un ancho de "
+"cuenta regresiva del 100 %. Dejá vacío para mostrar 15 bombillas."
+
+msgid ""
+"Five default colors repeat across the strand. Add more colors for extra "
+"variety."
+msgstr ""
+"Los cinco colores predeterminados se repiten en la guirnalda. Añadí más "
+"colores para dar variedad."
+
+msgid "10 seconds"
+msgstr "10 segundos"
+
+msgid ""
+"Enter the full start date (YYYY-MM-DD) to choose the actual anniversary day."
+" Each message is selected automatically before, on or after that date."
+msgstr ""
+"Ingresá la fecha inicial completa (AAAA-MM-DD) para establecer el día exacto"
+" del aniversario. Cada mensaje se selecciona automáticamente antes, durante "
+"o después de esa fecha."
+
+msgid "Anniversary variables"
+msgstr "Variables del aniversario"
+
+msgid "Insert a dynamic variable in your message"
+msgstr "Insertar una variable dinámica en el mensaje"
+
+msgid ""
+"Copy a variable below, then paste it anywhere in one of the three messages. "
+"The live preview replaces it with the actual number."
+msgstr ""
+"Copiá una variable y pegala en cualquiera de los tres mensajes. La vista "
+"previa la sustituye por el número correspondiente."
+
+msgid "Anniversary number, for example 26"
+msgstr "Número de aniversario, por ejemplo 26"
+
+msgid "Same anniversary number (singular alias)"
+msgstr "El mismo número de aniversario (alternativa singular)"
+
+msgid "Calendar year, for example 2026"
+msgstr "Año calendario, por ejemplo 2026"
+
+#, python-format
+msgid "Copy variable %s"
+msgstr "Copiar variable %s"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid ""
+"Optional: use these variables in the SEO title or description of the "
+"selected plugin."
+msgstr ""
+"Opcional: usá estas variables en el título o la descripción SEO del plugin "
+"seleccionado."
+
+msgid ""
+"Save your configuration, then open its SEO variables section in Saved "
+"Shortcodes to view and copy the marker for Rank Math or Yoast. Unsaved "
+"custom text has no registered SEO variable."
+msgstr ""
+"Guardá la configuración y abrí la sección de variables SEO en Shortcodes "
+"guardados para ver y copiar el marcador de Rank Math o Yoast. El texto "
+"personalizado sin guardar no tiene variable SEO registrada."
+
+msgid "Variable copied."
+msgstr "Variable copiada."
+
+# 0.10.23: user-facing generator and pagination translations.
+msgid ""
+"Select a sample date to preview the post date. On your site the shortcode "
+"automatically uses the actual post date."
+msgstr ""
+"Seleccioná una fecha de ejemplo para la vista previa. En el sitio el "
+"shortcode usa automáticamente la fecha real de la entrada."
+
+msgid ""
+"Shows an automatic calendar date: today, a future weekday, a season, two "
+"dates compared, or the published/modified date of the current post. Only "
+"date comparison needs two entered dates."
+msgstr ""
+"Muestra fechas automáticas, como hoy, el próximo lunes, la estación, días "
+"entre fechas o la fecha de publicación o modificación de una entrada. Solo "
+"la comparación requiere dos fechas."
+
+msgid ""
+"Count down to an event with an animated live clock or remaining days; you "
+"choose its deadline and appearance."
+msgstr ""
+"Contá el tiempo hasta un evento con un reloj animado o los días restantes. "
+"Elegí la fecha límite y la apariencia."
+
+msgid ""
+"Shows only the anniversary number with an ordinal suffix, like 30.º or 30th."
+" Ideal inside a headline: Our 30th anniversary."
+msgstr ""
+"Muestra solo el número ordinal de aniversario, por ejemplo 30.º o 30th. "
+"Ideal para un título: «Nuestro 30.º aniversario»."
+
+#, python-brace-format
+msgid ""
+"Displays one of three custom messages before, on, or after your anniversary "
+"date. Insert {number} for 30.º or {years} for 30."
+msgstr ""
+"Muestra uno de tres mensajes personalizados antes, durante o después del "
+"aniversario. Usá {number} para 30.º o {years} para 30."
+
+msgid ""
+"Uses your WordPress timezone. Most expressions need no manually entered "
+"date. Publication and modification dates require a published post or page."
+msgstr ""
+"Usa la zona horaria de WordPress. La mayoría de las expresiones no requiere "
+"ingresar una fecha. Las fechas de publicación o modificación necesitan una "
+"entrada o página publicada."
+
+msgid "Example post date (preview only)"
+msgstr "Fecha de ejemplo de la entrada (solo vista previa)"
+
+msgid ""
+"Choose any sample date to test the format here. This value is never saved in"
+" the shortcode: on a published post or page, its real publication or "
+"modification date is displayed automatically."
+msgstr ""
+"Elegí una fecha de ejemplo para probar el formato. No se guarda en el "
+"shortcode: en una entrada o página publicada se muestra automáticamente la "
+"fecha real de publicación o modificación."
+
+#, python-brace-format
+msgid ""
+"Use {number} for an ordinal (30.º), {years} for a plain number (30), and "
+"{current_year} for the calendar year. Copy a marker into any message. Old "
+"{year} markers still work as {years}."
+msgstr ""
+"Usá {number} para un ordinal (30.º), {years} para un número simple (30) y "
+"{current_year} para el año calendario. Copiá el marcador en cualquier "
+"mensaje. El antiguo {year} sigue funcionando como {years}."
+
+msgid ""
+"Ordinal anniversary, like 30.º in Spanish or 30th in English (same as "
+"Anniversary number)."
+msgstr ""
+"Aniversario ordinal, por ejemplo 30.º en español o 30th en inglés (igual que"
+" Número de aniversario)."
+
+msgid "Completed anniversary years as a plain number, for example 30."
+msgstr "Años de aniversario como número simple, por ejemplo 30."
+
+msgid "Current calendar year, for example 2026."
+msgstr "Año calendario actual, por ejemplo 2026."
+
+msgid "Saved shortcode pages"
+msgstr "Páginas de shortcodes guardados"
+
+msgid "Showing %1$d–%2$d of %3$d"
+msgstr "Mostrando del %1$d al %2$d de %3$d"
+
+#, python-format
+msgid "Page %d"
+msgstr "Página %d"
+
+msgid ""
+"Calendar expressions calculate automatically. For a difference between "
+"dates, enter two dates below."
+msgstr ""
+"Las expresiones del calendario se calculan automáticamente. Para comparar "
+"fechas, ingresá las dos fechas de abajo."
+
+# 0.10.24: editable anniversary preview, footer and SEO current month.
+msgid "ALP Dynamic Time & Countdowns: current month"
+msgstr "ALP Dynamic Time & Countdowns: mes actual"
+
+msgid "Enjoying the plugin? Help us with a review!"
+msgstr "¿Disfrutás del plugin? ¡Ayudanos con una reseña!"
+
+msgid ""
+"Previewing the before-anniversary message. On your site, the date determines"
+" which message appears."
+msgstr ""
+"Vista previa del mensaje antes del aniversario. En el sitio, la fecha "
+"determina qué mensaje se muestra."
+
+msgid ""
+"Previewing the anniversary-day message. On your site, the date determines "
+"which message appears."
+msgstr ""
+"Vista previa del mensaje del día del aniversario. En el sitio, la fecha "
+"determina qué mensaje se muestra."
+
+msgid ""
+"Previewing the after-anniversary message. On your site, the date determines "
+"which message appears."
+msgstr ""
+"Vista previa del mensaje después del aniversario. En el sitio, la fecha "
+"determina qué mensaje se muestra."
+
+msgid ""
+"For Rank Math and Yoast SEO, copy a registered dynamic variable below. The "
+"year and month follow your WordPress site timezone; the month name uses your"
+" site language. Each saved date also has its own variable."
+msgstr ""
+"Para Rank Math y Yoast SEO, copiá una de las variables dinámicas "
+"registradas. El año y el mes siguen la zona horaria de WordPress; el nombre "
+"del mes aparece en el idioma del sitio. Cada fecha guardada también tiene su"
+" variable."
+
+msgid "Dynamic value"
+msgstr "Valor dinámico"
+
+msgid ""
+"SEOPress: you can use the corresponding text shortcodes if its configured "
+"metadata field supports them."
+msgstr ""
+"SEOPress: podés utilizar los shortcodes de texto correspondientes si el "
+"campo de metadatos configurado los admite."
+
+msgid "Shortcode copied."
+msgstr "Shortcode copiado."
+
+msgid "Copy was blocked. Select the text and copy it manually."
+msgstr "No se pudo copiar automáticamente. Seleccioná el texto y copialo manualmente."
+
+msgid "Create or edit a reusable date"
+msgstr "Crear o editar una fecha reutilizable"
+
+msgid ""
+"Use this form only for dates you want to reuse across pages. Full countdowns"
+" and dynamic messages are saved separately."
+msgstr ""
+"Usá este formulario solo para fechas que quieras reutilizar en distintas "
+"páginas. Las cuentas regresivas y los mensajes dinámicos se guardan por "
+"separado."
+
+msgid ""
+"Review reusable dates and copy their shortcodes here. Create or edit dates "
+"in the Generator; existing identifiers stay unchanged."
+msgstr ""
+"Consultá las fechas reutilizables y copiá sus shortcodes. Creá o editá "
+"fechas desde el Generador; los identificadores existentes no cambian."
+
+msgid "Add date in Generator"
+msgstr "Añadir fecha en el Generador"
+
+msgid "You have not saved any dates yet. Create one in the Generator."
+msgstr "Todavía no guardaste fechas. Creá una desde el Generador."
+
+msgid "Save reusable date"
+msgstr "Guardar fecha reutilizable"
+
+msgid "Light · 300"
+msgstr "Ligera · 300"
+
+msgid "Select a saved shortcode created in ALP Dynamic Time & Countdowns."
+msgstr "Seleccioná un shortcode guardado creado en ALP Dynamic Time & Countdowns."
+
+msgid "Saved shortcode"
+msgstr "Shortcode guardado"
+
+msgid ""
+"All appearance and countdown settings are managed in the ALP Dynamic Time & "
+"Countdowns generator."
+msgstr ""
+"Todos los ajustes de apariencia y cuenta regresiva se configuran en el "
+"Generador de ALP Dynamic Time & Countdowns."
+
+msgid "Manage saved shortcodes"
+msgstr "Administrar shortcodes guardados"
+
+msgid "Saved shortcode is no longer available"
+msgstr "El shortcode guardado ya no está disponible"
+
+msgid "The selected saved shortcode renders on your published page."
+msgstr "El shortcode seleccionado se muestra en la página publicada."
+
+msgid ""
+"Configure and save a shortcode in the ALP Dynamic Time & Countdowns "
+"generator first."
+msgstr ""
+"Primero configurá y guardá un shortcode en el Generador de ALP Dynamic Time "
+"& Countdowns."
+
+msgid ""
+"Fonts load only when used by a countdown. Special drawing effects may retain"
+" their own typography."
+msgstr ""
+"Las fuentes se cargan solo cuando las utiliza una cuenta regresiva. Algunos "
+"efectos gráficos conservan su tipografía especial."
+
