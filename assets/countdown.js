@@ -142,13 +142,17 @@
      falling individual grains and a growing bottom sand bed. It never replaces the
      semantic, server-rendered numeric value, and does not create extra timers. */
   var illustrationSequence = 0;
+  // Keep the natural grain fall time independent of how often grains appear.
+  // Each unit has eight grains phased across its own emission cycle.
+  var hourglassGrainCycles = {seconds:1.8,minutes:3.6,hours:6,days:10,months:14,years:18};
   function svgPart(name, attributes) {
     var element = document.createElementNS('http://www.w3.org/2000/svg', name);
     Object.keys(attributes || {}).forEach(function (key) { element.setAttribute(key, attributes[key]); });
     return element;
   }
-  function ensureHourglass(stage) {
+  function ensureHourglass(stage, unit) {
     if (stage.querySelector('.alpdt-hourglass-art')) return;
+    var grainCycle = hourglassGrainCycles[unit] || hourglassGrainCycles.seconds;
     var id = 'alpdt-sand-' + (++illustrationSequence);
     var art = document.createElement('span');
     art.className = 'alpdt-hourglass-art'; art.setAttribute('aria-hidden','true');
@@ -171,13 +175,14 @@
     svg.appendChild(lower);
     var stream = svgPart('g',{'class':'alpdt-hourglass-flow','data-alpdt-sand-flow':'1'});
     stream.appendChild(svgPart('path',{'class':'alpdt-hourglass-fine-stream','d':'M50 62 Q49.8 76 50 83'}));
-    // Eight staggered grains imitate acceleration and subtle sideways drift.
+    // Distribute each unit's eight grains over its emission interval, rather
+    // than stretching the time each grain takes to fall through the glass.
     for (var i=0; i<8; i++) {
       var grain = svgPart('circle',{
         'class':'alpdt-hourglass-grain','cx':String(49.7 + ((i*7)%5-2)*.47),
         'cy':String(64+(i%3)*1.1),'r':String(.54+(i%4)*.13)
       });
-      grain.style.setProperty('--alpdt-grain-delay',(-i*.223)+'s');
+      grain.style.setProperty('--alpdt-grain-delay',(-i*grainCycle/8).toFixed(3)+'s');
       grain.style.setProperty('--alpdt-grain-drift',(((i*11)%7)-3)*.55+'px');
       stream.appendChild(grain);
     }
@@ -198,8 +203,13 @@
     // Sand depletion reflects real elapsed time within the selected calendar unit.
     // Minutes/hours/days must not visually empty at the same rate as seconds.
     var periods={seconds:60,minutes:3600,hours:86400,days:2678400,months:31536000,years:315360000};
-    var flowDuration={seconds:1.8,minutes:6,hours:12,days:22,months:30,years:40};
-    if(cell.style && periods[unit])cell.style.setProperty('--alpdt-sand-flow-duration',flowDuration[unit]+'s');
+    if (cell.style && periods[unit]) {
+      var grainCycle = hourglassGrainCycles[unit] || hourglassGrainCycles.seconds;
+      // Updating only when needed prevents needless animation restarts.
+      if (cell.style.getPropertyValue('--alpdt-sand-flow-duration') !== grainCycle+'s') {
+        cell.style.setProperty('--alpdt-sand-flow-duration',grainCycle+'s');
+      }
+    }
     var substep=Number.isFinite(Number(totalSeconds)) && periods[unit] ? (Number(totalSeconds)%periods[unit])/periods[unit] : (Number(value)%cycle)/cycle;
     var fraction = active ? Math.max(0,Math.min(1,substep)) : 0;
     var sand = cell.querySelector('.alpdt-hourglass-art');
@@ -237,7 +247,7 @@
     }
     if (cell.closest('.alpdt-clock-matrix')) dotDisplay(stage,digit.textContent,'matrix',false);
     if (cell.closest('.alpdt-clock-morph')) dotDisplay(stage,digit.textContent,'morph',false);
-    if (cell.closest('.alpdt-clock-hourglass')) ensureHourglass(stage);
+    if (cell.closest('.alpdt-clock-hourglass')) ensureHourglass(stage, cell.getAttribute('data-alpdt-unit'));
     if (cell.closest('.alpdt-clock-orbit')) ensureOrbit(stage);
     if (cell.closest('.alpdt-clock-blood')) {
       // Keep Creepster Regular 400 even at small sizes. Disable only the SVG
@@ -274,7 +284,7 @@
       var cellIndex=Array.prototype.indexOf.call(cell.parentNode.children,cell);
       var bloodSeed=(unitSeed+Math.imul(Math.max(0,cellIndex)+1,2654435761))>>>0;
       function bloodRandom(){bloodSeed=(Math.imul(bloodSeed,1664525)+1013904223)>>>0;return bloodSeed/4294967296;}
-      var dropCount=4+(Math.floor(bloodRandom()*3)); // 4–6 instead of 9.
+      var dropCount=3+(Math.floor(bloodRandom()*3)); // 3–5 keeps the effect lively without spawning too densely.
       for(var i=0;i<dropCount;i++){
         var d=document.createElement('span');d.className='alpdt-blood-drop';
         // Evenly spaced zones with jitter: fewer collisions, different per unit.
@@ -292,8 +302,8 @@
         // square extends ~.72 of its size below its center, so the drop
         // touches the pool before the final short fade/absorption.
         d.style.setProperty('--alpdt-drip-fall',(.78-size*.72).toFixed(3)+'em');
-        d.style.setProperty('--alpdt-drip-delay',(-(bloodRandom()*2.65)).toFixed(3)+'s');
-        d.style.setProperty('--alpdt-drip-duration',(1.4+bloodRandom()*1.12).toFixed(3)+'s');
+        d.style.setProperty('--alpdt-drip-delay',(-(bloodRandom()*3.95)).toFixed(3)+'s');
+        d.style.setProperty('--alpdt-drip-duration',(2.8+bloodRandom()*0.8).toFixed(3)+'s');
         drips.appendChild(d);
       }
       stage.appendChild(drips);
@@ -630,16 +640,25 @@
       startCanvas=function(){window.requestAnimationFrame(frame);};
     }
 
-    // Preserve the existing six rounded balloons, including colors, sizes,
-    // original curved path, and independently staggered launch times.
-    // Evenly distributed independent launches; no two balloons share a fixed origin.
+    // Preserve independent balloon colors/sizes and fluid, curved trajectories.
+    // Shuffle spatial lanes so launches are not ordered left to right. Random
+    // delays are independent of lane order, preventing a predictable parade.
+    var balloonLanes=[];
+    for(var lane=0;lane<balloonCount;lane++)balloonLanes.push(lane);
+    for(var laneIndex=balloonCount-1;laneIndex>0;laneIndex--){
+      var swapIndex=Math.floor(rand()*(laneIndex+1));
+      var previousLane=balloonLanes[laneIndex];
+      balloonLanes[laneIndex]=balloonLanes[swapIndex];
+      balloonLanes[swapIndex]=previousLane;
+    }
     for(var bi=0;bi<balloonCount;bi++){
       var balloon=document.createElement('span');
       balloon.className='alpdt-confetti-balloon';
-      balloon.style.setProperty('--alpdt-burst-x',(9+(82*(bi+.35+rand()*.3)/balloonCount)).toFixed(1)+'%');
+      var laneNumber=balloonLanes[bi];
+      balloon.style.setProperty('--alpdt-burst-x',(9+82*(laneNumber+.22+rand()*.56)/balloonCount).toFixed(1)+'%');
       balloon.style.setProperty('--alpdt-burst-y',(64+rand()*13).toFixed(1)+'%');
-      balloon.style.setProperty('--alpdt-c-color',balloonColors[bi%balloonColors.length]);
-      balloon.style.setProperty('--alpdt-c-delay',((bi/Math.max(1,balloonCount-1))*Math.min(2.1,duration*.47)+rand()*.07).toFixed(2)+'s');
+      balloon.style.setProperty('--alpdt-c-color',balloonColors[Math.floor(rand()*balloonColors.length)]);
+      balloon.style.setProperty('--alpdt-c-delay',(rand()*Math.min(2.1,duration*.47)).toFixed(2)+'s');
       balloon.style.setProperty('--alpdt-c-time',(5.1+rand()*1.1).toFixed(2)+'s');
       balloon.style.setProperty('--alpdt-c-x',(-46+rand()*92).toFixed(1)+'px');
       balloon.style.setProperty('--alpdt-c-sway',(10+rand()*23).toFixed(1)+'px');

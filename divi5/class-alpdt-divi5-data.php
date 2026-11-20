@@ -58,9 +58,9 @@ final class ALPDT_Divi5_Data {
     /** Return identical body markup in PHP frontend and the authenticated VB preview. */
     public static function markup( array $attrs ): string {
         $slug = self::slug( $attrs );
-        if ( '' === $slug ) { return '<span class="alpdt-d5-hint">' . esc_html( __( 'Select a saved shortcode in Content.', 'alp-dynamic-time' ) ) . '</span>'; }
+        if ( '' === $slug ) { return '<span class="alpdt-d5-hint">' . esc_html( __( 'Select a saved shortcode in Content.', 'alp-dynamic-time-countdowns' ) ) . '</span>'; }
         $params = ALPDT_Saved_Shortcodes::resolve( $slug );
-        if ( null === $params ) { return '<span class="alpdt-d5-hint">' . esc_html( __( 'This saved shortcode is no longer available.', 'alp-dynamic-time' ) ) . '</span>'; }
+        if ( null === $params ) { return '<span class="alpdt-d5-hint">' . esc_html( __( 'This saved shortcode is no longer available.', 'alp-dynamic-time-countdowns' ) ) . '</span>'; }
         $local = self::local_style( $attrs );
         // Apply overrides exclusively to the locally rendered instance. No saved option changes.
         foreach ( array( 'digit_color','label_color','accent_color','digit_size','clock_font','label_size' ) as $field ) {
@@ -113,7 +113,7 @@ final class ALPDT_Divi5_Data {
     }
 
     public static function choices(): array {
-        $choices = array( '' => __( 'Choose a saved shortcode', 'alp-dynamic-time' ) );
+        $choices = array( '' => __( 'Choose a saved shortcode', 'alp-dynamic-time-countdowns' ) );
         foreach ( ALPDT_Saved_Shortcodes::all() as $slug => $entry ) {
             $choices[ $slug ] = sanitize_text_field( (string) ( $entry['name'] ?? $slug ) );
         }

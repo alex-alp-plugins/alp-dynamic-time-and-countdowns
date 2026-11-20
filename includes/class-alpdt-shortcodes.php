@@ -54,7 +54,7 @@ final class ALPDT_Shortcodes {
                 $extra .= ' data-alpdt-end-action="' . esc_attr( $action ) . '"';
                 if ( 'message' === $action ) {
                     $message = sanitize_text_field( (string) $options['end_message'] );
-                    if ( '' === $message ) { $message = __( 'Time is up!', 'alp-dynamic-time' ); }
+                    if ( '' === $message ) { $message = __( 'Time is up!', 'alp-dynamic-time-countdowns' ); }
                     $message = function_exists( 'mb_substr' ) ? mb_substr( $message, 0, 120 ) : substr( $message, 0, 120 );
                     $extra .= ' data-alpdt-end-message="' . esc_attr( $message ) . '"';
                 }
@@ -115,16 +115,16 @@ final class ALPDT_Shortcodes {
         switch ( $unit ) {
             case 'year':
                 /* translators: %d: number of years in the elapsed interval. */
-                return sprintf( _n( '%d year', '%d years', $n, 'alp-dynamic-time' ), $n );
+                return sprintf( _n( '%d year', '%d years', $n, 'alp-dynamic-time-countdowns' ), $n );
             case 'month':
                 /* translators: %d: number of months in the elapsed interval. */
-                return sprintf( _n( '%d month', '%d months', $n, 'alp-dynamic-time' ), $n );
+                return sprintf( _n( '%d month', '%d months', $n, 'alp-dynamic-time-countdowns' ), $n );
             case 'week':
                 /* translators: %d: number of weeks in the elapsed interval. */
-                return sprintf( _n( '%d week', '%d weeks', $n, 'alp-dynamic-time' ), $n );
+                return sprintf( _n( '%d week', '%d weeks', $n, 'alp-dynamic-time-countdowns' ), $n );
             default:
                 /* translators: %d: number of days in the elapsed interval. */
-                return sprintf( _n( '%d day', '%d days', $n, 'alp-dynamic-time' ), $n );
+                return sprintf( _n( '%d day', '%d days', $n, 'alp-dynamic-time-countdowns' ), $n );
         }
     }
 

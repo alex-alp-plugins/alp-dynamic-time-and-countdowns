@@ -1,7 +1,9 @@
 /* ALP Dynamic Time 0.9.4. All UI rules are scoped to this settings screen. */
 .alpdt-admin{--alpdt-navy:#243665;--alpdt-teal:#2fc5b5;--alpdt-ink:#1d2c47;--alpdt-muted:#607087;--alpdt-border:#dce3ec;--alpdt-red:#b42332;width:calc(100% - 20px);max-width:1430px;margin:20px auto 45px;color:var(--alpdt-ink);font-family:inherit}
 .alpdt-admin,.alpdt-admin *{box-sizing:border-box}
-.alpdt-admin :focus-visible{outline:3px solid var(--alpdt-teal);outline-offset:3px}
+.alpdt-admin :focus-visible{outline:2px solid var(--alpdt-navy);outline-offset:1px}
+/* Keyboard-focus panels retain a slim left indicator instead of outlining the entire Generator/Tab region. */
+.alpdt-admin [role="tabpanel"]:focus-visible{outline:none;box-shadow:none}
 .alpdt-admin [hidden]{display:none!important}
 .alpdt-external-notices{margin-bottom:16px}
 .alpdt-external-notices>.notice,.alpdt-external-notices>.updated,.alpdt-external-notices>.error{display:block;margin:0 0 12px;width:auto;max-width:100%}
@@ -29,7 +31,7 @@
 .alpdt-feedback-success{background:#effaf6;color:#146746;border-color:#b3e6cd}.alpdt-feedback-error{background:#fff2f2;color:#98202a;border-color:#f2c0c4}
 .alpdt-tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid #d4ddea;margin:0 0 26px;padding:0 6px}
 .alpdt-tabs button{font:inherit;font-size:14px;min-height:45px;border:0;background:transparent;color:#5b6780;padding:13px 18px;cursor:pointer;font-weight:650;border-bottom:3px solid transparent;border-radius:5px 5px 0 0;transition:background-color .15s ease,color .15s ease}
-.alpdt-tabs button:hover{background:#eaf5f5;color:var(--alpdt-navy)}.alpdt-tabs button[aria-selected=true]{border-color:var(--alpdt-teal);color:var(--alpdt-navy);background:#fff}
+.alpdt-tabs button:hover{background:#eaf5f5;color:var(--alpdt-navy)}.alpdt-admin .alpdt-tabs button:focus-visible{outline:none;box-shadow:inset 0 -4px 0 var(--alpdt-navy)}.alpdt-tabs button[aria-selected=true]{border-color:var(--alpdt-teal);color:var(--alpdt-navy);background:#fff}
 .alpdt-section-intro{width:100%;max-width:none;margin:0 auto 26px;text-align:center}.alpdt-section-intro h2{font-size:24px;line-height:1.25;letter-spacing:-.02em;color:var(--alpdt-navy);margin:0 0 10px}.alpdt-section-intro p{font-size:14px;line-height:1.7;color:var(--alpdt-muted);margin:0}
 .alpdt-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start}
 .alpdt-card{background:#fff;border:1px solid var(--alpdt-border);border-radius:7px;padding:28px 30px;margin:0 0 24px;box-shadow:0 5px 21px rgba(27,47,81,.05);min-width:0}
@@ -107,7 +109,7 @@
 .alpdt-picker{position:relative;width:100%;min-width:0}
 .alpdt-picker-trigger{width:100%;min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;padding:11px 15px;font:inherit;font-size:14px;font-weight:600;color:var(--alpdt-ink);border:1px solid #bfcddd;background:#fff;border-radius:5px;cursor:pointer;transition:border-color .15s,box-shadow .15s}
 .alpdt-picker-trigger:hover,.alpdt-picker-open .alpdt-picker-trigger{border-color:var(--alpdt-navy)}
-.alpdt-picker-trigger:focus-visible{outline:3px solid var(--alpdt-teal);outline-offset:2px}
+.alpdt-picker-trigger:focus-visible{outline:2px solid var(--alpdt-navy);outline-offset:0}
 .alpdt-picker-chevron{width:9px;height:9px;flex:none;border-bottom:2px solid #425775;border-right:2px solid #425775;transform:rotate(45deg);transition:transform .16s}
 .alpdt-picker-open .alpdt-picker-chevron{transform:rotate(225deg)}
 .alpdt-picker-options{position:absolute;top:calc(100% + 8px);left:0;right:0;max-height:290px;overflow:auto;z-index:9990;padding:8px;border:1px solid #dce3ec;background:#fff;border-radius:7px;box-shadow:0 16px 36px rgba(28,45,78,.17)}
@@ -148,22 +150,22 @@
 .alpdt-admin .alpdt-design-grid{grid-template-columns:repeat(2,minmax(0,1fr));align-items:start;gap:20px 22px}
 .alpdt-admin .alpdt-design-grid>.alpdt-design-field{display:flex;flex-direction:column;gap:9px;min-width:0}
 .alpdt-admin .alpdt-design-grid>.alpdt-design-field>label{display:block;margin:0;font-size:13px;line-height:1.4;font-weight:650;color:var(--alpdt-ink)}
-.alpdt-admin .alpdt-color-controls{display:grid;grid-template-columns:minmax(0,1fr) 56px;align-items:center;gap:8px;min-width:0}
-.alpdt-admin .alpdt-color-controls input[type=text]{width:100%;min-width:0;max-width:none;box-sizing:border-box;font:600 14px/1.25 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:44px;padding:10px 12px;border:1px solid #bfcddd;border-radius:5px;background:#fff;color:#243665;letter-spacing:.01em}
-.alpdt-admin .alpdt-color-controls input[type=color]{display:block;width:56px;max-width:56px;height:44px;min-height:44px;box-sizing:border-box;padding:4px;flex:none;background:#fff;border:1px solid #bfcddd;border-radius:5px;cursor:pointer}
+.alpdt-admin .alpdt-color-controls{display:grid;grid-template-columns:minmax(0,1fr) 42px;align-items:center;gap:6px;min-width:0}
+.alpdt-admin .alpdt-color-controls input[type=text]{width:100%;min-width:0;max-width:none;box-sizing:border-box;font:600 13px/1.2 ui-monospace,SFMono-Regular,Consolas,monospace;min-height:38px;padding:8px 10px;border:1px solid #bfcddd;border-radius:5px;background:#fff;color:#243665;letter-spacing:.01em}
+.alpdt-admin .alpdt-color-controls input[type=color]{display:block;width:42px;max-width:42px;height:38px;min-height:38px;box-sizing:border-box;padding:3px;flex:none;background:#fff;border:1px solid #bfcddd;border-radius:5px;cursor:pointer}
 .alpdt-admin .alpdt-color-controls input.alpdt-invalid{border-color:#b42332;box-shadow:0 0 0 2px #ffdadd}
 .alpdt-admin .alpdt-design-grid input[type=number]{width:100%;max-width:none}
 .alpdt-admin .alpdt-design-grid>.alpdt-design-field>select{max-width:none;width:100%}
 @media(max-width:900px){.alpdt-admin .alpdt-design-grid{grid-template-columns:1fr}}
-@media(max-width:380px){.alpdt-admin .alpdt-appearance{padding:14px}.alpdt-admin .alpdt-color-controls{grid-template-columns:minmax(0,1fr) 48px}.alpdt-admin .alpdt-color-controls input[type=color]{width:48px}}
+@media(max-width:380px){.alpdt-admin .alpdt-appearance{padding:14px}.alpdt-admin .alpdt-color-controls{grid-template-columns:minmax(0,1fr) 38px}.alpdt-admin .alpdt-color-controls input[type=color]{width:38px}}
 
-.alpdt-admin .alpdt-color-controls input[type=color]{padding:4px!important;min-height:44px!important;width:56px!important;max-width:56px!important}
-@media(max-width:380px){.alpdt-admin .alpdt-color-controls input[type=color]{width:48px!important;max-width:48px!important}}
+.alpdt-admin .alpdt-color-controls input[type=color]{padding:3px!important;min-height:38px!important;width:42px!important;max-width:42px!important;height:38px!important}
+@media(max-width:380px){.alpdt-admin .alpdt-color-controls input[type=color]{width:38px!important;max-width:38px!important;height:38px!important}}
 
 /* 0.9.8: accessible ALP HEX chooser, never the browser's RGB-first native popup. */
 .alpdt-admin .alpdt-color-controls{position:relative;isolation:isolate}
 .alpdt-admin .alpdt-color-controls.alpdt-color-active{z-index:90}
-.alpdt-admin .alpdt-color-swatch{display:grid;place-items:center;width:56px;height:44px;min-height:44px;padding:4px;border-radius:5px;border:1px solid #bfcddd;background:#fff;cursor:pointer;box-sizing:border-box}
+.alpdt-admin .alpdt-color-swatch{display:grid;place-items:center;width:42px;height:38px;min-height:38px;padding:3px;border-radius:5px;border:1px solid #bfcddd;background:#fff;cursor:pointer;box-sizing:border-box}
 .alpdt-admin .alpdt-color-swatch>span{display:block;background:var(--alpdt-swatch,#fff);width:100%;height:100%;border:1px solid rgba(0,0,0,.14);border-radius:3px}
 .alpdt-admin .alpdt-color-swatch:hover,.alpdt-admin .alpdt-color-swatch[aria-expanded=true]{border-color:#243665}
 .alpdt-admin .alpdt-color-swatch:focus-visible{outline:3px solid #2fc5b5;outline-offset:2px}
@@ -179,7 +181,7 @@
 .alpdt-admin .alpdt-color-pop-hex{width:100%;box-sizing:border-box;padding:11px 12px!important;border:1px solid #bfcddd;border-radius:5px;font:600 14px ui-monospace,monospace;color:#243665}
 .alpdt-admin .alpdt-reset-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:16px;border-top:1px solid #e2eaf3}
 .alpdt-admin .alpdt-reset-row .alpdt-field-help{margin:0!important;flex:1 1 240px}
-@media(max-width:380px){.alpdt-admin .alpdt-color-swatch{width:48px}.alpdt-admin .alpdt-color-pop{right:-4px}}
+@media(max-width:380px){.alpdt-admin .alpdt-color-swatch{width:38px;height:38px;min-height:38px}.alpdt-admin .alpdt-color-pop{right:-4px}}
 /* Keep the dedicated hue slider compact despite wp-admin's generic form input sizing. */
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-hue{display:block;box-sizing:border-box;width:100%;height:22px;min-height:22px;max-width:100%;margin:0;padding:0!important;border:0!important;border-radius:0;background:linear-gradient(to right,red,#ff0,lime,cyan,blue,magenta,red)!important;box-shadow:none!important;cursor:pointer}
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-pop-hex{box-sizing:border-box;width:100%;height:43px;min-height:43px;padding:10px 12px!important;border:1px solid #bfcddd!important;border-radius:5px;background:#fff!important;letter-spacing:.02em}
@@ -220,7 +222,7 @@
 .alpdt-admin .alpdt-clock-tabs button{min-height:44px;flex:1 1 135px;display:flex;justify-content:center;align-items:center;gap:6px;background:transparent;color:#243665;border:1px solid transparent;border-radius:6px;padding:10px 12px;cursor:pointer;font-size:13px;font-weight:700;transition:background .16s,color .16s}
 .alpdt-admin .alpdt-clock-tabs button[aria-selected=true]{background:#fff;border-color:#c7d6e3;color:#243665;box-shadow:0 2px 8px rgba(25,45,76,.09)}
 .alpdt-admin .alpdt-clock-tabs button:hover{background:#e4f5f2}
-.alpdt-admin .alpdt-clock-tabs button:focus-visible{outline:3px solid #2fc5b5;outline-offset:2px}
+.alpdt-admin .alpdt-clock-tabs button:focus-visible{outline:none;box-shadow:inset 0 -4px 0 var(--alpdt-navy)}
 .alpdt-admin .alpdt-clock-panel{border:1px solid #e1e9f0;border-radius:8px;background:#fbfdff;padding:20px;min-width:0}
 .alpdt-admin .alpdt-clock-panel > .alpdt-field:last-child{margin-bottom:0}
 .alpdt-admin .alpdt-clock-panel .alpdt-appearance{margin:18px 0;min-width:0}
@@ -234,40 +236,40 @@
 /* v0.9.13: plugin-owned Divi-inspired color panel, isolated from the Divi builder. */
 .alpdt-admin .alpdt-color-controls.alpdt-color-active{z-index:1000;isolation:visible}
 .alpdt-admin .alpdt-color-pop{
-  z-index:10001;display:block;width:min(468px,calc(100vw - 32px));padding:0;
+  position:fixed;z-index:10001;display:block;width:min(356px,calc(100vw - 32px));padding:0;
   overflow-y:auto;overscroll-behavior:contain;
   color:#f5f7fc;background:#19212d;border:1px solid #435572;
   border-radius:7px;box-shadow:0 24px 65px rgba(4,12,30,.36);
   text-align:left;direction:ltr;
 }
-.alpdt-admin .alpdt-color-pop-head{display:flex;align-items:center;justify-content:space-between;padding:16px 21px;border-bottom:1px solid #42516d;gap:12px}
-.alpdt-admin .alpdt-color-pop-title{margin:0;color:#f6f8fc;font-size:19px;line-height:1.35;font-weight:650}
+.alpdt-admin .alpdt-color-pop-head{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;border-bottom:1px solid #42516d;gap:10px}
+.alpdt-admin .alpdt-color-pop-title{margin:0;color:#f6f8fc;font-size:15px;line-height:1.3;font-weight:650}
 .alpdt-admin .alpdt-color-close{
-  position:static;display:grid;place-items:center;flex:0 0 37px;height:37px;
+  position:static;display:grid;place-items:center;flex:0 0 30px;height:30px;
   padding:0;background:transparent;border:0;border-radius:5px;color:#fff;
-  font:400 31px/1 Arial,sans-serif;cursor:pointer;
+  font:400 26px/1 Arial,sans-serif;cursor:pointer;
 }
 .alpdt-admin .alpdt-color-close:hover{background:#2e3e56;color:white}
-.alpdt-admin .alpdt-color-pop-body{display:grid;gap:17px;padding:20px 21px}
+.alpdt-admin .alpdt-color-pop-body{display:grid;gap:9px;padding:11px 12px}
 .alpdt-admin .alpdt-color-square{
-  margin:0;width:100%;height:225px;max-height:34vh;border:1px solid #3c4960;border-radius:5px;
+  margin:0;width:100%;height:128px;max-height:26vh;border:1px solid #3c4960;border-radius:5px;
   background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent);
   background-color:hsl(var(--alpdt-hue,0),100%,50%);cursor:crosshair;
 }
-.alpdt-admin .alpdt-color-marker{width:18px;height:18px;border:3px solid white;box-shadow:0 0 0 1px #27344e,0 2px 7px rgba(0,0,0,.48)}
-.alpdt-admin .alpdt-color-slider-row{display:grid;grid-template-columns:62px minmax(0,1fr);align-items:center;gap:14px;min-width:0}
+.alpdt-admin .alpdt-color-marker{width:15px;height:15px;border:3px solid white;box-shadow:0 0 0 1px #27344e,0 2px 7px rgba(0,0,0,.48)}
+.alpdt-admin .alpdt-color-slider-row{display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;gap:8px;min-width:0}
 .alpdt-admin .alpdt-color-sample{
-  width:62px;height:62px;border-radius:5px;border:1px solid #b8c7d9;overflow:hidden;
+  width:26px;height:26px;border-radius:4px;border:1px solid #b8c7d9;overflow:hidden;
   background-color:white;
   background-image:linear-gradient(45deg,#aebac7 25%,transparent 25%,transparent 75%,#aebac7 75%),linear-gradient(45deg,#aebac7 25%,transparent 25%,transparent 75%,#aebac7 75%);
   background-size:14px 14px;background-position:0 0,7px 7px;
 }
 .alpdt-admin .alpdt-color-sample-paint{display:block;width:100%;height:100%;background-color:transparent}
-.alpdt-admin .alpdt-color-tracks{display:grid;gap:11px;min-width:0}
+.alpdt-admin .alpdt-color-tracks{display:grid;gap:8px;min-width:0}
 .alpdt-admin .alpdt-color-range-label{display:block;font-size:0;line-height:0;min-width:0}
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-hue,
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-alpha{
-  display:block;width:100%;height:17px;min-height:17px;max-width:100%;margin:0;padding:0!important;
+  display:block;width:100%;height:14px;min-height:14px;max-width:100%;margin:0;padding:0!important;
   border:0!important;border-radius:20px!important;box-shadow:none!important;
   cursor:pointer;appearance:none;-webkit-appearance:none;
 }
@@ -280,28 +282,28 @@
   background-color:#f5f7fb!important;
 }
 .alpdt-admin .alpdt-color-pop input[type=range]::-webkit-slider-thumb{
-  -webkit-appearance:none;appearance:none;width:22px;height:22px;background:#fff;
+  -webkit-appearance:none;appearance:none;width:20px;height:20px;background:#fff;
   border:2px solid #e3e9f2;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25)
 }
 .alpdt-admin .alpdt-color-pop input[type=range]::-moz-range-thumb{
-  width:19px;height:19px;background:#fff;border:2px solid #e3e9f2;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25)
+  width:20px;height:20px;background:#fff;border:2px solid #e3e9f2;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25)
 }
-.alpdt-admin .alpdt-color-value-row{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:10px;align-items:end;min-width:0}
+.alpdt-admin .alpdt-color-value-row{display:grid;grid-template-columns:minmax(0,1fr) 74px;gap:8px;align-items:end;min-width:0}
 .alpdt-admin .alpdt-color-edit-group,.alpdt-admin .alpdt-color-opacity-group{min-width:0;position:relative}
-.alpdt-admin .alpdt-color-pop-label{display:block;margin:0 0 6px;font-size:12px;line-height:1.4;font-weight:650;color:#dce6f7}
+.alpdt-admin .alpdt-color-pop-label{display:block;margin:0 0 4px;font-size:11px;line-height:1.35;font-weight:650;color:#dce6f7}
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-pop-hex,
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-percent{
-  width:100%;max-width:100%;min-width:0;box-sizing:border-box;height:44px;min-height:44px;padding:9px 12px!important;
+  width:100%;max-width:100%;min-width:0;box-sizing:border-box;height:36px;min-height:36px;padding:6px 9px!important;
   border:1px solid #627292!important;border-radius:5px;background:#232e3f!important;
   color:#fff!important;font:600 14px/1.4 ui-monospace,Consolas,monospace;box-shadow:none!important;
 }
 .alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-color-percent{padding-right:28px!important;appearance:textfield;-moz-appearance:textfield}
 .alpdt-admin .alpdt-color-percent::-webkit-inner-spin-button{appearance:none}
-.alpdt-admin .alpdt-color-percent-sign{position:absolute;right:11px;bottom:12px;font-size:13px;color:#bdc7dc;pointer-events:none}
-.alpdt-admin .alpdt-color-quick{padding:17px 21px 20px;border-top:1px solid #42516d}
-.alpdt-admin .alpdt-color-quick-title{color:#f5f7fb;font-weight:650;font-size:14px;margin:0 0 14px}
+.alpdt-admin .alpdt-color-percent-sign{position:absolute;right:10px;bottom:10px;font-size:13px;color:#bdc7dc;pointer-events:none}
+.alpdt-admin .alpdt-color-quick{padding:10px 12px 12px;border-top:1px solid #42516d}
+.alpdt-admin .alpdt-color-quick-title{color:#f5f7fb;font-weight:650;font-size:13px;margin:0 0 8px}
 .alpdt-admin .alpdt-color-chips{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:7px}
-.alpdt-admin .alpdt-color-chip{position:relative;min-width:0;aspect-ratio:1;border:1px solid #586780;border-radius:4px;background:var(--alpdt-chip);cursor:pointer}
+.alpdt-admin .alpdt-color-chip{position:relative;min-width:0;aspect-ratio:1;border:1px solid #586780;border-radius:4px;background:var(--alpdt-chip);cursor:pointer;min-height:26px}
 .alpdt-admin .alpdt-color-chip:hover{outline:2px solid #7febd6;outline-offset:1px}
 .alpdt-admin .alpdt-color-chip:focus-visible{outline:3px solid #7febd6}
 .alpdt-admin .alpdt-color-pop .alpdt-invalid{border-color:#f88b8b!important}
@@ -311,14 +313,14 @@
   background-clip:padding-box;
 }
 @media(max-width:440px){
-  .alpdt-admin .alpdt-color-pop-head{padding:12px 15px}
-  .alpdt-admin .alpdt-color-pop-title{font-size:17px}
-  .alpdt-admin .alpdt-color-pop-body{padding:14px;gap:13px}
-  .alpdt-admin .alpdt-color-square{height:150px;max-height:27vh}
-  .alpdt-admin .alpdt-color-slider-row{grid-template-columns:46px minmax(0,1fr);gap:10px}
-  .alpdt-admin .alpdt-color-sample{width:46px;height:46px}
-  .alpdt-admin .alpdt-color-value-row{grid-template-columns:minmax(0,1fr) 80px;gap:8px}
-  .alpdt-admin .alpdt-color-quick{padding:14px}
+  .alpdt-admin .alpdt-color-pop-head{padding:10px 12px}
+  .alpdt-admin .alpdt-color-pop-title{font-size:15px}
+  .alpdt-admin .alpdt-color-pop-body{padding:11px 12px;gap:9px}
+  .alpdt-admin .alpdt-color-square{height:108px;max-height:23vh}
+  .alpdt-admin .alpdt-color-slider-row{grid-template-columns:24px minmax(0,1fr);gap:7px}
+  .alpdt-admin .alpdt-color-sample{width:24px;height:24px}
+  .alpdt-admin .alpdt-color-value-row{grid-template-columns:minmax(0,1fr) 68px;gap:7px}
+  .alpdt-admin .alpdt-color-quick{padding:9px 11px}
   .alpdt-admin .alpdt-color-chips{grid-template-columns:repeat(6,minmax(0,1fr))}
 }
 @media(prefers-reduced-motion:reduce){.alpdt-admin .alpdt-color-pop *{transition:none!important;animation:none!important}}
@@ -327,19 +329,19 @@
 .alpdt-admin .alpdt-color-pop .alpdt-color-range-label{display:block!important;font-size:0!important;line-height:0!important;color:transparent!important;min-width:0}
 
 /* v0.9.14: Editable Quick Colors. Scoped to the ALP picker, no Divi or WP global styles. */
-.alpdt-admin .alpdt-color-chips{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px 9px;align-items:center}
+.alpdt-admin .alpdt-color-chips{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px 7px;align-items:center}
 .alpdt-admin .alpdt-color-tile{position:relative;min-width:0;aspect-ratio:1}
 .alpdt-admin .alpdt-color-tile .alpdt-color-chip{width:100%;height:100%;display:block}
 .alpdt-admin .alpdt-color-chip-remove{
-  position:absolute;top:-7px;right:-7px;display:grid;place-items:center;width:24px;height:24px;
-  min-height:24px;padding:0;border-radius:100%;background:#ad1f30;border:2px solid #1a2330;
-  color:#fff;font-size:16px;font-weight:700;line-height:1;cursor:pointer;box-sizing:border-box;
+  position:absolute;top:-7px;right:-7px;display:flex;align-items:center;justify-content:center;width:22px;height:22px;
+  min-height:22px;padding:0;border-radius:999px;background:#ad1f30;border:2px solid #1a2330;
+  color:#fff;font:700 13px/1 Arial,sans-serif;cursor:pointer;box-sizing:border-box;text-align:center;
 }
 .alpdt-admin .alpdt-color-chip-remove:hover{background:#d32940;transform:scale(1.06)}
 .alpdt-admin .alpdt-color-add{
   display:grid;place-items:center;min-width:0;width:100%;aspect-ratio:1;padding:0;
   border:1px dashed #8a9bb7;border-radius:5px;background:#28364b;color:#fff;
-  font-weight:600;font-size:27px;line-height:1;cursor:pointer;
+  font-weight:600;font-size:18px;line-height:1;cursor:pointer;
 }
 .alpdt-admin .alpdt-color-add:hover{background:#354861;border-color:#7febd6}
 .alpdt-admin .alpdt-color-add:disabled{opacity:.5;cursor:not-allowed}
@@ -347,7 +349,7 @@
 .alpdt-admin .alpdt-color-quick-feedback{font-size:12px;min-height:0;margin:9px 0 0;color:#91eed3;line-height:1.5}
 .alpdt-admin .alpdt-color-quick-feedback:empty{display:none}
 .alpdt-admin .alpdt-color-quick-feedback.alpdt-palette-error{color:#ffaaa9}
-@media(max-width:440px){.alpdt-admin .alpdt-color-chips{grid-template-columns:repeat(6,minmax(0,1fr));gap:12px 10px}.alpdt-admin .alpdt-color-chip-remove{width:24px;height:24px;top:-8px;right:-8px}}
+@media(max-width:440px){.alpdt-admin .alpdt-color-chips{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px 8px}.alpdt-admin .alpdt-color-chip-remove{width:22px;height:22px;top:-7px;right:-7px}}
 
 .alpdt-admin .alpdt-color-chip[aria-pressed=true]{outline:2px solid #7febd6;outline-offset:2px}
 .alpdt-admin .alpdt-color-empty{grid-column:1/-1;color:#cbd5e5;font-size:12px;margin:0 0 4px;line-height:1.5}
@@ -366,22 +368,22 @@
 @media(max-width:600px){.alpdt-admin .alpdt-save-shortcode{margin:10px 0 0}.alpdt-admin .alpdt-shortcode-item .alpdt-preset-actions{width:100%}.alpdt-admin .alpdt-save-dialog{padding:20px}}
 
 /* 0.9.17: clear action hierarchy for Quick Colors, saved configurations and the generator. */
-.alpdt-admin .alpdt-quick-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.alpdt-admin .alpdt-quick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:9px}
 .alpdt-admin .alpdt-color-quick-title{margin:0}
 .alpdt-admin .alpdt-quick-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.alpdt-admin .alpdt-quick-head button{font:inherit;font-size:12px;font-weight:650;line-height:1.3;min-height:36px;min-width:0;padding:7px 12px;border-radius:6px;cursor:pointer;transition:background-color .16s,border-color .16s}
+.alpdt-admin .alpdt-quick-head button{font:inherit;font-size:12px;font-weight:650;line-height:1.3;min-height:36px;min-width:0;padding:6px 9px;border-radius:6px;cursor:pointer;transition:background-color .16s,border-color .16s}
 .alpdt-admin .alpdt-quick-manage{color:#d6e3f5;border:1px solid #546783;background:transparent}
 .alpdt-admin .alpdt-quick-manage:hover,.alpdt-admin .alpdt-quick-manage[aria-pressed=true]{background:#34435b;border-color:#8ab5bf}
 .alpdt-admin .alpdt-quick-add{border:1px solid #68d5c2;color:#102b35;background:#89edd8}
 .alpdt-admin .alpdt-quick-add:before{content:'+';font-size:18px;line-height:10px;margin-right:7px}
 .alpdt-admin .alpdt-quick-add:hover{background:#c8fff2}
 .alpdt-admin .alpdt-quick-add:disabled{opacity:.55;cursor:not-allowed}
-.alpdt-admin .alpdt-color-chips{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;padding:4px 0 2px}
-.alpdt-admin .alpdt-color-tile{flex:none;width:41px;height:41px;aspect-ratio:auto}
-.alpdt-admin .alpdt-color-chip-remove{top:-8px;right:-8px;width:23px;height:23px;background:#b42332;border:2px solid #1a2330}
+.alpdt-admin .alpdt-color-chips{display:flex;gap:7px;flex-wrap:wrap;align-items:flex-start;padding:3px 0 1px}
+.alpdt-admin .alpdt-color-tile{flex:none;width:24px;height:24px;aspect-ratio:auto}
+.alpdt-admin .alpdt-color-chip-remove{top:-7px;right:-7px;width:21px;height:21px;background:#b42332;border:2px solid #1a2330}
 .alpdt-admin .alpdt-color-chip-remove[hidden]{display:none!important}
 .alpdt-admin .alpdt-color-chip-remove:focus-visible{outline:3px solid #9bffe4}
-.alpdt-admin .alpdt-color-chips.alpdt-is-managing{gap:17px 15px;padding-top:8px;padding-right:6px}
+.alpdt-admin .alpdt-color-chips.alpdt-is-managing{gap:13px 10px;padding-top:8px;padding-right:4px}
 .alpdt-admin .alpdt-generator-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:16px}
 .alpdt-admin .alpdt-generator-actions .button{margin:0!important;min-height:42px;padding:9px 16px}
 .alpdt-admin .alpdt-generator-actions .alpdt-save-shortcode{background:#e8f7f2;border-color:#9bcfc2;color:#243665}

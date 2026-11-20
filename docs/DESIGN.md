@@ -243,3 +243,8 @@ Eight new clock appearances are additive styles under the existing `alpdt-clock-
 - Block `alpdt/time` must offer **only one saved-shortcode selector**, as in the Divi 5 Content panel. Editing dates, colors, countdown layouts or animations belongs solely in the ALP Dynamic Time & Countdowns dashboard. Do not duplicate generator controls in Gutenberg.
 - The block's official product isotype stays in the inserter, and the selected saved code is displayed as an informational summary, not an editable shortcode string.
 - The first public Gutenberg block accepts only the `saved` shortcode identifier; no compatibility or migration is required for experimental pre-1.0 block fields. Saved shortcode identifiers resolve dynamically; invalid/deleted keys render empty, never alternate content.
+
+## 1.0.4: Color picker viewport safety
+- ALP's dark color popup remains in the Generator and retains HEX, alpha, Quick Colors and keyboard/Escape behavior.
+- When open, its `position:fixed` coordinates are clamped inside the visible WordPress content viewport, below the admin toolbar and to the right of the WP menu. Maximum height is limited to available space, with internal scrolling instead of a clipped header/footer.
+- Keep popup CSS scoped to `.alpdt-admin`; never reposition or modify native WordPress/Divi controls. No changes to stored colors or shortcode formats.

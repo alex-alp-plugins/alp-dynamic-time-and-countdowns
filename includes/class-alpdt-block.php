@@ -35,7 +35,7 @@ final class ALPDT_Block {
         // Block Bindings can read a named preset into a compatible block's source attribute.
         if ( function_exists( 'register_block_bindings_source' ) ) {
             register_block_bindings_source( 'alpdt/date', array(
-                'label' => __( 'ALP Dynamic Time & Countdowns', 'alp-dynamic-time' ),
+                'label' => __( 'ALP Dynamic Time & Countdowns', 'alp-dynamic-time-countdowns' ),
                 'get_value_callback' => static function ( $args ) {
                     return is_array( $args ) ? ALPDT_Engine::render( $args ) : '';
                 },

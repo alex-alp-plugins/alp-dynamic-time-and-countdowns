@@ -22,7 +22,7 @@ final class ALPDT_Schedule {
             if ( isset( $raw['hemisphere'] ) && 'south' === $raw['hemisphere'] ) {
                 $key = array( 'winter' => 'summer', 'summer' => 'winter', 'spring' => 'autumn', 'autumn' => 'spring' )[ $key ];
             }
-            $names = array( 'winter' => __( 'Winter', 'alp-dynamic-time' ), 'spring' => __( 'Spring', 'alp-dynamic-time' ), 'summer' => __( 'Summer', 'alp-dynamic-time' ), 'autumn' => __( 'Autumn', 'alp-dynamic-time' ) );
+            $names = array( 'winter' => __( 'Winter', 'alp-dynamic-time-countdowns' ), 'spring' => __( 'Spring', 'alp-dynamic-time-countdowns' ), 'summer' => __( 'Summer', 'alp-dynamic-time-countdowns' ), 'autumn' => __( 'Autumn', 'alp-dynamic-time-countdowns' ) );
             return $names[ $key ];
         }
         if ( 'date_difference' === $expr ) {

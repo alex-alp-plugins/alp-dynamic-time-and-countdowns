@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: ALP Dynamic Time & Countdowns
- * Description: Dynamic dates, smart calendar expressions, anniversaries and animated recurring countdowns for WordPress and Divi.
- * Version: 1.0.0
+ * Description: Free WordPress countdown timer and dynamic dates plugin with 20 designs, anniversary counters, reusable shortcodes, Gutenberg and Divi 5 support.
+ * Version: 1.0.8
  * Requires at least: 6.5
  * Requires PHP: 8.2
  * Author: ALP Plugins
  * Author URI: https://alpplugins.com
- * Text Domain: alp-dynamic-time
+ * Text Domain: alp-dynamic-time-countdowns
  * Domain Path: /languages
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ALPDT_VERSION', '1.0.0' );
+define( 'ALPDT_VERSION', '1.0.8' );
 define( 'ALPDT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ALPDT_URL', plugin_dir_url( __FILE__ ) );
 
@@ -50,7 +50,7 @@ add_action( 'admin_enqueue_scripts', array( 'ALPDT_Admin', 'assets' ) );
 add_action( 'init', static function () {
     global $wp_textdomain_registry;
     if ( $wp_textdomain_registry instanceof WP_Textdomain_Registry ) {
-        $wp_textdomain_registry->set_custom_path( 'alp-dynamic-time', ALPDT_DIR . 'languages' );
+        $wp_textdomain_registry->set_custom_path( 'alp-dynamic-time-countdowns', ALPDT_DIR . 'languages' );
     }
 } );
 // Divi builds its dependency tree during early init. Subscribe before it starts.

@@ -29,13 +29,13 @@ final class ALPDT_Integrations {
     private static function seo_variables(): array {
         $vars = array(
             'alpdt_year' => array(
-                'label' => __( 'ALP Dynamic Time & Countdowns: current year', 'alp-dynamic-time' ),
+                'label' => __( 'ALP Dynamic Time & Countdowns: current year', 'alp-dynamic-time-countdowns' ),
                 'callback' => static function (): string {
                     return sanitize_text_field( ALPDT_Engine::render( array( 'type' => 'year' ) ) );
                 },
             ),
             'alpdt_month' => array(
-                'label' => __( 'ALP Dynamic Time & Countdowns: current month', 'alp-dynamic-time' ),
+                'label' => __( 'ALP Dynamic Time & Countdowns: current month', 'alp-dynamic-time-countdowns' ),
                 'callback' => static function (): string {
                     return sanitize_text_field( ALPDT_Engine::render( array( 'type' => 'month' ) ) );
                 },
@@ -50,7 +50,7 @@ final class ALPDT_Integrations {
             $name = 'alpdt_since_' . str_replace( '-', '_', $slug );
             if ( isset( $vars[ $name ] ) ) { continue; } // Prevent collisions on normalized identifiers.
             $vars[ $name ] = array(
-                'label' => sprintf( /* translators: %s: identifier of saved date. */ __( 'ALP Dynamic Time & Countdowns: years since %s', 'alp-dynamic-time' ), $slug ),
+                'label' => sprintf( /* translators: %s: identifier of saved date. */ __( 'ALP Dynamic Time & Countdowns: years since %s', 'alp-dynamic-time-countdowns' ), $slug ),
                 'callback' => static function () use ( $slug ): string {
                     return sanitize_text_field( ALPDT_Engine::render( array( 'type' => 'elapsed', 'id' => $slug, 'mode' => 'calendar', 'text' => 'false' ) ) );
                 },
@@ -65,7 +65,7 @@ final class ALPDT_Integrations {
             if ( ! $attrs || 'countdown' === ( $attrs['type'] ?? '' ) ) { continue; }
             $name = self::saved_variable_name( $slug );
             $vars[ $name ] = array(
-                'label' => sprintf( /* translators: %s: saved shortcode name or identifier. */ __( 'ALP Dynamic Time & Countdowns: saved text %s', 'alp-dynamic-time' ), isset( $entry['name'] ) && is_string( $entry['name'] ) ? $entry['name'] : $slug ),
+                'label' => sprintf( /* translators: %s: saved shortcode name or identifier. */ __( 'ALP Dynamic Time & Countdowns: saved text %s', 'alp-dynamic-time-countdowns' ), isset( $entry['name'] ) && is_string( $entry['name'] ) ? $entry['name'] : $slug ),
                 'callback' => static function () use ( $slug ): string {
                     $config = ALPDT_Saved_Shortcodes::resolve( $slug );
                     if ( ! $config || 'countdown' === ( $config['type'] ?? '' ) ) { return ''; }
@@ -81,7 +81,7 @@ final class ALPDT_Integrations {
         foreach ( self::seo_variables() as $name => $config ) {
             rank_math_register_var_replacement( $name, array(
                 'name' => $config['label'],
-                'description' => __( 'Dynamic text calculated by ALP Dynamic Time & Countdowns.', 'alp-dynamic-time' ),
+                'description' => __( 'Dynamic text calculated by ALP Dynamic Time & Countdowns.', 'alp-dynamic-time-countdowns' ),
                 'variable' => $name,
                 // Rank Math uses 'example' in the snippet editor, not necessarily the current frontend value.
                 'example' => call_user_func( $config['callback'] ),

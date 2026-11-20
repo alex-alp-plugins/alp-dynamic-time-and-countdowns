@@ -515,15 +515,34 @@
     }
     function setHSV(){setColor(withAlpha(fromHSV(hsv.h,hsv.s,hsv.v),opacity));}
     function place(){
-      var rect=shell.getBoundingClientRect(), width=Math.min(468,window.innerWidth-32);
-      var x=clamp(rect.right-width,16,Math.max(16,window.innerWidth-width-16));
-      pop.style.width=width+'px';pop.style.left=(x-rect.left)+'px';pop.style.right='auto';
-      var popupHeight=Math.min(pop.scrollHeight,window.innerHeight-24);
-      var below=window.innerHeight-rect.bottom;
-      var above=rect.top;
-      var flip=below<popupHeight+12 && above>below && above>Math.min(320,popupHeight/2);
-      pop.style.top=flip?'auto':'calc(100% + 8px)';pop.style.bottom=flip?'calc(100% + 8px)':'auto';
-      pop.style.maxHeight=Math.max(120,Math.min((flip?above:below)-14,window.innerHeight-24))+'px';
+      // Keep the palette in the *visible wp-admin content viewport*, not in
+      // the column's coordinate space. The old 'flip above' calculation could
+      // place an oversized palette behind the WordPress toolbar/left admin menu.
+      var anchor=shell.getBoundingClientRect();
+      var content=document.getElementById('wpcontent');
+      var bounds=content?content.getBoundingClientRect():null;
+      var leftLimit=Math.max(12,bounds?bounds.left+12:12);
+      var rightLimit=Math.min(window.innerWidth-12,bounds?bounds.right-12:window.innerWidth-12);
+      if(rightLimit<=leftLimit+80){leftLimit=12;rightLimit=window.innerWidth-12;}
+      var toolbar=document.getElementById('wpadminbar');
+      var toolbarBottom=toolbar?toolbar.getBoundingClientRect().bottom:0;
+      var topLimit=Math.max(12,toolbarBottom+12);
+      var bottomLimit=window.innerHeight-12;
+      var width=Math.max(1,Math.min(368,rightLimit-leftLimit));
+      pop.style.width=width+'px';
+      pop.style.maxHeight='none';
+      // The picker is position:fixed, so both axes use viewport coordinates.
+      pop.style.right='auto';pop.style.bottom='auto';
+      var height=Math.min(pop.scrollHeight,Math.max(1,bottomLimit-topLimit));
+      var x=clamp(anchor.right-width,leftLimit,rightLimit-width);
+      var below=bottomLimit-anchor.bottom-8;
+      var above=anchor.top-topLimit-8;
+      var y;
+      if(below>=height || below>=above){y=anchor.bottom+8;}
+      else{y=anchor.top-height-8;}
+      y=clamp(y,topLimit,Math.max(topLimit,bottomLimit-height));
+      pop.style.left=x+'px';pop.style.top=y+'px';
+      pop.style.maxHeight=Math.max(1,bottomLimit-y)+'px';
     }
     function closePicker(restore){
       pop.hidden=true;swatch.setAttribute('aria-expanded','false');hex.setAttribute('aria-expanded','false');shell.classList.remove('alpdt-color-active');
@@ -533,7 +552,7 @@
       if(openColor && openColor!==closePicker)openColor(false);
       pop.hidden=false;swatch.setAttribute('aria-expanded','true');hex.setAttribute('aria-expanded','true');shell.classList.add('alpdt-color-active');openColor=closePicker;
       var safe=isHex(hex.value)?hex.value:(isHex(hex.dataset.alpdtValid)?hex.dataset.alpdtValid:defaultPickerColor);hsv=toHSV(safe);opacity=getOpacity(safe);paint();
-      place();edit.focus();edit.select();
+      place();pop.scrollTop=0;edit.focus({preventScroll:true});edit.select();
     }
     swatch.setAttribute('aria-haspopup','dialog');swatch.setAttribute('aria-controls',popId);
     // Clicking a HEX value (including #000000) opens the same accessible picker.
@@ -621,6 +640,9 @@
     if(openColor && !event.target.closest('.alpdt-color-controls'))openColor(false);
   });
   window.addEventListener('resize',function(){if(openColor)openColor(false);});
+  document.addEventListener('scroll',function(event){
+    if(openColor && !(event.target instanceof Element && event.target.closest('.alpdt-color-pop')))openColor(false);
+  },true);
   // Flip has a dark reference-inspired preset, without overwriting user-picked colors.
   var colorPalettes = {
     flip: {panel_color:'#0F0F0F',digit_color:'#F8F8F8',label_color:'#B5B5B5',card_color:'#232323',accent_color:'#FF5D16',track_color:'#E1E8F0'},

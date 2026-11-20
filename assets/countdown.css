@@ -610,9 +610,27 @@
 .alpdt-hourglass-sand-bottom{opacity:.82}
 .alpdt-hourglass-mound{opacity:.97}
 .alpdt-hourglass-fine-stream{fill:none;stroke:color-mix(in srgb,var(--alpdt-accent-color,#ffcc00) 75%,white 25%);stroke-width:.85;stroke-linecap:round;stroke-dasharray:1.5 2.5;opacity:.65}
-.alpdt-hourglass-grain{fill:color-mix(in srgb,var(--alpdt-accent-color,#ffcc00) 82%,white 18%);opacity:0;animation:alpdt-hourglass-grain-fall var(--alpdt-sand-flow-duration,1.8s) cubic-bezier(.42,.05,.67,.76) var(--alpdt-grain-delay,0s) infinite;transform-box:fill-box;transform-origin:center}
-.alpdt-hourglass-grain:nth-child(even){fill:var(--alpdt-accent-color,#ffcc00);animation-duration:calc(var(--alpdt-sand-flow-duration,1.8s)*1.14)}
+/* Sparse clocks show moving grains, not a permanently suspended sand thread. */
+.alpdt-clock-hourglass [data-alpdt-unit]:not([data-alpdt-unit="seconds"]) .alpdt-hourglass-fine-stream{opacity:0}
+.alpdt-hourglass-grain{fill:color-mix(in srgb,var(--alpdt-accent-color,#ffcc00) 82%,white 18%);opacity:0;animation:alpdt-hourglass-grain-fall var(--alpdt-sand-flow-duration,1.8s) linear var(--alpdt-grain-delay,0s) infinite;transform-box:fill-box;transform-origin:center}
+.alpdt-hourglass-grain:nth-child(even){fill:var(--alpdt-accent-color,#ffcc00)}
+/* Each grain falls in about 1.8 s, even when the unit emits grains less often.
+   The remainder of the cycle is an invisible rest, not slow-motion travel. */
 @keyframes alpdt-hourglass-grain-fall{0%{opacity:0;transform:translate(0,-1px) scale(.6)}12%{opacity:1}56%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}92%{opacity:.9}100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+/* Minutes: 3.6 s emission cycle, falling for roughly half of it. */
+@keyframes alpdt-hourglass-grain-minute{0%{opacity:0;transform:translate(0,-1px) scale(.6)}5%{opacity:1}28%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}48%{opacity:.9;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}50%,100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+/* Hours: 6 s emission cycle. */
+@keyframes alpdt-hourglass-grain-hour{0%{opacity:0;transform:translate(0,-1px) scale(.6)}3%{opacity:1}16%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}29%{opacity:.9;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}30%,100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+/* Days: 10 s emission cycle. */
+@keyframes alpdt-hourglass-grain-day{0%{opacity:0;transform:translate(0,-1px) scale(.6)}2%{opacity:1}10%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}17%{opacity:.9;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}18%,100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+/* The optional month/year units use the same natural fall speed. */
+@keyframes alpdt-hourglass-grain-month{0%{opacity:0;transform:translate(0,-1px) scale(.6)}1.5%{opacity:1}7%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}12%{opacity:.9;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}13%,100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+@keyframes alpdt-hourglass-grain-year{0%{opacity:0;transform:translate(0,-1px) scale(.6)}1%{opacity:1}5.5%{opacity:.95;transform:translate(var(--alpdt-grain-drift,0px),13px) scale(1)}9.5%{opacity:.9;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}10%,100%{opacity:0;transform:translate(calc(var(--alpdt-grain-drift,0px)*1.5),32px) scale(.72)}}
+.alpdt-clock-hourglass [data-alpdt-unit="minutes"] .alpdt-hourglass-grain{animation-name:alpdt-hourglass-grain-minute}
+.alpdt-clock-hourglass [data-alpdt-unit="hours"] .alpdt-hourglass-grain{animation-name:alpdt-hourglass-grain-hour}
+.alpdt-clock-hourglass [data-alpdt-unit="days"] .alpdt-hourglass-grain{animation-name:alpdt-hourglass-grain-day}
+.alpdt-clock-hourglass [data-alpdt-unit="months"] .alpdt-hourglass-grain{animation-name:alpdt-hourglass-grain-month}
+.alpdt-clock-hourglass [data-alpdt-unit="years"] .alpdt-hourglass-grain{animation-name:alpdt-hourglass-grain-year}
 .alpdt-hourglass-art.alpdt-sand-ended .alpdt-hourglass-flow{opacity:0}
 .alpdt-clock-hourglass .alpdt-clock-digit{position:relative;font-size:calc(var(--alpdt-digit-size,60px)*.66);font-weight:750;color:var(--alpdt-digit-color,#fff);line-height:1.14}
 @media(max-width:600px){.alpdt-hourglass-art{width:min(clamp(60px,calc(var(--alpdt-digit-size,60px)*1.9),160px),34vw)}}
@@ -729,7 +747,7 @@
   border-radius:var(--alpdt-drip-radius,0 100% 100% 100%);
   box-shadow:inset 1px 0 rgba(255,255,255,.18),0 .04em .14em rgba(70,0,0,.20);
   transform-origin:50% 50%;
-  animation:alpdt-blood-melt var(--alpdt-drip-duration,2s) cubic-bezier(.35,.05,.92,.82) var(--alpdt-drip-delay,0s) infinite;
+  animation:alpdt-blood-melt var(--alpdt-drip-duration,3.6s) cubic-bezier(.35,.05,.92,.82) var(--alpdt-drip-delay,0s) infinite;
   will-change:transform,opacity;
 }
 .alpdt-clock-blood .alpdt-blood-drop:after{
@@ -738,10 +756,11 @@
 }
 .alpdt-clock-blood .alpdt-blood-filter-svg{position:absolute;width:0;height:0;overflow:hidden;pointer-events:none}
 @keyframes alpdt-blood-melt{
-  /* The drop remains fully visible until it actually reaches the puddle.
-     The final 7% is the short, liquid absorption into the pool. */
-  0%{opacity:1;transform:translate3d(0,0,0) rotate(var(--alpdt-drip-angle,45deg)) scale(var(--alpdt-drip-width-scale,1))}
-  93%{opacity:1;transform:translate3d(0,var(--alpdt-drip-fall,.70em),0) rotate(var(--alpdt-drip-angle,45deg)) scale(var(--alpdt-drip-width-scale,1));animation-timing-function:ease-out}
+  /* Each cycle includes a short wait, so drops appear less often,
+     but once they start moving they still fall at a natural speed. */
+  0%,30%{opacity:0;transform:translate3d(0,0,0) rotate(var(--alpdt-drip-angle,45deg)) scale(var(--alpdt-drip-width-scale,1))}
+  38%{opacity:1;transform:translate3d(0,0,0) rotate(var(--alpdt-drip-angle,45deg)) scale(var(--alpdt-drip-width-scale,1))}
+  94%{opacity:1;transform:translate3d(0,var(--alpdt-drip-fall,.70em),0) rotate(var(--alpdt-drip-angle,45deg)) scale(var(--alpdt-drip-width-scale,1));animation-timing-function:ease-out}
   100%{opacity:0;transform:translate3d(0,calc(var(--alpdt-drip-fall,.70em) + .025em),0) rotate(var(--alpdt-drip-angle,45deg)) scale(.84)}
 }
 .alpdt-clock-blood .alpdt-clock-label{margin-top:-.30em;color:var(--alpdt-label-color,#702020);font-weight:400}

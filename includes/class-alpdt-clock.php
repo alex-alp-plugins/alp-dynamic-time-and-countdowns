@@ -242,12 +242,12 @@ final class ALPDT_Clock {
         $now = $now ?: new DateTimeImmutable( 'now', wp_timezone() );
         $parts = self::parts( $now, $target, $units );
         $labels = array(
-            'years' => __( 'Years', 'alp-dynamic-time' ),
-            'months' => __( 'Months', 'alp-dynamic-time' ),
-            'days' => __( 'Days', 'alp-dynamic-time' ),
-            'hours' => __( 'Hours', 'alp-dynamic-time' ),
-            'minutes' => __( 'Minutes', 'alp-dynamic-time' ),
-            'seconds' => __( 'Seconds', 'alp-dynamic-time' ),
+            'years' => __( 'Years', 'alp-dynamic-time-countdowns' ),
+            'months' => __( 'Months', 'alp-dynamic-time-countdowns' ),
+            'days' => __( 'Days', 'alp-dynamic-time-countdowns' ),
+            'hours' => __( 'Hours', 'alp-dynamic-time-countdowns' ),
+            'minutes' => __( 'Minutes', 'alp-dynamic-time-countdowns' ),
+            'seconds' => __( 'Seconds', 'alp-dynamic-time-countdowns' ),
         );
         // Minimalist promo bars use short unit badges by default. Custom labels always win.
         $full_labels = $labels;
@@ -267,7 +267,7 @@ final class ALPDT_Clock {
         }
         $duration = isset( $design['celebration_duration'] ) && in_array( (string) $design['celebration_duration'], array( '3', '5', '8', '10' ), true ) ? (string) $design['celebration_duration'] : '5';
         $message = isset( $design['celebration_message'] ) && is_scalar( $design['celebration_message'] ) ? trim( sanitize_text_field( (string) $design['celebration_message'] ) ) : '';
-        if ( '' === $message ) { $message = __( 'It’s time to celebrate!', 'alp-dynamic-time' ); }
+        if ( '' === $message ) { $message = __( 'It’s time to celebrate!', 'alp-dynamic-time-countdowns' ); }
         $message = function_exists( 'mb_substr' ) ? mb_substr( $message, 0, 120 ) : substr( $message, 0, 120 );
         $mode = isset( $design['celebration_mode'] ) && 'loop' === $design['celebration_mode'] ? 'loop' : 'end';
         $palette_attrs = '';

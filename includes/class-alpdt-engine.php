@@ -142,9 +142,9 @@ final class ALPDT_Engine {
                         $when = $preview_phase;
                     }
                     $fallback = array(
-                        'before' => __( 'Our anniversary is coming soon', 'alp-dynamic-time' ),
-                        'on' => __( 'Today is our anniversary', 'alp-dynamic-time' ),
-                        'after' => __( 'Thank you for celebrating with us', 'alp-dynamic-time' ),
+                        'before' => __( 'Our anniversary is coming soon', 'alp-dynamic-time-countdowns' ),
+                        'on' => __( 'Today is our anniversary', 'alp-dynamic-time-countdowns' ),
+                        'after' => __( 'Thank you for celebrating with us', 'alp-dynamic-time-countdowns' ),
                     );
                     $message = isset( $raw[ $when ] ) && is_scalar( $raw[ $when ] ) && '' !== $raw[ $when ] ? (string) $raw[ $when ] : $fallback[ $when ];
                     if ( strlen( $message ) > 240 ) { return ''; }
@@ -164,11 +164,11 @@ final class ALPDT_Engine {
                 if ( isset( $raw['format'] ) && 'ymd' === $raw['format'] && $text ) {
                     return implode( ' ', array(
                         /* translators: %d: elapsed number of years. */
-                        sprintf( _n( '%d year', '%d years', $diff->y, 'alp-dynamic-time' ), $diff->y ),
+                        sprintf( _n( '%d year', '%d years', $diff->y, 'alp-dynamic-time-countdowns' ), $diff->y ),
                         /* translators: %d: elapsed number of months. */
-                        sprintf( _n( '%d month', '%d months', $diff->m, 'alp-dynamic-time' ), $diff->m ),
+                        sprintf( _n( '%d month', '%d months', $diff->m, 'alp-dynamic-time-countdowns' ), $diff->m ),
                         /* translators: %d: elapsed number of days. */
-                        sprintf( _n( '%d day', '%d days', $diff->d, 'alp-dynamic-time' ), $diff->d ),
+                        sprintf( _n( '%d day', '%d days', $diff->d, 'alp-dynamic-time-countdowns' ), $diff->d ),
                     ) );
                 }
                 if ( 'calendar' === $mode && 'years' === $unit ) {
@@ -185,16 +185,16 @@ final class ALPDT_Engine {
                 switch ( $unit ) {
                     case 'months':
                         /* translators: %d: elapsed number of months. */
-                        return sprintf( _n( '%d month', '%d months', $n, 'alp-dynamic-time' ), $n );
+                        return sprintf( _n( '%d month', '%d months', $n, 'alp-dynamic-time-countdowns' ), $n );
                     case 'weeks':
                         /* translators: %d: elapsed number of weeks. */
-                        return sprintf( _n( '%d week', '%d weeks', $n, 'alp-dynamic-time' ), $n );
+                        return sprintf( _n( '%d week', '%d weeks', $n, 'alp-dynamic-time-countdowns' ), $n );
                     case 'days':
                         /* translators: %d: elapsed number of days. */
-                        return sprintf( _n( '%d day', '%d days', $n, 'alp-dynamic-time' ), $n );
+                        return sprintf( _n( '%d day', '%d days', $n, 'alp-dynamic-time-countdowns' ), $n );
                     default:
                         /* translators: %d: elapsed number of years. */
-                        return sprintf( _n( '%d year', '%d years', $n, 'alp-dynamic-time' ), $n );
+                        return sprintf( _n( '%d year', '%d years', $n, 'alp-dynamic-time-countdowns' ), $n );
                 }
         }
         return '';

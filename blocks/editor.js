@@ -10,13 +10,13 @@
   var savedItems = Array.isArray(data.savedShortcodes) ? data.savedShortcodes : [];
 
   wp.blocks.registerBlockType('alpdt/time', {
-    title: __('ALP Dynamic Time & Countdowns', 'alp-dynamic-time'),
+    title: __('ALP Dynamic Time & Countdowns', 'alp-dynamic-time-countdowns'),
     icon: window.alpdtBlockIconUrl ? el('img', {
       src: window.alpdtBlockIconUrl, alt: '', width: 24, height: 24,
       style: {display:'block', width:'24px', height:'24px', objectFit:'contain'}
     }) : 'calendar-alt',
     category: 'widgets',
-    description: __('Select a saved shortcode created in ALP Dynamic Time & Countdowns.', 'alp-dynamic-time'),
+    description: __('Select a saved shortcode created in ALP Dynamic Time & Countdowns.', 'alp-dynamic-time-countdowns'),
     attributes: {
       saved: {type:'string', default:''}
     },
@@ -24,7 +24,7 @@
       var a = props.attributes;
       var selected = typeof a.saved === 'string' ? a.saved : '';
       var current = null;
-      var options = [{label:__('Choose a saved shortcode', 'alp-dynamic-time'), value:''}];
+      var options = [{label:__('Choose a saved shortcode', 'alp-dynamic-time-countdowns'), value:''}];
       savedItems.forEach(function (item) {
         if (!item || typeof item.value !== 'string' || typeof item.label !== 'string') return;
         options.push({value:item.value, label:item.label});
@@ -32,14 +32,14 @@
       });
       // A deleted library entry is visible as unavailable, never silently replaced.
       if (selected && !current) {
-        options.push({value:selected, label:__('Saved shortcode is no longer available', 'alp-dynamic-time') + ' (' + selected + ')', disabled:true});
+        options.push({value:selected, label:__('Saved shortcode is no longer available', 'alp-dynamic-time-countdowns') + ' (' + selected + ')', disabled:true});
       }
       var empty = savedItems.length === 0;
       var helpText = empty
-        ? __('No saved shortcodes yet. Create one in Generator and select Save shortcode.', 'alp-dynamic-time')
-        : __('All appearance and countdown settings are managed in the ALP Dynamic Time & Countdowns generator.', 'alp-dynamic-time');
+        ? __('No saved shortcodes yet. Create one in Generator and select Save shortcode.', 'alp-dynamic-time-countdowns')
+        : __('All appearance and countdown settings are managed in the ALP Dynamic Time & Countdowns generator.', 'alp-dynamic-time-countdowns');
       var picker = el(C.SelectControl, {
-        label:__('Saved shortcode', 'alp-dynamic-time'),
+        label:__('Saved shortcode', 'alp-dynamic-time-countdowns'),
         value:selected, options:options,
         onChange:function (key) { props.setAttributes({saved:key}); },
         help:helpText,
@@ -47,27 +47,27 @@
       });
       var action = data.manageUrl ? el('p', {className:'alpdt-block-editor-manage'},
         el('a', {href:data.manageUrl, target:'_blank', rel:'noopener noreferrer'},
-          __('Manage saved shortcodes', 'alp-dynamic-time'))) : null;
+          __('Manage saved shortcodes', 'alp-dynamic-time-countdowns'))) : null;
       var message = selected && current
         ? el('div', {},
             el('strong', {}, current.label),
             el('p', {}, el('code', {}, '[alpdt_time saved="' + current.value + '"]')),
-            el('p', {}, __('The selected saved shortcode renders on your published page.', 'alp-dynamic-time')))
+            el('p', {}, __('The selected saved shortcode renders on your published page.', 'alp-dynamic-time-countdowns')))
         : selected
-          ? el('p', {role:'status'}, __('Saved shortcode is no longer available', 'alp-dynamic-time'))
-          : el('p', {}, __('Choose a saved shortcode', 'alp-dynamic-time'));
+          ? el('p', {role:'status'}, __('Saved shortcode is no longer available', 'alp-dynamic-time-countdowns'))
+          : el('p', {}, __('Choose a saved shortcode', 'alp-dynamic-time-countdowns'));
       var blockProps = B.useBlockProps
         ? B.useBlockProps({className:'alpdt-block-editor-summary', style:{border:'1px dashed #243665',padding:'16px',borderRadius:'5px'}})
         : {className:props.className,style:{border:'1px dashed #243665',padding:'16px',borderRadius:'5px'}};
       return el(wp.element.Fragment, {},
         el(B.InspectorControls, {}, el(C.PanelBody, {
-          title:__('Saved shortcode', 'alp-dynamic-time'), initialOpen:true
+          title:__('Saved shortcode', 'alp-dynamic-time-countdowns'), initialOpen:true
         }, picker, action)),
         el('div', blockProps,
-          el('strong', {}, __('ALP Dynamic Time & Countdowns', 'alp-dynamic-time')),
+          el('strong', {}, __('ALP Dynamic Time & Countdowns', 'alp-dynamic-time-countdowns')),
           message,
           !selected && action ? el('p', {},
-            __('Configure and save a shortcode in the ALP Dynamic Time & Countdowns generator first.', 'alp-dynamic-time')) : null)
+            __('Configure and save a shortcode in the ALP Dynamic Time & Countdowns generator first.', 'alp-dynamic-time-countdowns')) : null)
       );
     },
     save:function () { return null; }

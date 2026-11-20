@@ -1,6 +1,6 @@
 # ALP Dynamic Time & Countdowns
 
-**A new, free WordPress plugin for dynamic dates, anniversaries and countdowns.** Build reusable time-based content without manually updating your pages every year or after every promotion.
+**ALP Dynamic Time & Countdowns is a free WordPress countdown timer and dynamic dates plugin** with 20 customizable countdown designs, anniversary counters, reusable shortcodes, a Gutenberg block and Divi 5 module. Create automatic date displays and event countdowns without manually updating your pages.
 
 ## Features
 
@@ -12,7 +12,7 @@
 - **Seasonal campaigns:** build countdowns for Black Friday, Cyber Monday, Christmas, New Year, launches and other events.
 - **WordPress-friendly:** self-hosted bundled fonts, local assets, localized English/Spanish UI, and respect for reduced-motion settings.
 
-All features in this first release are **FREE**. A Pro edition may be considered in the future, but none is required or available today.
+All currently available features are **free**. There are no paid features or subscriptions required.
 
 ## Quick start
 
@@ -51,13 +51,15 @@ Example dynamic year:
 
 Saved dates and shortcode configurations are stored in WordPress site options; per-user Quick Colors are stored in user metadata. Public date calculations are available through the site's REST API, so saved dates should be information intended for public display. The plugin does not include analytics or transmit countdown data to a third-party service. See [`readme.txt`](readme.txt) for details and frequently asked questions.
 
-## Version 1.0.0
+## Version 1.0.8 · WordPress.org submission compatibility
 
-This is the **first stable baseline** of **ALP Dynamic Time & Countdowns**. Key improvements in the release include the single-selector Gutenberg/Divi workflow, accessible copy confirmations, streamlined bundled fonts and safeguards that keep third-party WordPress admin notices outside the ALP hero.
+WordPress.org assigned the slug **`alp-dynamic-time-countdowns`**. Version 1.0.8 aligns the PHP, Gutenberg translation calls and header with that official slug, and renames the bundled Spanish `.po`/`.mo` files to keep both Spanish locales working. The distributable ZIP has one canonical top-level `alp-dynamic-time-countdowns/` folder.
 
-See [`CHANGELOG.md`](CHANGELOG.md) for the short release summary and [`docs/FONTS.md`](docs/FONTS.md) for bundled font licenses. The detailed pre-1.0 development history remains available in the repository's Git commit history; this README intentionally focuses on the public release.
+The main PHP filename, `ALPDT_` namespace, database options, saved dates, saved shortcodes, CSS, visual controls and Divi module identifiers are intentionally unchanged. The full list of changes is in [`CHANGELOG.md`](CHANGELOG.md), and scoped static QA is in [`docs/QA-1.0.8.md`](docs/QA-1.0.8.md).
 
-**Testing note:** static syntax and isolated browser checks were performed on earlier candidates. A complete live WordPress/Divi 5 compatibility test is not yet documented; please test in staging before use on a critical production site.
+**Migrating an existing private installation:** WordPress.org uses a different folder than the earlier `alp-dynamic-time/` private ZIP. Back up the site first, deactivate the older plugin and verify it is no longer active before installing the WordPress.org-slug version. The package does not automatically uninstall or rename the old directory. Avoid activating both copies, since they register the same PHP classes and WordPress hooks. Verify saved data and shortcode output on staging, then remove only the obsolete folder when safe.
+
+**Testing note:** Syntax, archive, domain-consistency and translation-catalog checks were executed locally. WordPress.org's new upload scanner, Plugin Check on a local WordPress installation, visual regression in Divi 5 and real installation/migration checks have not been executed in this environment and remain **pending**.
 
 ## License
 
