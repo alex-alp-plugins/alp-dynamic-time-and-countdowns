@@ -4,7 +4,7 @@
 
 ## Features
 
-- **20 countdown designs**, including Flip Digits, Neon Digital, Pixel Matrix, Hourglass, Snowfall, Christmas Lights and celebration effects. Customize colors, typography, units, layout and spacing.
+- **20 countdown designs:** Minimal, Inline Text; Soft Glow; Flip Digits; Sliding Numbers; Gentle Pulse; Animated Underline; Circular Progress Dial; 3D Odometer; Neon Digital; Liquid; Pixel Matrix; Orbit Motion; Cyber Glitch; Particle Morph; Hourglass; Snowfall; Christmas Lights; Fireworks Celebration; Celebration Confetti & Streamers; and Blood Dripping. Customize colors, typography, units, layout, and spacing.
 - **Dynamic dates and anniversary text** for elapsed years, the current year/month, recurring events, smart dates and copyright ranges.
 - **Reusable dates and saved shortcodes:** configure a countdown or date once, then reuse and update it across your site.
 - **Gutenberg block** and optional **Divi 5 module**: select a saved shortcode, with the detailed configuration managed in the plugin dashboard.
