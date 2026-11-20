@@ -16,4 +16,4 @@ The plugin serves unmodified fonts from its own directory. WOFF2 files are Googl
 
 ## Custom font uploads
 
-Uploading custom fonts was explored in the 1.0.0-rc.2 release candidate but is **not available in 1.0.0-rc.3**. Existing Media Library attachments created during testing are not deleted by upgrading. Only the bundled fonts listed above may be selected in this release.
+Custom-font uploads are **not available in version 1.0.0**. Only bundled and supported system fonts may be selected. Media Library attachments uploaded with pre-release test versions are not deleted by an update.
