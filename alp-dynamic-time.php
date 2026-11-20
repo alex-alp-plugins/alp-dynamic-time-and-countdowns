@@ -2,7 +2,7 @@
 /**
  * Plugin Name: ALP Dynamic Time & Countdowns
  * Description: Dynamic dates, smart calendar expressions, anniversaries and animated recurring countdowns for WordPress and Divi.
- * Version: 1.0.0-rc.3
+ * Version: 1.0.0
  * Requires at least: 6.5
  * Requires PHP: 8.2
  * Author: ALP Plugins
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'ALPDT_VERSION', '1.0.0-rc.3' );
+define( 'ALPDT_VERSION', '1.0.0' );
 define( 'ALPDT_DIR', plugin_dir_path( __FILE__ ) );
 define( 'ALPDT_URL', plugin_dir_url( __FILE__ ) );
 
