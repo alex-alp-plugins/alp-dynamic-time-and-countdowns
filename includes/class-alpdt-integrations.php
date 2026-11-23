@@ -106,7 +106,9 @@ final class ALPDT_Integrations {
                 $attributes = ALPDT_Saved_Shortcodes::resolve( $attributes['saved'] );
                 if ( null === $attributes ) { return ''; }
             }
-            return sanitize_text_field( ALPDT_Engine::render( $attributes ) );
+            // Only the inserted replacement is ours to escape. Keep the
+            // original widget/SEO HTML intact rather than sanitizing its wrapper.
+            return esc_html( sanitize_text_field( ALPDT_Engine::render( $attributes ) ) );
         }, $value );
     }
 }

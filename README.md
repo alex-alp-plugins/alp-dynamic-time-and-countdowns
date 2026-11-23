@@ -10,9 +10,13 @@
 - **Gutenberg block** and optional **Divi 5 module**: select a saved shortcode, with the detailed configuration managed in the plugin dashboard.
 - **SEO support:** shortcode output in supported Rank Math, Yoast SEO and SEOPress fields, plus native Rank Math/Yoast variables where applicable.
 - **Seasonal campaigns:** build countdowns for Black Friday, Cyber Monday, Christmas, New Year, launches and other events.
-- **WordPress-friendly:** self-hosted bundled fonts, local assets, localized English/Spanish UI, and respect for reduced-motion settings.
+- **WordPress-friendly:** self-hosted bundled fonts, local assets, internationalized strings ready for WordPress.org community language packs, and reduced-motion support.
 
 All currently available features are **free**. There are no paid features or subscriptions required.
+
+## Identifier format
+
+For reusable saved dates and shortcode configurations, enter an identifier with lowercase letters, numbers, hyphens (`-`) or underscores (`_`), without spaces. For example, `alex-ingreso`. The dashboard automatically changes spaces to hyphens as you type. Existing saved identifiers stay unchanged when editing.
 
 ## Quick start
 
@@ -49,13 +53,37 @@ Example dynamic year:
 
 **ALP Dynamic Time & Countdowns** was inspired by *Years Since – Timeless Texts*. It independently supports the legacy `[years-since]` and `[years-since-gb]` forms **when those shortcode names are not registered by another plugin**. Compatibility is not an endorsement by the original developers or a promise of identical output in every case.
 
-Saved dates and shortcode configurations are stored in WordPress site options; per-user Quick Colors are stored in user metadata. Public date calculations are available through the site's REST API, so saved dates should be information intended for public display. The plugin does not include analytics or transmit countdown data to a third-party service. See [`readme.txt`](readme.txt) for details and frequently asked questions.
+Saved dates and shortcode configurations are stored in WordPress site options; per-user Quick Colors are stored in user metadata. Saved palettes can be exported or erased with WordPress built-in privacy tools. Uninstall removes only Quick Colors user metadata; saved dates and named shortcodes intentionally remain. The plugin offers suggested privacy policy wording in the WordPress privacy policy editor. Public date calculations are available through the site's REST API, so saved dates should be information intended for public display. The plugin does not include analytics or transmit countdown data to a third-party service. See [`readme.txt`](readme.txt) for details and frequently asked questions.
+
+## Version 1.0.12 · Privacy support and compact production assets
+
+- Adds WordPress's native personal-data exporter and eraser for the per-user Quick Colors palette and privacy policy guidance for site administrators.
+- Uninstall removes only the `alpdt_quick_colors` user-meta key; does not delete site options or saved dates/shortcodes.
+- Adds minified CSS/JS builds, used in production; readable versions remain in the package and are selected by `SCRIPT_DEBUG`.
+- WordPress.org public ZIP omits the internal `docs/` directory; developer QA documentation remains in the separate source/development archive.
+- WordPress.org contributor `alexalp` verified by the account profile; `Author URI` remains intentionally absent after the review feedback.
+
+## Version 1.0.11 · Shortcode output safety
+
+- Enforce final `wp_kses()` sanitization on the public `[alpdt_time]` and `[years-since]` HTML callbacks; allow only the ALP timer elements, associated data attributes, safe inline CSS variables, and circular SVG markup.
+- Use the same final safety boundary for saved `[alpdt_time saved="..."]` configurations.
+- Escape only newly inserted ALP countdown text in widget/SEO filters, without re-sanitizing unrelated widget markup.
+- Preserve saved dates/shortcodes, all countdown designs, translations via WordPress.org, WordPress options, Gutenberg, Divi 5 and frontend JavaScript/CSS.
+- Developer QA report `QA-1.0.11.md` is retained only in the development archive for verified checks and unresolved testing.
+
+## Version 1.0.10 · WordPress.org review updates
+
+- Remove the broken `Author URI` and the corresponding dead link from the dashboard footer while preserving the official ALP Plugins logo and author credit.
+- Remove bundled `.po`/`.mo` files and the custom language registry override; translations can be managed by the WordPress.org community. The prior Spanish catalogs are retained in version 1.0.9 as a local backup, not in the official submission ZIP. Spanish strings will appear once language packs are available/approved.
+- Sanitize expanded HTML returned by the legacy `[years-since-gb]` wrapper using WordPress KSES; permit only the simple SVG and circle attributes needed for the ALP ring countdown.
+- Add WordPress's JavaScript translation registration for Gutenberg.
+- Preserve settings, shortcodes, blocks, Divi module identifiers, CSS animations, fonts, and WordPress option keys. Developer QA report `QA-1.0.10.md` is retained only in the development archive.
 
 ## Version 1.0.8 · WordPress.org submission compatibility
 
 WordPress.org assigned the slug **`alp-dynamic-time-countdowns`**. Version 1.0.8 aligns the PHP, Gutenberg translation calls and header with that official slug, and renames the bundled Spanish `.po`/`.mo` files to keep both Spanish locales working. The distributable ZIP has one canonical top-level `alp-dynamic-time-countdowns/` folder.
 
-The main PHP filename, `ALPDT_` namespace, database options, saved dates, saved shortcodes, CSS, visual controls and Divi module identifiers are intentionally unchanged. The full list of changes is in [`CHANGELOG.md`](CHANGELOG.md), and scoped static QA is in [`docs/QA-1.0.8.md`](docs/QA-1.0.8.md).
+The main PHP filename, `ALPDT_` namespace, database options, saved dates, saved shortcodes, CSS, visual controls and Divi module identifiers are intentionally unchanged. The full list of changes is in [`CHANGELOG.md`](CHANGELOG.md), and its scoped static QA is retained in the development archive.
 
 **Migrating an existing private installation:** WordPress.org uses a different folder than the earlier `alp-dynamic-time/` private ZIP. Back up the site first, deactivate the older plugin and verify it is no longer active before installing the WordPress.org-slug version. The package does not automatically uninstall or rename the old directory. Avoid activating both copies, since they register the same PHP classes and WordPress hooks. Verify saved data and shortcode output on staging, then remove only the obsolete folder when safe.
 
@@ -63,4 +91,4 @@ The main PHP filename, `ALPDT_` namespace, database options, saved dates, saved 
 
 ## License
 
-GPL-2.0-or-later. © ALP Plugins · [alpplugins.com](https://alpplugins.com)
+GPL-2.0-or-later. © ALP Plugins.

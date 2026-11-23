@@ -157,15 +157,15 @@ final class ALPDT_Admin {
     public static function menu_icon_assets(): void {
         // Tiny, sidebar-only stylesheet; loaded across wp-admin because the menu is global.
         // Never modify other plugin/menu icons or WordPress's global image styles.
-        wp_enqueue_style( 'alpdt-menu-icon', ALPDT_URL . 'assets/admin-menu-icon.css', array(), ALPDT_VERSION );
+        wp_enqueue_style( 'alpdt-menu-icon', ALPDT_URL . 'assets/admin-menu-icon' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
     }
 
     public static function assets( string $hook ): void {
         if ( 'toplevel_page_' . self::PAGE !== $hook ) { return; }
-        wp_enqueue_style( 'alpdt-admin', ALPDT_URL . 'assets/admin.css', array(), ALPDT_VERSION );
-        wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.css', array(), ALPDT_VERSION );
-        wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.js', array(), ALPDT_VERSION, true );
-        wp_enqueue_script( 'alpdt-admin', ALPDT_URL . 'assets/admin.js', array( 'alpdt-countdown' ), ALPDT_VERSION, true );
+        wp_enqueue_style( 'alpdt-admin', ALPDT_URL . 'assets/admin' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
+        wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
+        wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.js', array(), ALPDT_VERSION, true );
+        wp_enqueue_script( 'alpdt-admin', ALPDT_URL . 'assets/admin' . ALPDT_ASSET_SUFFIX . '.js', array( 'alpdt-countdown' ), ALPDT_VERSION, true );
         wp_add_inline_script( 'alpdt-admin', 'window.alpdtAdmin=' . wp_json_encode( array(
             'restUrl' => esc_url_raw( rest_url( 'alpdt/v1/render' ) ),
             'timezone' => wp_timezone()->getName(),
@@ -740,7 +740,7 @@ final class ALPDT_Admin {
                 <p id="alpdt-edit-state" class="alpdt-info" hidden><?php esc_html_e( 'Editing a saved date. Its identifier stays the same so your existing shortcodes keep working.', 'alp-dynamic-time-countdowns' ); ?></p>
                 <form id="alpdt-milestone-form" method="post" action="<?php echo esc_url( admin_url( 'admin.php?page=' . self::PAGE ) ); ?>">
                   <?php wp_nonce_field( 'alpdt_save', 'alpdt_nonce' ); ?><input type="hidden" name="alpdt_action" value="save"/><input type="hidden" name="alpdt_original_slug" id="alpdt-original" value=""/>
-                  <div class="alpdt-field"><label for="alpdt-slug"><?php esc_html_e( 'Identifier', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="55" pattern="[a-z0-9_\-]+" name="alpdt_slug" id="alpdt-slug" placeholder="company-founded"/><p class="alpdt-field-help"><?php esc_html_e( 'A short name used in the shortcode. Choose it once; it cannot be changed after saving.', 'alp-dynamic-time-countdowns' ); ?></p></div>
+                  <div class="alpdt-field"><label for="alpdt-slug"><?php esc_html_e( 'Identifier', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="55" pattern="[a-z0-9_\-]+" name="alpdt_slug" id="alpdt-slug" aria-describedby="alpdt-slug-help" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="company-founded"/><p class="alpdt-field-help" id="alpdt-slug-help"><?php esc_html_e( 'Use lowercase letters, numbers, hyphens (-) or underscores (_), without spaces. Example: alex-ingreso. Spaces become hyphens automatically. The identifier cannot be changed after saving.', 'alp-dynamic-time-countdowns' ); ?></p></div>
                   <div class="alpdt-field"><label for="alpdt-label"><?php esc_html_e( 'Label', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="100" name="alpdt_label" id="alpdt-label" placeholder="Company founded"/><p class="alpdt-field-help"><?php esc_html_e( 'A friendly name to help you recognize this date in the list.', 'alp-dynamic-time-countdowns' ); ?></p></div>
                   <div class="alpdt-field"><label for="alpdt-date"><?php esc_html_e( 'Date', 'alp-dynamic-time-countdowns' ); ?></label><input required name="alpdt_date" id="alpdt-date" type="date"/><p class="alpdt-field-help"><?php esc_html_e( 'Select the exact date of the event, such as the company founding day.', 'alp-dynamic-time-countdowns' ); ?></p></div>
                   <div class="alpdt-form-actions"><button id="alpdt-save" type="submit" class="button button-primary"><?php esc_html_e( 'Save date', 'alp-dynamic-time-countdowns' ); ?></button><button id="alpdt-cancel-edit" type="button" class="button" hidden><?php esc_html_e( 'Cancel editing', 'alp-dynamic-time-countdowns' ); ?></button></div>
@@ -784,7 +784,7 @@ final class ALPDT_Admin {
               <input type="hidden" name="alpdt_original_slug" id="alpdt-shortcode-original" value=""/>
               <input type="hidden" name="alpdt_code" id="alpdt-shortcode-to-save" value=""/>
               <div class="alpdt-field"><label for="alpdt-shortcode-name"><?php esc_html_e( 'Shortcode name', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="100" name="alpdt_name" id="alpdt-shortcode-name" placeholder="New Year countdown"/></div>
-              <div class="alpdt-field"><label for="alpdt-shortcode-slug"><?php esc_html_e( 'Identifier', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="55" pattern="[a-z0-9][a-z0-9_\-]*" name="alpdt_slug" id="alpdt-shortcode-slug" placeholder="new-year-countdown"/><p class="alpdt-field-help"><?php esc_html_e( 'This identifier stays the same when you edit a saved shortcode.', 'alp-dynamic-time-countdowns' ); ?></p></div>
+              <div class="alpdt-field"><label for="alpdt-shortcode-slug"><?php esc_html_e( 'Identifier', 'alp-dynamic-time-countdowns' ); ?></label><input required maxlength="55" pattern="[a-z0-9][a-z0-9_\-]*" name="alpdt_slug" id="alpdt-shortcode-slug" aria-describedby="alpdt-shortcode-slug-help" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="new-year-countdown"/><p class="alpdt-field-help" id="alpdt-shortcode-slug-help"><?php esc_html_e( 'Use lowercase letters, numbers, hyphens (-) or underscores (_), without spaces. Example: alex-ingreso. Spaces become hyphens automatically. The identifier cannot be changed after saving.', 'alp-dynamic-time-countdowns' ); ?></p></div>
               <div class="alpdt-dialog-actions"><button class="button" type="button" id="alpdt-save-shortcode-cancel"><?php esc_html_e( 'Cancel', 'alp-dynamic-time-countdowns' ); ?></button><button class="button button-primary" type="submit"><?php esc_html_e( 'Save configuration', 'alp-dynamic-time-countdowns' ); ?></button></div>
             </form>
           </dialog>
@@ -850,7 +850,7 @@ final class ALPDT_Admin {
           <footer class="alpdt-brand-footer" aria-label="<?php echo esc_attr__( 'ALP Dynamic Time & Countdowns', 'alp-dynamic-time-countdowns' ); ?>">
             <span class="alpdt-footer-product"><img class="alpdt-footer-logo" src="<?php echo esc_url( ALPDT_URL . 'assets/branding/logo-color.svg' ); ?>" alt="<?php echo esc_attr__( 'ALP Dynamic Time & Countdowns', 'alp-dynamic-time-countdowns' ); ?>" width="260" height="38" loading="lazy" decoding="async"></span>
             <span class="alpdt-footer-review"><svg class="alpdt-footer-review-star" viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false"><path d="m12 2.6 2.93 6.02 6.65.96-4.8 4.67 1.13 6.63L12 17.75l-5.91 3.13 1.13-6.63-4.8-4.67 6.65-.96z" fill="#F5C542" stroke="#CA8C06" stroke-width="1.1" stroke-linejoin="round"/></svg><span><?php esc_html_e( 'Enjoying the plugin? Help us with a review!', 'alp-dynamic-time-countdowns' ); ?></span></span>
-            <span class="alpdt-footer-credit"><a class="alpdt-footer-company" href="<?php echo esc_url( 'https://alpplugins.com' ); ?>" target="_blank" rel="noopener noreferrer"><img class="alpdt-footer-company-logo" src="<?php echo esc_url( ALPDT_URL . 'assets/branding/alp-plugins-logo.svg' ); ?>" alt="<?php echo esc_attr__( 'ALP Plugins', 'alp-dynamic-time-countdowns' ); ?>" width="164" height="28" loading="lazy" decoding="async"><span class="alpdt-visually-hidden"><?php esc_html_e( 'ALP Plugins', 'alp-dynamic-time-countdowns' ); ?></span></a></span>
+            <span class="alpdt-footer-credit"><span class="alpdt-footer-company"><img class="alpdt-footer-company-logo" src="<?php echo esc_url( ALPDT_URL . 'assets/branding/alp-plugins-logo.svg' ); ?>" alt="<?php echo esc_attr__( 'ALP Plugins', 'alp-dynamic-time-countdowns' ); ?>" width="164" height="28" loading="lazy" decoding="async"><span class="alpdt-visually-hidden"><?php esc_html_e( 'ALP Plugins', 'alp-dynamic-time-countdowns' ); ?></span></span></span>
           </footer>
         </div><?php
     }

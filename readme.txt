@@ -1,9 +1,10 @@
 === ALP Dynamic Time & Countdowns ===
+Contributors: alexalp
 Tags: countdown timer, dynamic dates, anniversary counter, countdown clock, divi 5
 Requires at least: 6.5
 Tested up to: 7.1
 Requires PHP: 8.2
-Stable tag: 1.0.8
+Stable tag: 1.0.12
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +22,7 @@ ALP Dynamic Time & Countdowns is a free WordPress countdown timer and dynamic da
 * Gutenberg block and optional Divi 5 module with a simple saved-shortcode selector.
 * SEO shortcode output compatibility with supported Rank Math, Yoast SEO and SEOPress fields, plus native Rank Math/Yoast variables where applicable.
 * Seasonal countdowns for Black Friday, Cyber Monday, Christmas, New Year and other occasions.
-* Bundled local fonts, translations and reduced-motion support.
+* Bundled local fonts, translation-ready strings and reduced-motion support.
 
 All currently available features are free; no paid plan or subscription is required.
 
@@ -60,9 +61,34 @@ Yes, through supported published-output filters and native variables where avail
 
 == Privacy and stored data ==
 
-Saved dates and named shortcodes are stored in site options; individual Quick Colors palettes use user metadata. Some live updates and date calculations use the site's own REST API. Saved dates are intended for publicly displayable information and may be requested by users who know their identifiers. ALP Dynamic Time & Countdowns does not include analytics or transmit countdown data to external services. Bundled font files are served from the WordPress installation. Removing the plugin does not automatically delete saved data.
+Saved dates and named shortcodes are stored in site options; individual Quick Colors palettes use user metadata. Some live updates and date calculations use the site's own REST API. Saved dates are intended for publicly displayable information and may be requested by users who know their identifiers. ALP Dynamic Time & Countdowns does not include analytics or transmit countdown data to external services. Bundled font files are served from the WordPress installation. Quick Colors can be exported and erased using WordPress privacy tools (Tools > Export Personal Data / Erase Personal Data). Uninstall removes only Quick Colors user metadata. Site-wide saved dates and shortcodes are intentionally retained and must be reviewed separately for privacy requests. The privacy policy helper offers suggested disclosure text.
 
 == Changelog ==
+
+= 1.0.12 =
+* Add WordPress personal data exporter, eraser and privacy-policy guidance for per-user Quick Colors palettes.
+* Remove only the plugin-owned Quick Colors user metadata on uninstall while keeping all site-wide saved dates and shortcodes intact.
+* Use minified CSS and JavaScript in production and original human-readable sources when SCRIPT_DEBUG is enabled, preserving all features and WordPress/Divi/Gutenberg script handles.
+* List the verified WordPress.org developer contributor; remove developer-only documentation from the installable WordPress.org ZIP.
+* No changes to saved data formats, existing shortcode names or the 20 countdown designs.
+
+
+= 1.0.11 =
+* Sanitize final [alpdt_time] HTML using a scoped WordPress KSES allowlist, retaining all supported timer effects, SVG rings and data attributes.
+* Apply a final HTML-escaping boundary to the [years-since] legacy shortcode.
+* Escape shortcode replacements inserted in widget and SEO text without changing surrounding markup.
+* Resolve saved shortcode attributes before rendering so they use the same output-sanitization boundary.
+* No database migrations, shortcode renames, removed designs or Divi/Gutenberg API changes.
+
+= 1.0.10 =
+* Remove broken author/branding website links while preserving ALP Plugins author credit and official footer logo.
+* Remove bundled Spanish PO/MO catalogs from the WordPress.org package; WordPress.org language packs can provide approved translations.
+* Sanitize the legacy [years-since-gb] wrapper's final HTML while preserving the ALP circular countdown's safe SVG.
+* Register Gutenberg JavaScript translations for WordPress.org language packs.
+* No changes to shortcode names, data storage, Divi modules, countdown styles, or saved configuration formats.
+
+= 1.0.9 =
+* Improve identifier fields with automatic normalization and clear examples in Saved dates and saved shortcodes.
 
 = 1.0.8 =
 * Match the official WordPress.org slug `alp-dynamic-time-countdowns` in PHP, Gutenberg, metadata and bundled translation filenames.

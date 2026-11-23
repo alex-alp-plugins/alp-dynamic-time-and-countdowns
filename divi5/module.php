@@ -42,7 +42,7 @@ final class ALPDT_Divi5_Module implements \ET\Builder\Framework\DependencyManage
     }
     public static function render_callback( $attrs, $content, $block, $elements ): string {
         $attrs = is_array( $attrs ) ? $attrs : array();
-        wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module.css', array(), ALPDT_VERSION );
+        wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
         $style = ALPDT_Divi5_Data::inline_style( $attrs );
         $html = '<div class="et_pb_module_inner"><div class="alpdt_d5_value"' . ( $style ? ' style="' . esc_attr( $style ) . '"' : '' ) . '>' . ALPDT_Divi5_Data::markup( $attrs ) . '</div></div>';
         $block_data = is_object( $block ) && isset( $block->parsed_block ) && is_array( $block->parsed_block ) ? $block->parsed_block : array();
@@ -94,7 +94,7 @@ add_filter( 'block_type_metadata_settings', static function ( $settings ) {
 // Countdown assets remain conditional on an actually rendered saved clock.
 add_action( 'wp_enqueue_scripts', static function () {
     if ( function_exists( 'et_builder_d5_enabled' ) && et_builder_d5_enabled() ) {
-        wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module.css', array(), ALPDT_VERSION );
+        wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
     }
 } );
 
@@ -102,13 +102,13 @@ add_action( 'divi_visual_builder_assets_before_enqueue_scripts', static function
     if ( ! function_exists( 'et_core_is_fb_enabled' ) || ! et_core_is_fb_enabled() ||
          ! function_exists( 'et_builder_d5_enabled' ) || ! et_builder_d5_enabled() ||
          ! class_exists( '\\ET\\Builder\\VisualBuilder\\Assets\\PackageBuildManager' ) ) { return; }
-    wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.css', array(), ALPDT_VERSION );
-    wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module.css', array(), ALPDT_VERSION );
-    wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.js', array(), ALPDT_VERSION, true );
+    wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
+    wp_enqueue_style( 'alpdt-divi5-local', ALPDT_URL . 'divi5/module' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
+    wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.js', array(), ALPDT_VERSION, true );
     \ET\Builder\VisualBuilder\Assets\PackageBuildManager::register_package_build( array(
         'name' => 'alpdt-divi5-builder', 'version' => ALPDT_VERSION,
         'script' => array(
-            'src' => ALPDT_URL . 'divi5/builder.js',
+            'src' => ALPDT_URL . 'divi5/builder' . ALPDT_ASSET_SUFFIX . '.js',
             'deps' => array( 'divi-module-library', 'divi-vendor-wp-hooks' ),
             'enqueue_top_window' => false, 'enqueue_app_window' => true,
             'args' => array( 'in_footer' => false ),

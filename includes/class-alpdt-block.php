@@ -3,7 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 final class ALPDT_Block {
     public static function register(): void {
-        wp_register_script( 'alpdt-block-editor', ALPDT_URL . 'blocks/editor.js', array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ), ALPDT_VERSION, true );
+        wp_register_script( 'alpdt-block-editor', ALPDT_URL . 'blocks/editor' . ALPDT_ASSET_SUFFIX . '.js', array( 'wp-blocks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-i18n' ), ALPDT_VERSION, true );
+        wp_set_script_translations( 'alpdt-block-editor', 'alp-dynamic-time-countdowns' );
         wp_add_inline_script( 'alpdt-block-editor', 'window.alpdtBlockIconUrl=' . wp_json_encode( ALPDT_URL . 'assets/branding/isotype-color.svg' ) . ';', 'before' );
 
         // The selector uses the same validated library as the Divi 5 module.

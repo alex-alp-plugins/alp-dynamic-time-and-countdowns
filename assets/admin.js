@@ -1115,6 +1115,22 @@
   var configCode = document.getElementById('alpdt-shortcode-to-save');
   var configCancel = document.getElementById('alpdt-save-shortcode-cancel');
   var configLastTrigger = null, editingConfig = null;
+  // Normalize only new or explicitly edited identifiers. Keep a trailing hyphen
+  // while typing so "alex ingreso" becomes "alex-ingreso", not "alexingreso".
+  function normalizeIdentifier(value) {
+    return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+      .toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9_-]/g,'').slice(0,55);
+  }
+  function normalizeIdentifierField(field) {
+    if (!field || field.readOnly) return;
+    var before=field.value, after=normalizeIdentifier(before);
+    if (before===after) return;
+    var start=field.selectionStart, end=field.selectionEnd;
+    var nextStart=start===null?null:normalizeIdentifier(before.slice(0,start)).length;
+    var nextEnd=end===null?null:normalizeIdentifier(before.slice(0,end)).length;
+    field.value=after;
+    if(nextStart!==null && nextEnd!==null && field.setSelectionRange)field.setSelectionRange(nextStart,nextEnd);
+  }
   function slugify(value) {
     return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9_-]+/g,'-').replace(/^-+|-+$/g,'').slice(0,55);
   }
@@ -1150,7 +1166,15 @@
     configCancel.addEventListener('click',function(){configDialog.close();});
     configDialog.addEventListener('close',function(){if(configLastTrigger&&configLastTrigger.isConnected)configLastTrigger.focus();});
     configName.addEventListener('input',function(){if(!editingConfig && !configSlug.dataset.alpdtTouched)configSlug.value=slugify(configName.value);});
-    configSlug.addEventListener('input',function(){configSlug.dataset.alpdtTouched='1';});
+    configSlug.addEventListener('input',function(event){
+      if(event.isComposing)return;
+      normalizeIdentifierField(configSlug);
+      configSlug.dataset.alpdtTouched='1';
+    });
+    configSlug.addEventListener('compositionend',function(){
+      normalizeIdentifierField(configSlug);
+      configSlug.dataset.alpdtTouched='1';
+    });
     configForm.addEventListener('submit',function(event){
       if(!configCode.value || !parseStoredConfig(configCode.value)){event.preventDefault();configName.setCustomValidity(i18n.shortcodeInvalid||'Invalid shortcode');configName.reportValidity();return;}
       configName.setCustomValidity('');
@@ -1281,6 +1305,10 @@
   var initialHeading = editHeading ? editHeading.textContent : '';
   var lastEditTrigger = null;
   if (editForm && original && slug && label && date && cancelEdit) {
+    slug.addEventListener('input',function(event){
+      if(!event.isComposing)normalizeIdentifierField(slug);
+    });
+    slug.addEventListener('compositionend',function(){normalizeIdentifierField(slug);});
     function resetEdit(restoreFocus) {
       editForm.reset(); original.value = ''; slug.readOnly = false;
       saveButton.textContent = i18n.saveDate; cancelEdit.hidden = true; editState.hidden = true;

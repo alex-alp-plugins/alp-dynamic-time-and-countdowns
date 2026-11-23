@@ -14,7 +14,10 @@ final class ALPDT_Shortcodes {
         // Named saved configurations resolve to attributes, not to nested shortcode text.
         if ( isset( $atts['saved'] ) ) {
             $resolved = ALPDT_Saved_Shortcodes::resolve( $atts['saved'] );
-            return null === $resolved ? '' : self::main( $resolved );
+            if ( null === $resolved ) { return ''; }
+            // Saved codes contain only a validated alpdt_time attribute map.
+            // Reuse the same final output boundary instead of an indirect callback return.
+            $atts = $resolved;
         }
         $options = shortcode_atts( array(
             'type' => '', 'from' => '', 'to' => '', 'id' => '', 'mode' => 'anniversary',
@@ -35,8 +38,8 @@ final class ALPDT_Shortcodes {
         if ( $has_countdown_timer ) {
             $target = 'none' !== $options['recurrence'] ? ALPDT_Schedule::next( $options ) : ALPDT_Engine::target( (string) $options['to'] );
             if ( ! $target ) { return ''; }
-            wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.js', array(), ALPDT_VERSION, true );
-            wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown.css', array(), ALPDT_VERSION );
+            wp_enqueue_script( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.js', array(), ALPDT_VERSION, true );
+            wp_enqueue_style( 'alpdt-countdown', ALPDT_URL . 'assets/countdown' . ALPDT_ASSET_SUFFIX . '.css', array(), ALPDT_VERSION );
             if ( 'custom' === $options['countdown_display'] || ( 'full' === $options['countdown_display'] && ( ( 'horizontal' === $options['clock_layout'] && ALPDT_Clock::supports_horizontal( (string) $options['clock_style'] ) ) || ! empty( ALPDT_Clock::appearance( $options ) ) || in_array( $options['clock_style'], array( 'flip', 'ring', 'slide', 'pulse', 'sweep', 'minimalist', 'promo_dark', 'promo_light', 'promo_outline', 'celebration', 'confetti', 'blood', 'odometer', 'neon', 'liquid', 'matrix', 'orbit', 'glitch', 'morph', 'hourglass', 'snowfall', 'christmas_lights' ), true ) ) ) ) {
                 $units = 'full' === $options['countdown_display'] ? 'days,hours,minutes,seconds' : (string) $options['clock_units'];
                 $escaped = ALPDT_Clock::markup( $target, $units, (string) $options['clock_style'], null, $options );
@@ -65,13 +68,48 @@ final class ALPDT_Shortcodes {
         $tag = in_array( $options['html'], array( 'span', 'strong', 'em', 'b', 'i', 'small', 'sup' ), true ) ? $options['html'] : '';
         if ( ( 'true' === $options['live'] || '1' === $options['live'] ) && ! ( 'smart_date' === $options['type'] && in_array( $options['expression'], array( 'post_published', 'post_modified' ), true ) ) && ! $has_countdown_timer ) {
             // Only update visible content. Crawlers receive server-rendered text as well.
-            wp_enqueue_script( 'alpdt-live', ALPDT_URL . 'assets/live.js', array(), ALPDT_VERSION, true );
+            wp_enqueue_script( 'alpdt-live', ALPDT_URL . 'assets/live' . ALPDT_ASSET_SUFFIX . '.js', array(), ALPDT_VERSION, true );
             $safe = array_intersect_key( $options, array_flip( array( 'type', 'from', 'to', 'id', 'mode', 'unit', 'text', 'format', 'offset', 'before', 'on', 'after', 'copyright_style', 'countdown_display', 'clock_units', 'expression', 'hemisphere' ) ) );
             $payload = esc_attr( wp_json_encode( $safe ) );
             $escaped = '<span class="alpdt-live" data-alpdt-zone="' . esc_attr( wp_timezone()->getName() ) . '" data-alpdt-endpoint="' . esc_url( rest_url( 'alpdt/v1/render' ) ) . '" data-alpdt-config="' . $payload . '">' . $escaped . '</span>';
         }
         if ( $tag ) { $escaped = '<' . $tag . '>' . $escaped . '</' . $tag . '>'; }
-        return $escaped;
+        // WordPress will echo shortcode return values. Sanitize the *finished*
+        // rich clock markup, while retaining its scoped data attributes, custom
+        // CSS variables, accessibility semantics and SVG circular-progress dial.
+        return wp_kses( $escaped, self::allowed_output_html() );
+    }
+
+    /** Strict HTML surface produced by ALPDT_Clock and this shortcode. */
+    private static function allowed_output_html(): array {
+        return array(
+            'span' => array(
+                'class' => true, 'style' => true, 'role' => true,
+                'aria-live' => true, 'aria-hidden' => true,
+                'data-alpdt-display' => true, 'data-alpdt-target' => true,
+                'data-alpdt-zone' => true, 'data-alpdt-units' => true,
+                'data-alpdt-unit' => true, 'data-alpdt-endpoint' => true,
+                'data-alpdt-config' => true, 'data-alpdt-recurrence' => true,
+                'data-alpdt-repeat-time' => true, 'data-alpdt-repeat-weekday' => true,
+                'data-alpdt-repeat-day' => true, 'data-alpdt-next-url' => true,
+                'data-alpdt-end-action' => true, 'data-alpdt-end-message' => true,
+                'data-alpdt-end-url' => true, 'data-alpdt-celebration-duration' => true,
+                'data-alpdt-celebration-mode' => true,
+                'data-alpdt-celebration-message' => true,
+                'data-alpdt-confetti-colors' => true,
+                'data-alpdt-balloon-colors' => true, 'data-alpdt-blood-font' => true,
+            ),
+            'strong' => array(), 'em' => array(), 'b' => array(),
+            'i' => array(), 'small' => array(), 'sup' => array(),
+            'svg' => array(
+                'class' => true, 'viewbox' => true,
+                'focusable' => true, 'aria-hidden' => true,
+            ),
+            'circle' => array(
+                'class' => true, 'cx' => true, 'cy' => true,
+                'r' => true, 'pathlength' => true,
+            ),
+        );
     }
 
     /** Years Since - Timeless Texts plugin 1.5.0 migration: semantically correct dates; fixes known old arithmetic bugs. */
@@ -108,7 +146,12 @@ final class ALPDT_Shortcodes {
         }
         $tag = isset( $atts['html'] ) && is_scalar( $atts['html'] ) ? (string) $atts['html'] : '';
         $allowed = array( 'span', 'div', 'p', 'strong', 'em', 'strike', 'abbr', 'acronym', 'b', 'blockquote', 'cite', 'code', 'del', 'i', 'q', 's', 'u' );
-        return in_array( $tag, $allowed, true ) ? '<' . $tag . '>' . esc_html( $output ) . '</' . $tag . '>' : esc_html( $output );
+        $formatted = in_array( $tag, $allowed, true )
+            ? '<' . $tag . '>' . esc_html( $output ) . '</' . $tag . '>'
+            : esc_html( $output );
+        // All legacy wrapper tags are selected from a fixed list and the
+        // calculated text is escaped before it becomes formatted HTML.
+        return wp_kses( $formatted, array_fill_keys( $allowed, array() ) );
     }
 
     private static function unit( int $n, string $unit ): string {
@@ -129,7 +172,18 @@ final class ALPDT_Shortcodes {
     }
 
     public static function legacy_gb( $atts = array(), $content = null ): string {
-        // Preserve normal shortcode expansion inside the legacy content wrapper.
-        return is_string( $content ) ? do_shortcode( $content ) : '';
+        if ( ! is_string( $content ) ) { return ''; }
+        // A legacy wrapper may expand nested shortcodes from other plugins.
+        // Escape the *final* HTML, not only the original wrapper content.
+        $allowed_html = wp_kses_allowed_html( 'post' );
+        // ALP's circular countdown uses a tightly scoped, non-interactive SVG.
+        // Keep those two tags but never allow SVG scripts, events or URL attributes.
+        $allowed_html['svg'] = array(
+            'class' => true, 'viewbox' => true, 'focusable' => true, 'aria-hidden' => true,
+        );
+        $allowed_html['circle'] = array(
+            'class' => true, 'cx' => true, 'cy' => true, 'r' => true, 'pathlength' => true,
+        );
+        return wp_kses( do_shortcode( $content ), $allowed_html );
     }
 }

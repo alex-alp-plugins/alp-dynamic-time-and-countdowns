@@ -248,3 +248,9 @@ Eight new clock appearances are additive styles under the existing `alpdt-clock-
 - ALP's dark color popup remains in the Generator and retains HEX, alpha, Quick Colors and keyboard/Escape behavior.
 - When open, its `position:fixed` coordinates are clamped inside the visible WordPress content viewport, below the admin toolbar and to the right of the WP menu. Maximum height is limited to available space, with internal scrolling instead of a clipped header/footer.
 - Keep popup CSS scoped to `.alpdt-admin`; never reposition or modify native WordPress/Divi controls. No changes to stored colors or shortcode formats.
+
+
+## 1.0.10 WordPress.org review exception: broken external author website
+- Explicit user request to remove the invalid `https://alpplugins.com` link (HTTP 404): main plugin header has no Author URI; footer preserves the verified official ALP logo and label as noninteractive branding.
+- This temporarily supersedes the old 0.9.4 design note about the plugin author link and ALP's normally linked footer. Restore a real link only after the destination is publicly working and the user approves it.
+- Preserve footer layout, icon, spacing, translations, and all other controls.
