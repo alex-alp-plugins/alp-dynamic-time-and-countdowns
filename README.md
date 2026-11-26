@@ -1,18 +1,32 @@
-# ALP Dynamic Time & Countdowns
+# ⏳ ALP Dynamic Time & Countdowns
 
-**ALP Dynamic Time & Countdowns is a free WordPress countdown timer and dynamic dates plugin** with 20 customizable countdown designs, anniversary counters, reusable shortcodes, a Gutenberg block and Divi 5 module. Create automatic date displays and event countdowns without manually updating your pages.
+**Make every second count. Bring dynamic dates, animated countdowns, and memorable milestones to your WordPress website.**
 
-## Features
+**ALP Dynamic Time & Countdowns** is a free, flexible WordPress plugin that lets you create animated countdown timers, automatically updating dates, anniversary counters, and reusable time-based content, all from one intuitive dashboard.
 
-- **20 countdown designs:** Minimal (Inline Text); Soft Glow; Flip Digits; Sliding Numbers; Gentle Pulse; Animated Underline; Circular Progress Dial; 3D Odometer; Neon Digital; Liquid; Pixel Matrix; Orbit Motion; Cyber Glitch; Particle Morph; Hourglass; Snowfall; Christmas Lights; Fireworks Celebration; Celebration Confetti & Streamers; and Blood Dripping. Customize colors, typography, units, layout, and spacing.
-- **Dynamic dates and anniversary text** for elapsed years, the current year/month, recurring events, smart dates and copyright ranges.
-- **Reusable dates and saved shortcodes:** configure a countdown or date once, then reuse and update it across your site.
-- **Gutenberg block** and optional **Divi 5 module**: select a saved shortcode, with the detailed configuration managed in the plugin dashboard.
-- **SEO support:** shortcode output in supported Rank Math, Yoast SEO and SEOPress fields, plus native Rank Math/Yoast variables where applicable.
-- **Seasonal campaigns:** build countdowns for Black Friday, Cyber Monday, Christmas, New Year, launches and other events.
-- **WordPress-friendly:** self-hosted bundled fonts, local assets, internationalized strings ready for WordPress.org community language packs, and reduced-motion support.
+Whether you're counting down to a product launch, celebrating an anniversary, or keeping your copyright year up to date, *your website stays in sync with time.*
 
-All currently available features are **free**. There are no paid features or subscriptions required.
+**✨ 20 countdown designs. Powerful customization. Endless creative possibilities.**
+
+## ✨ Key Features
+
+- **20 animated countdown designs:** Minimal (Inline Text), Soft Glow, Flip Digits, Sliding Numbers, Gentle Pulse, Animated Underline, Circular Progress Dial, 3D Odometer, Neon Digital, Liquid, Pixel Matrix, Orbit Motion, Cyber Glitch, Particle Morph, Hourglass, Snowfall, Christmas Lights, Fireworks Celebration, Celebration Confetti & Streamers, and Blood Dripping.
+- **Dynamic dates:** Automatically display the current year, month, formatted dates, and copyright year ranges.
+- **Anniversaries and milestones:** Calculate elapsed years, celebrate special dates, and display personalized anniversary messages.
+- **Reusable shortcodes:** Create once, save a configuration, and display it throughout your website.
+- **Gutenberg and Divi 5 integration:** Insert saved countdowns and dynamic dates with the dedicated block or optional Divi 5 module.
+- **SEO plugin compatibility:** Dynamic date output in supported Rank Math, Yoast SEO, and selected SEOPress fields, plus native variables in supported Rank Math/Yoast contexts.
+- **Advanced styling:** Customize supported colors, typography, layouts, animations, and time-unit labels.
+- **Recurring events:** Create countdowns for birthdays, holidays, seasonal promotions, and annual events.
+- **Responsive and accessibility-conscious:** Adaptable layouts, locally bundled resources, and reduced-motion support.
+
+## 🎬 Interactive Demos Coming Soon!
+
+We're preparing **live interactive demos** so you can explore the countdown designs, animations, customization options, and dynamic date features before installing the plugin.
+
+*Stay tuned! More examples, creative inspiration, and interactive previews are on the way.*
+
+**All features included in version 1.0.12 are available free of charge.**
 
 ## Identifier format
 
