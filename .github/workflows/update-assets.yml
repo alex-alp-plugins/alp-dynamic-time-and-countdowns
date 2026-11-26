@@ -2,12 +2,9 @@ name: Update WordPress.org Assets and Readme
 
 'on':
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ['.github/workflows/update-assets.yml']
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: alpdt-wordpress-org-svn
@@ -15,7 +12,6 @@ concurrency:
 
 jobs:
   update:
-    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.head_commit.message == 'ALPDT one-time listing sync 1.0.12')
     name: Sync readme and gallery (manual)
     runs-on: ubuntu-latest
     steps:
@@ -32,8 +28,3 @@ jobs:
           SLUG: alp-dynamic-time-countdowns
           ASSETS_DIR: .wordpress-org
           IGNORE_OTHER_FILES: 'true'
-      - name: Update GitHub 1.0.12 release description
-        if: github.event_name == 'push'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: gh release edit 1.0.12 --notes-file .github/RELEASE_NOTES-1.0.12.md
