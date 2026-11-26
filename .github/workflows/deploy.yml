@@ -1,0 +1,40 @@
+name: Deploy ALP Dynamic Time to WordPress.org
+
+'on':
+  release:
+    types: [released]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alpdt-wordpress-org-svn
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.event.release.prerelease == false
+    name: Publish stable release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out released version
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Confirm release matches package metadata
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${RELEASE_TAG#v}"
+          grep -Eq "^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*${VERSION//./\.}[[:space:]]*$" alp-dynamic-time.php
+          grep -Fxq "Stable tag: ${VERSION}" readme.txt
+          echo "Verified release ${VERSION}"
+      - name: Publish to WordPress.org SVN
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: alp-dynamic-time-countdowns
+          ASSETS_DIR: .wordpress-org

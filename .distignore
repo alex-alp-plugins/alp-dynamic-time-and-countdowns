@@ -1,0 +1,9 @@
+/.git
+/.github
+/.wordpress-org
+/.distignore
+/.gitignore
+/.DS_Store
+/node_modules
+/.env
+/.env.*
