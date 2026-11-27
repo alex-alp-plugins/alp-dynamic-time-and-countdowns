@@ -27,7 +27,9 @@
 .alpdt-clock-minute-hand{position:absolute;left:50px;top:51px;width:5px;height:33px;background:rgba(255,255,255,.92);border-radius:6px;transform-origin:50% 4px;transform:rotate(116deg)}
 .alpdt-orbit{position:absolute;display:block;border:1px solid rgba(92,231,206,.25);border-radius:50%;pointer-events:none}
 .alpdt-orbit-one{inset:0;animation:alpdt-orbit-breathe 9s ease-in-out infinite}.alpdt-orbit-two{inset:-15px;animation:alpdt-orbit-breathe 12s ease-in-out infinite reverse}
-.alpdt-feedback{padding:14px 17px;margin-bottom:20px;border-radius:5px;font-size:14px;font-weight:600;border:1px solid transparent}
+.alpdt-feedback{padding:14px 17px;margin-bottom:20px;border-radius:5px;font-size:14px;font-weight:600;border:1px solid transparent;transition:opacity .35s ease,transform .35s ease}
+.alpdt-feedback-hiding{opacity:0;transform:translateY(-4px)}
+@media(prefers-reduced-motion:reduce){.alpdt-feedback{transition:none}}
 .alpdt-feedback-success{background:#effaf6;color:#146746;border-color:#b3e6cd}.alpdt-feedback-error{background:#fff2f2;color:#98202a;border-color:#f2c0c4}
 .alpdt-tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid #d4ddea;margin:0 0 26px;padding:0 6px}
 .alpdt-tabs button{font:inherit;font-size:14px;min-height:45px;border:0;background:transparent;color:#5b6780;padding:13px 18px;cursor:pointer;font-weight:650;border-bottom:3px solid transparent;border-radius:5px 5px 0 0;transition:background-color .15s ease,color .15s ease}
@@ -587,7 +589,7 @@
 .alpdt-admin .alpdt-padding-link.alpdt-linked:hover{background:#0d50b4;border-color:#0d50b4}
 .alpdt-admin .alpdt-padding-link:focus-visible{outline:3px solid #2fc5b5;outline-offset:2px}
 .alpdt-admin .alpdt-font-size-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(100px,118px);gap:9px;align-items:start;min-width:0}
-.alpdt-admin .alpdt-font-size-controls input[type=text]{width:100%;min-width:0;max-width:none;min-height:46px;padding:10px 12px;border:1px solid #bfcddd;border-radius:5px;color:var(--alpdt-ink);background:#fff;font-size:14px;box-sizing:border-box}
+.alpdt-admin .alpdt-font-size-controls input{width:100%;min-width:0;max-width:none;min-height:46px;padding:10px 12px;border:1px solid #bfcddd;border-radius:5px;color:var(--alpdt-ink);background:#fff;font-size:14px;box-sizing:border-box}
 .alpdt-admin .alpdt-font-size-controls select{width:100%;max-width:none;min-width:0}
 .alpdt-admin .alpdt-font-size-controls .alpdt-picker{min-width:0}
 .alpdt-admin .alpdt-font-size-controls input.alpdt-invalid{border-color:#c02636;box-shadow:0 0 0 2px #ffdde2}
@@ -598,7 +600,7 @@
 /* A clamp expression needs room for all three lengths, not a cropped 80px input. */
 .alpdt-admin .alpdt-design-grid>.alpdt-font-size-field.alpdt-clamp-size{grid-column:1/-1}
 .alpdt-admin .alpdt-clamp-size .alpdt-font-size-controls{grid-template-columns:minmax(0,1fr) minmax(108px,130px)}
-.alpdt-admin .alpdt-clamp-size .alpdt-font-size-controls input[type=text]{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:0}
+.alpdt-admin .alpdt-clamp-size .alpdt-font-size-controls input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;letter-spacing:0}
 @media(max-width:430px){.alpdt-admin .alpdt-clamp-size .alpdt-font-size-controls{grid-template-columns:minmax(0,1fr)}.alpdt-admin .alpdt-clamp-size .alpdt-font-size-controls .alpdt-picker{max-width:160px}}
 
 /* 0.10.18 | The Font family selector must span the entire Typography section. */
@@ -711,9 +713,44 @@
   display:block;max-width:180px;text-align:center;line-height:1.35;font-size:12px;white-space:normal;
 }
 .alpdt-admin .alpdt-anniversary-variable .alpdt-copy-inline-status:empty {display:none;}
-/* Yellow star is purely decorative; the review invitation remains readable to assistive tech. */
-.alpdt-admin .alpdt-footer-review {display:inline-flex;align-items:center;justify-content:center;gap:9px;min-width:0;flex-wrap:wrap;}
-.alpdt-admin .alpdt-footer-review-star {display:inline-block;flex:0 0 19px;width:19px;height:19px;filter:drop-shadow(0 1px 1px rgba(131,94,0,.14));}
+/* Yellow star is optically & vertically aligned inside the link flex row. */
+.alpdt-admin .alpdt-footer-review {display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;font-weight:600;line-height:1.25;color:var(--alpdt-muted);min-width:0;}
+.alpdt-admin .alpdt-footer-review a.alpdt-footer-review-link {display:inline-flex!important;align-items:center!important;justify-content:center;gap:7px;color:var(--alpdt-muted);text-decoration:none;line-height:1.25;border-radius:6px;padding:4px 6px;transition:color .18s ease;}
+.alpdt-admin .alpdt-footer-review a.alpdt-footer-review-link:visited {color:var(--alpdt-muted);}
+.alpdt-admin .alpdt-footer-review a.alpdt-footer-review-link:hover {color:var(--alpdt-navy);text-decoration:underline;text-underline-offset:3px;}
+.alpdt-admin .alpdt-footer-review a.alpdt-footer-review-link:focus-visible {outline:3px solid var(--alpdt-teal);outline-offset:3px;}
+.alpdt-admin .alpdt-footer-review-star {display:block!important;flex:0 0 17px;width:17px;height:17px;margin:0;padding:0;filter:drop-shadow(0 1px 1px rgba(131,94,0,.14));}
+.alpdt-admin .alpdt-footer-review-text {display:inline-block;line-height:1.25;margin:0;padding:0;}
+
+/* Integrated Solid/Gradient picker controls (inside dark ALP color popover) & Soft Glow preview isolation */
+.alpdt-admin .alpdt-color-controls input[type=text][readonly].alpdt-gradient-summary {background:#f4f7fb;color:var(--alpdt-navy);font-size:11.5px;cursor:pointer;}
+.alpdt-admin .alpdt-color-mode-tabs {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px 12px;border-bottom:1px solid #42516d;background:#1e2837;}
+.alpdt-admin .alpdt-color-mode-btn {appearance:none;-webkit-appearance:none;border:1px solid #4c5f7d;border-radius:5px;background:#263347;color:#dce6f7;font:650 12px/1.3 inherit;min-height:32px;padding:6px 10px;cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;}
+.alpdt-admin .alpdt-color-mode-btn:hover {background:#304057;border-color:#7febd6;}
+.alpdt-admin .alpdt-color-mode-btn[aria-selected=true] {background:#2fc5b5;border-color:#2fc5b5;color:#0e2433;font-weight:750;}
+.alpdt-admin .alpdt-grad-panel {display:grid;gap:9px;padding-bottom:8px;border-bottom:1px solid #3c4960;}
+.alpdt-admin .alpdt-grad-panel[hidden] {display:none!important;}
+.alpdt-admin .alpdt-grad-preview {height:28px;border-radius:5px;border:1px solid #60728f;background:var(--alpdt-grad-swatch,linear-gradient(135deg,#053197,#2FC5B5));}
+.alpdt-admin .alpdt-grad-stops {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;}
+.alpdt-admin .alpdt-grad-stop {display:flex;align-items:center;gap:7px;min-width:0;min-height:34px;padding:5px 8px;border:1px solid #526480;border-radius:5px;background:#232e3f;color:#eef3fb;font:600 12px/1.2 ui-monospace,Consolas,monospace;cursor:pointer;text-align:left;}
+.alpdt-admin .alpdt-grad-stop:hover {border-color:#7febd6;}
+.alpdt-admin .alpdt-grad-stop[aria-pressed=true] {border-color:#7febd6;background:#2b3a50;box-shadow:0 0 0 1px #7febd6;}
+.alpdt-admin .alpdt-grad-stop-swatch {flex:0 0 16px;width:16px;height:16px;border-radius:3px;border:1px solid rgba(255,255,255,.35);background:var(--alpdt-stop-color,#053197);}
+.alpdt-admin .alpdt-grad-stop-meta {display:flex;flex-direction:column;min-width:0;gap:1px;}
+.alpdt-admin .alpdt-grad-stop-label {font:650 10px/1.1 inherit;color:#a9bbd6;text-transform:uppercase;letter-spacing:.04em;}
+.alpdt-admin .alpdt-grad-stop-hex {overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.alpdt-admin .alpdt-grad-options {display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+.alpdt-admin .alpdt-grad-type-group {display:inline-grid;grid-template-columns:repeat(2,auto);gap:4px;}
+.alpdt-admin .alpdt-grad-type-btn {appearance:none;-webkit-appearance:none;border:1px solid #4c5f7d;border-radius:4px;background:#232e3f;color:#dce6f7;font:600 12px/1.2 inherit;min-height:30px;padding:5px 10px;cursor:pointer;}
+.alpdt-admin .alpdt-grad-type-btn[aria-pressed=true] {background:#384b68;border-color:#7febd6;color:#fff;}
+.alpdt-admin .alpdt-grad-angle-row {display:flex;align-items:center;gap:6px;flex:1 1 135px;min-width:0;}
+.alpdt-admin .alpdt-grad-angle-row[hidden] {display:none!important;}
+.alpdt-admin .alpdt-grad-angle-row input[type=range] {flex:1 1 auto;min-width:60px;height:6px;margin:0;accent-color:#2fc5b5;cursor:pointer;}
+.alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-grad-angle-num {width:54px;min-width:54px;height:30px;min-height:30px;padding:4px 6px!important;border:1px solid #627292!important;border-radius:4px;background:#232e3f!important;color:#fff!important;font:600 12px/1.2 ui-monospace,Consolas,monospace;text-align:center;}
+.alpdt-admin .alpdt-grad-clear-btn {width:100%;min-height:32px;padding:6px 10px;border:1px solid #586a87;border-radius:5px;background:#232e3f;color:#dce6f7;font:600 12px/1.2 inherit;cursor:pointer;}
+.alpdt-admin .alpdt-grad-clear-btn:hover {background:#304057;border-color:#7febd6;color:#fff;}
+.alpdt-preview.alpdt-preview-glow:has(.alpdt-has-glow-background),
+.alpdt-preview.alpdt-preview-glow:has(.alpdt-bg-grad-container) {background:transparent;box-shadow:none;padding:0;animation:none;}
 
 /* 0.10.28-rc.2: centered, non-modal SafeEdit-style copy confirmation; no layout shift or focus steal. */
 .alpdt-admin .alpdt-copy-status:empty{display:none}
@@ -727,3 +764,392 @@
 @media(prefers-reduced-motion:reduce){.alpdt-admin .alpdt-copy-notice{transition:none;animation:none}}
 
  
+
+/* ALPDT 1.0.17 | Gradient picker: scoped, accessible, keyboard-friendly controls. */
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px 14px;background:#1c2839;border-bottom:1px solid #3d5069}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn{display:inline-flex;align-items:center;justify-content:center;min-width:0;min-height:42px;padding:9px 14px;border:1px solid #566982;border-radius:8px;background:#27364c;color:#e9f2ff;font-family:inherit;font-size:13px;font-weight:700;line-height:1.35;cursor:pointer;box-shadow:none;transition:background-color .16s,border-color .16s,box-shadow .16s}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn:hover{background:#354860;border-color:#a9e9dd}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn[aria-pressed=true]{background:#bcf5e9;border-color:#88e6d3;color:#153b40;box-shadow:inset 0 0 0 1px #88e6d3}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-panel{display:grid;gap:9px;padding:2px 0 12px;border-bottom:1px solid #3c4960}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-preview-wrap{display:grid;gap:6px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-caption{display:block;color:#c9dbed;font:700 11px/1.4 system-ui,sans-serif;letter-spacing:.035em}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-preview{height:38px;min-height:38px;border-radius:8px;border:1px solid #7287a2;box-shadow:inset 0 1px 4px rgba(16,31,51,.19)}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stops{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop{display:flex;align-items:center;gap:9px;min-width:0;min-height:53px;padding:9px 10px;background:#253247;border:1px solid #586d89;border-radius:8px;color:#f3f7ff;font-family:inherit;font-size:12px;font-weight:650;line-height:1.35;text-align:left;cursor:pointer;box-shadow:none}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop:hover{border-color:#9dede0;background:#30425b}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop[aria-pressed=true]{border-color:#8fead9;background:#314861;box-shadow:0 0 0 1px #8fead9}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-swatch{width:26px;height:26px;flex:0 0 26px;border-radius:6px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-meta{display:flex;min-width:0;flex-direction:column;gap:3px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-label{color:#b7d0e6;font-family:inherit;font-size:11px;font-weight:650;line-height:1.2;text-transform:none;letter-spacing:0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-hex{color:#fff;font:650 11px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-options{display:grid;grid-template-columns:1fr;gap:10px;padding:10px;background:#202c3d;border:1px solid #40516a;border-radius:8px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;width:100%}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn{display:inline-flex;align-items:center;justify-content:center;min-width:0;min-height:38px;padding:8px 11px;border:1px solid #586d89;border-radius:7px;background:#283a50;color:#e8f2ff;font-family:inherit;font-size:12px;font-weight:700;line-height:1.35;cursor:pointer;box-shadow:none}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn:hover{background:#344e68;border-color:#9dede0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn[aria-pressed=true]{background:#b8f3e6;border-color:#8fead9;color:#163b40}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row{display:grid;grid-template-columns:auto minmax(0,1fr) 60px;gap:9px;align-items:center;width:100%}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-label{font:650 12px/1.3 system-ui,sans-serif;color:#d9e7f5;white-space:nowrap}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row input[type=range]{width:100%;height:8px;min-width:0;margin:0;accent-color:#79e3d3}
+.alpdt-admin .alpdt-field .alpdt-color-pop input.alpdt-grad-angle-num{width:60px;min-width:60px;min-height:36px;height:36px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;font-weight:650;border-radius:7px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-clear-btn{display:inline-flex;align-items:center;justify-content:center;min-height:38px;padding:9px 12px;border:1px solid #5b718b;border-radius:7px;background:#28394e;color:#e8f2ff;font-family:inherit;font-size:12px;font-weight:700;line-height:1.35;cursor:pointer}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-clear-btn:hover{background:#354961;border-color:#a4eadd}
+.alpdt-admin .alpdt-color-pop :is(.alpdt-color-mode-btn,.alpdt-grad-stop,.alpdt-grad-type-btn,.alpdt-grad-clear-btn):focus-visible{outline:3px solid #8fead9;outline-offset:2px}
+.alpdt-admin .alpdt-preview.alpdt-preview-has-gradient{background:transparent!important;box-shadow:none!important;padding:0!important;animation:none!important}
+@media(max-width:420px){.alpdt-admin .alpdt-color-pop .alpdt-grad-stops{grid-template-columns:minmax(0,1fr)}.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row{grid-template-columns:auto minmax(0,1fr) 58px;gap:6px}}
+@media(prefers-reduced-motion:reduce){.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn{transition:none}}
+
+
+/* 1.0.18 — ALP color picker: intentionally scoped to the plugin-owned popup.
+ * Modern segmented modes and clear gradient-stop workflow; no WP/Divi resets. */
+.alpdt-admin .alpdt-color-pop{
+  box-sizing:border-box;width:min(368px,calc(100vw - 24px));padding:0;
+  background:#222936;color:#f3f6fc;border:1px solid #485770;border-radius:13px;
+  box-shadow:0 22px 62px rgba(9,20,39,.38);overflow-x:hidden;overflow-y:auto;
+  font-family:inherit;font-size:13px;line-height:1.45;
+}
+.alpdt-admin .alpdt-color-pop *,
+.alpdt-admin .alpdt-color-pop *::before,
+.alpdt-admin .alpdt-color-pop *::after{box-sizing:border-box}
+.alpdt-admin .alpdt-color-pop-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  min-height:48px;padding:10px 15px;background:#293140;border-bottom:1px solid #3e4d63;
+}
+.alpdt-admin .alpdt-color-pop-title{font-family:inherit;font-size:14px;line-height:1.35;font-weight:720;letter-spacing:.01em;color:#f4f7fc;margin:0}
+.alpdt-admin .alpdt-color-pop .alpdt-color-close{
+  position:static;display:inline-flex;align-items:center;justify-content:center;
+  flex:0 0 31px;width:31px;height:31px;min-height:31px;padding:0;
+  appearance:none;-webkit-appearance:none;background:#374255;border:1px solid #526078;
+  border-radius:8px;box-shadow:none;color:#e6effb;font-family:Arial,sans-serif;font-size:20px;line-height:1;cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-close:hover{background:#4a5770;color:#fff}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;
+  margin:14px 15px 0;padding:5px;background:#171e2b;
+  border:1px solid #3b4a60;border-radius:10px;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn{
+  box-sizing:border-box;appearance:none;-webkit-appearance:none;
+  display:inline-flex;justify-content:center;align-items:center;gap:8px;
+  width:100%;min-width:0;min-height:39px;padding:9px 12px;margin:0;
+  background:transparent;border:1px solid transparent;border-radius:7px;
+  box-shadow:none;text-shadow:none;color:#b9c6d8;font-family:inherit;font-size:13px;font-weight:700;line-height:1.35;
+  cursor:pointer;transition:background-color .15s,border-color .15s,color .15s;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn:hover{background:#354257;border-color:#465670;color:#fff}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn[aria-pressed=true]{
+  background:#ebfaf6;border-color:#a1eadd;color:#1c3b46;box-shadow:0 1px 5px rgba(0,0,0,.13);
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-body{display:grid;gap:13px;padding:15px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-panel{display:grid;gap:9px;padding:0 0 2px;border:0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-panel[hidden],
+.alpdt-admin .alpdt-color-pop .alpdt-grad-options[hidden],
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row[hidden]{display:none!important}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-caption{
+  color:#bac9dd;font-family:inherit;font-size:11px;font-weight:750;line-height:1.35;letter-spacing:.035em;text-transform:uppercase;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stops{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;min-width:0;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop{
+  appearance:none;-webkit-appearance:none;display:flex;align-items:center;gap:9px;
+  width:100%;min-width:0;min-height:51px;margin:0;padding:8px 10px;
+  background:#2b3546;border:1px solid #526079;border-radius:9px;
+  color:#eef4fb;box-shadow:none;text-align:left;text-shadow:none;
+  font-family:inherit;font-size:12px;font-weight:650;line-height:1.35;cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop:hover{background:#35455c;border-color:#9fe8dc}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop[aria-pressed=true]{background:#254a55;border-color:#77ead4;box-shadow:inset 0 0 0 1px #77ead4}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-swatch{display:block;flex:0 0 27px;width:27px;height:27px;border:2px solid rgba(255,255,255,.78);border-radius:7px;background:var(--alpdt-stop-color,#053197);box-shadow:0 2px 5px rgba(0,0,0,.2)}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-label{color:#c4d3e8;font-family:inherit;font-size:11px;line-height:1.15;font-weight:700;letter-spacing:0;text-transform:none}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-hex{color:#fff;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:11px;line-height:1.2;letter-spacing:.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-preview-wrap{display:block;padding:4px 0 2px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-preview{
+  display:block;width:100%;height:25px;min-height:25px;border:1px solid rgba(255,255,255,.28);
+  border-radius:10px;background:var(--alpdt-grad-swatch,linear-gradient(135deg,#053197,#2FC5B5));
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.2);
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-square{
+  position:relative;display:block;width:100%;height:176px;max-height:none;min-height:125px;margin:0;
+  border:1px solid #57647b;border-radius:10px;overflow:hidden;
+  background-image:linear-gradient(to top,#000,transparent),linear-gradient(to right,#fff,transparent);
+  background-color:hsl(var(--alpdt-hue,180),100%,50%);
+  touch-action:none;cursor:crosshair;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-marker{width:16px;height:16px;border:3px solid white;border-radius:50%;box-shadow:0 0 0 1px #253448,0 2px 6px rgba(0,0,0,.32)}
+.alpdt-admin .alpdt-color-pop .alpdt-color-slider-row{display:grid;grid-template-columns:37px minmax(0,1fr);align-items:center;gap:12px;min-width:0;padding:3px 0}
+.alpdt-admin .alpdt-color-pop .alpdt-color-sample{width:37px;height:37px;border:1px solid #8192a9;border-radius:9px;overflow:hidden}
+.alpdt-admin .alpdt-color-pop .alpdt-color-tracks{display:grid;gap:12px;min-width:0}
+.alpdt-admin .alpdt-color-pop .alpdt-color-range-label{display:block;min-width:0;font-size:0;line-height:0;color:transparent}
+.alpdt-admin .alpdt-color-pop input.alpdt-color-hue,
+.alpdt-admin .alpdt-color-pop input.alpdt-color-alpha{
+  display:block;appearance:none;-webkit-appearance:none;width:100%;max-width:100%;
+  height:13px;min-height:13px;margin:0;padding:0!important;border:0!important;border-radius:99px!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.13)!important;cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop input.alpdt-color-hue{background:linear-gradient(to right,red,#ff0,lime,cyan,blue,magenta,red)!important}
+.alpdt-admin .alpdt-color-pop input.alpdt-color-alpha{
+  background-image:linear-gradient(to right,transparent,var(--alpdt-alpha-base,#f00)),linear-gradient(45deg,#687487 25%,transparent 25%,transparent 75%,#687487 75%),linear-gradient(45deg,#687487 25%,transparent 25%,transparent 75%,#687487 75%)!important;
+  background-size:100% 100%,12px 12px,12px 12px!important;background-position:0 0,0 0,6px 6px!important;background-color:#f5f7fb!important;
+}
+.alpdt-admin .alpdt-color-pop input[type=range]::-webkit-slider-thumb{
+  appearance:none;-webkit-appearance:none;width:19px;height:19px;border:3px solid #f8fcff;border-radius:50%;
+  background:#e9f8f3;box-shadow:0 1px 5px rgba(6,14,28,.43);cursor:grab;
+}
+.alpdt-admin .alpdt-color-pop input[type=range]::-moz-range-thumb{
+  width:19px;height:19px;border:3px solid #f8fcff;border-radius:50%;
+  background:#e9f8f3;box-shadow:0 1px 5px rgba(6,14,28,.43);cursor:grab;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-value-row{display:grid;grid-template-columns:minmax(0,1fr) 92px;gap:10px;align-items:end;min-width:0}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-label{display:block!important;margin:0 0 5px;color:#cbd8e9!important;font-family:inherit;font-size:11px!important;font-weight:700!important;line-height:1.3!important}
+.alpdt-admin .alpdt-color-pop input.alpdt-color-pop-hex,
+.alpdt-admin .alpdt-color-pop input.alpdt-color-percent,
+.alpdt-admin .alpdt-color-pop input.alpdt-grad-angle-num{
+  appearance:textfield;-moz-appearance:textfield;display:block;box-sizing:border-box;
+  width:100%;min-width:0;max-width:100%;height:40px;min-height:40px;margin:0;
+  padding:8px 10px!important;border:1px solid #5b6c86!important;border-radius:8px!important;
+  background:#171f2c!important;color:#f5f9ff!important;box-shadow:none!important;
+  font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13px;font-weight:650;line-height:1.3;
+}
+.alpdt-admin .alpdt-color-pop input.alpdt-color-percent{padding-right:28px!important}
+.alpdt-admin .alpdt-color-pop .alpdt-color-percent-sign{position:absolute;right:11px;bottom:11px;color:#c6d4e3;font-family:inherit;font-size:12px;pointer-events:none}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-options{
+  display:grid;grid-template-columns:minmax(0,1fr);gap:10px;
+  padding:12px;background:#293344;border:1px solid #45556e;border-radius:10px;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-group{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;width:100%}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn{
+  appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;
+  width:100%;min-width:0;min-height:37px;margin:0;padding:8px 10px;
+  border:1px solid #5b6b83;border-radius:7px;background:#354057;
+  color:#e9f2fa;box-shadow:none;text-shadow:none;font-family:inherit;font-size:12px;font-weight:700;line-height:1.3;
+  cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn:hover{background:#45536b;border-color:#9fe8dc}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn[aria-pressed=true]{background:#e4f9f1;border-color:#82e9d6;color:#1a4047}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row{display:grid;grid-template-columns:auto minmax(0,1fr) 66px;gap:10px;align-items:center;min-width:0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-label{color:#cddced;font-family:inherit;font-size:12px;font-weight:650;line-height:1.3;white-space:nowrap}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row input[type=range]{width:100%;max-width:100%;min-width:0;min-height:18px;margin:0;padding:0!important;border:0!important;box-shadow:none!important;accent-color:#83e7d7;cursor:pointer}
+.alpdt-admin .alpdt-color-pop input.alpdt-grad-angle-num{width:66px;min-width:0;height:38px;min-height:38px;padding:8px 7px!important;text-align:center}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-clear-btn{
+  appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;
+  min-width:0;width:100%;min-height:38px;padding:8px 12px;margin:0;
+  background:#354359;border:1px solid #61738c;border-radius:8px;
+  color:#edf7ff;font-family:inherit;font-size:12px;font-weight:700;line-height:1.3;box-shadow:none;text-shadow:none;cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-clear-btn:hover{background:#455570;border-color:#99eada}
+.alpdt-admin .alpdt-color-pop .alpdt-color-quick{padding:13px 15px 15px;border-top:1px solid #45546b;background:#202734}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 11px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-quick-title{color:#f1f6ff;font-family:inherit;font-size:12px;font-weight:750;line-height:1.35;margin:0}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-actions{display:flex;align-items:center;gap:6px}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-actions button{
+  appearance:none;-webkit-appearance:none;display:inline-flex;align-items:center;justify-content:center;
+  min-height:34px;margin:0;padding:6px 10px;border-radius:7px;
+  box-shadow:none;text-shadow:none;font-family:inherit;font-size:11px;font-weight:700;line-height:1.3;cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-manage{background:#2d394b;border:1px solid #627189;color:#edf4fc}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-manage:hover{background:#42536b;border-color:#9fe7da}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-add{background:#baf5e5;border:1px solid #8fe1cb;color:#173e45}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-add:hover{background:#e3fff7}
+.alpdt-admin .alpdt-color-pop .alpdt-quick-add::before{display:inline-block;line-height:1;font-size:15px;margin-right:5px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-chips{display:flex;flex-wrap:wrap;align-items:center;gap:9px;padding:1px 0}
+.alpdt-admin .alpdt-color-pop .alpdt-color-tile{flex:0 0 27px;width:27px;height:27px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-chip{appearance:none;-webkit-appearance:none;width:100%;height:100%;min-height:27px;padding:0;margin:0;border:2px solid rgba(255,255,255,.28);border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.25)}
+.alpdt-admin .alpdt-color-pop .alpdt-color-chip[aria-pressed=true]{outline:2px solid #8fe8d7;outline-offset:2px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-chip:hover{outline:2px solid #e3faf3;outline-offset:2px}
+.alpdt-admin .alpdt-color-pop :is(button,input,[tabindex]):focus-visible{outline:3px solid #83edd9;outline-offset:2px}
+.alpdt-admin .alpdt-color-pop .alpdt-invalid{border-color:#ff8186!important}
+@media(max-width:440px){
+  .alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs{margin:10px 11px 0}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-pop-body{padding:11px;gap:10px}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-square{height:142px;max-height:none}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-value-row{grid-template-columns:minmax(0,1fr) 79px;gap:7px}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-slider-row{grid-template-columns:32px minmax(0,1fr);gap:9px}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-sample{width:32px;height:32px}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-quick{padding:11px}
+  .alpdt-admin .alpdt-color-pop .alpdt-quick-actions{gap:4px}
+  .alpdt-admin .alpdt-color-pop .alpdt-quick-actions button{font-size:10px;padding:6px 8px}
+}
+@media(prefers-reduced-motion:reduce){.alpdt-admin .alpdt-color-pop :is(button,input){transition:none!important;animation:none!important}}
+
+/* Keep native numeric spin buttons out of the compact angle field only. */
+.alpdt-admin .alpdt-color-pop input.alpdt-grad-angle-num::-webkit-inner-spin-button,
+.alpdt-admin .alpdt-color-pop input.alpdt-grad-angle-num::-webkit-outer-spin-button{-webkit-appearance:none;appearance:none;margin:0}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row input[type=range]{
+  appearance:none;-webkit-appearance:none;height:6px;min-height:6px;
+  background:#536680;border-radius:99px;box-shadow:inset 0 1px 3px rgba(0,0,0,.3)!important
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;appearance:none;width:16px;height:16px;
+  background:#80e7d3;border:2px solid #e4fff6;border-radius:50%;cursor:grab
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-row input[type=range]::-moz-range-thumb{
+  width:16px;height:16px;background:#80e7d3;border:2px solid #e4fff6;border-radius:50%;cursor:grab
+}
+
+/* 1.0.19 — Color picker polish pass: segmented tabs, compact angle UI, softer scrollbar. */
+.alpdt-admin .alpdt-color-pop{
+  width:min(336px,calc(100vw - 44px));
+  max-height:min(86vh,760px);
+  overflow:hidden;
+  border-radius:14px;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs,
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-group{
+  display:grid;
+  gap:4px;
+  padding:4px;
+  border:1px solid #475972;
+  border-radius:12px;
+  background:#2a3344;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  margin:12px 14px 0;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-group{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  width:100%;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn,
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn{
+  appearance:none;
+  -webkit-appearance:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-width:0;
+  min-height:34px;
+  margin:0;
+  padding:8px 10px;
+  border:0!important;
+  border-radius:9px;
+  background:transparent!important;
+  color:#d8e4f2!important;
+  box-shadow:none!important;
+  text-shadow:none!important;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.3;
+  cursor:pointer;
+  transition:background-color .14s ease,color .14s ease,box-shadow .14s ease;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn:hover,
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn:hover{
+  background:rgba(255,255,255,.08)!important;
+  color:#f5fbff!important;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-mode-btn[aria-pressed=true],
+.alpdt-admin .alpdt-color-pop .alpdt-grad-type-btn[aria-pressed=true]{
+  background:#eef4ff!important;
+  color:#14283a!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.14),0 3px 12px rgba(8,17,28,.22)!important;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-body{
+  gap:10px;
+  max-height:min(62vh,520px);
+  overflow:auto;
+  padding-right:10px;
+  scrollbar-width:thin;
+  scrollbar-color:#5d718b transparent;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-body::-webkit-scrollbar{width:8px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-body::-webkit-scrollbar-track{background:transparent}
+.alpdt-admin .alpdt-color-pop .alpdt-color-pop-body::-webkit-scrollbar-thumb{background:#5d718b;border-radius:99px;border:2px solid #132031}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-panel{gap:8px;padding:0 0 8px;border-bottom:1px solid #364357}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-caption{margin:0;font-size:11px;color:#c4d3e6}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stops{gap:8px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop{min-height:46px;padding:8px 10px;border-radius:10px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-stop-swatch{width:24px;height:24px;flex-basis:24px}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-options{gap:8px;padding:10px;border-radius:12px;background:#232c3b;border:1px solid #3d4e66}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-block{
+  display:grid;
+  gap:8px;
+  min-width:0;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-label{
+  color:#d8e4f2;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.3;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-value{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:48px;
+  min-height:28px;
+  padding:4px 9px;
+  border:1px solid #566983;
+  border-radius:999px;
+  background:#172230;
+  color:#eff5ff;
+  font:700 11px/1.1 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-range{
+  width:100%;
+  appearance:none;
+  -webkit-appearance:none;
+  height:8px;
+  min-height:8px;
+  margin:0;
+  border:0!important;
+  border-radius:999px;
+  background:linear-gradient(90deg,#0f7bff 0%,#7de8d7 100%);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.32)!important;
+  cursor:pointer;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-range::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  appearance:none;
+  width:18px;
+  height:18px;
+  border:2px solid #effff9;
+  border-radius:50%;
+  background:#7de8d7;
+  box-shadow:0 2px 7px rgba(0,0,0,.28);
+  cursor:grab;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-grad-angle-range::-moz-range-thumb{
+  width:18px;
+  height:18px;
+  border:2px solid #effff9;
+  border-radius:50%;
+  background:#7de8d7;
+  box-shadow:0 2px 7px rgba(0,0,0,.28);
+  cursor:grab;
+}
+.alpdt-admin .alpdt-color-pop .alpdt-color-value-row{gap:8px}
+.alpdt-admin .alpdt-color-pop .alpdt-color-quick{padding:12px 14px 14px}
+@media(max-width:440px){
+  .alpdt-admin .alpdt-color-pop{width:min(320px,calc(100vw - 24px))}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-mode-tabs{margin:10px 10px 0}
+  .alpdt-admin .alpdt-color-pop .alpdt-color-pop-body{max-height:min(60vh,470px);padding-right:8px}
+  .alpdt-admin .alpdt-color-pop .alpdt-grad-stop{min-height:42px}
+}
+
+/* 1.0.26 | Border-radius corners share the approved four-input linked padding UI. */
+.alpdt-admin .alpdt-radius-group{display:grid;gap:12px;min-width:0}
+.alpdt-admin .alpdt-radius-group .alpdt-padding-heading{margin:0}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-default{display:grid;grid-template-columns:minmax(95px,max-content) minmax(100px,180px);align-items:center;gap:12px;min-width:0}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-default label{font-size:12px;font-weight:650;color:var(--alpdt-ink)}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-default input[type=number]{box-sizing:border-box;width:100%;min-width:0;min-height:40px;margin:0;padding:8px 10px}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 19px}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners .alpdt-padding-pair-controls{display:grid;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:6px;align-items:end}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners .alpdt-padding-side{gap:5px}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners .alpdt-padding-side label{font-size:12px}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners .alpdt-padding-side input[type=number]{box-sizing:border-box;min-width:0;width:100%;max-width:none;min-height:40px;margin:0;padding:8px 10px}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners button.alpdt-radius-link{display:grid;place-items:center;width:28px;height:40px;min-width:28px;margin:0;padding:0;border:0;border-radius:5px;background:transparent;color:#65748a;box-shadow:none;cursor:pointer}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners button.alpdt-radius-link:hover{background:#eaf2fc;color:#174b95}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners button.alpdt-radius-link.alpdt-linked{color:#1263d6;background:#e7f0fe;box-shadow:inset 0 0 0 1px #a8c8f2}
+.alpdt-admin .alpdt-radius-group .alpdt-radius-corners button.alpdt-radius-link svg{display:block;flex:none}
+@media(max-width:760px){.alpdt-admin .alpdt-radius-group .alpdt-radius-corners{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:360px){.alpdt-admin .alpdt-radius-group .alpdt-radius-corners .alpdt-padding-pair-controls{grid-template-columns:minmax(0,1fr) 26px minmax(0,1fr);gap:4px}.alpdt-admin .alpdt-radius-group .alpdt-radius-corners button.alpdt-radius-link{width:26px;min-width:26px}}

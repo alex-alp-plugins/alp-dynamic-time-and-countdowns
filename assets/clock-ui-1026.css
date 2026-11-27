@@ -1,0 +1,88 @@
+/* ALP Dynamic Time & Countdowns 1.0.25: targeted clock presentation fixes.
+   Separate URL ensures the latest rules apply in WP admin and on published pages. */
+/* The 3D flip transform caused compositor corners to become square during rotation.
+   A two-stage masked hinge changes the halves without ever projecting outside a
+   permanently rounded tile; preserves timing, semantic numeral and reduced-motion. */
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure{
+  overflow:hidden!important;
+  perspective:none!important;
+  transform-style:flat!important;
+  clip-path:inset(0 round .16em)!important;
+  border-radius:.16em!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip.alpdt-has-radius .alpdt-figure{
+  border-radius:var(--alpdt-radius-tl,var(--alpdt-border-radius,12px)) var(--alpdt-radius-tr,var(--alpdt-border-radius,12px)) var(--alpdt-radius-br,var(--alpdt-border-radius,12px)) var(--alpdt-radius-bl,var(--alpdt-border-radius,12px))!important;
+  clip-path:inset(0 round var(--alpdt-radius-tl,var(--alpdt-border-radius,12px)) var(--alpdt-radius-tr,var(--alpdt-border-radius,12px)) var(--alpdt-radius-br,var(--alpdt-border-radius,12px)) var(--alpdt-radius-bl,var(--alpdt-border-radius,12px)))!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure-half{
+  transform-style:flat!important;
+  -webkit-backface-visibility:visible!important;
+  backface-visibility:visible!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure-flap-out{
+  transform-origin:center bottom!important;
+  transform:scaleY(1);
+  animation:alpdt-figure-masked-close .36s cubic-bezier(.55,.08,.9,.45) forwards!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure-flap-in{
+  transform-origin:center top!important;
+  transform:scaleY(0);
+  animation:alpdt-figure-masked-open .36s cubic-bezier(.16,.82,.25,1) .36s forwards!important;
+}
+@keyframes alpdt-figure-masked-close{
+  0%{transform:scaleY(1);filter:brightness(1)}
+  100%{transform:scaleY(0);filter:brightness(.75)}
+}
+@keyframes alpdt-figure-masked-open{
+  0%{transform:scaleY(0);filter:brightness(.75)}
+  100%{transform:scaleY(1);filter:brightness(1)}
+}
+@media(prefers-reduced-motion:reduce){
+  .alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure-flap-out,
+  .alpdt-countdown.alpdt-clock-grid.alpdt-clock-flip .alpdt-figure-flap-in{animation:none!important;display:none!important}
+}
+/* Odometer card padding: grow the VISIBLE drum, reserve an inner viewport of
+   the original size, and keep the rolling track inside that viewport.
+   This does not modify --alpdt-flip-gap or the inter-wheel gap. */
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-odometer.alpdt-has-padding>.alpdt-clock-cell>.alpdt-clock-number{
+  padding:0!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-odometer.alpdt-has-padding .alpdt-odo-drum{
+  box-sizing:border-box!important;
+  width:calc(.77em + var(--alpdt-pad-left,0px) + var(--alpdt-pad-right,0px))!important;
+  height:calc(1.24em + var(--alpdt-pad-top,0px) + var(--alpdt-pad-bottom,0px))!important;
+  padding:0!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-odometer.alpdt-has-padding .alpdt-odo-track{
+  top:var(--alpdt-pad-top,0px)!important;
+  left:var(--alpdt-pad-left,0px)!important;
+  right:auto!important;
+  bottom:auto!important;
+  width:.77em!important;
+  height:2.48em!important;
+}
+/* Liquid: user-approved behavior, clearance BETWEEN circular designs.
+   The fixed circular artwork never receives asymmetrical internal padding. */
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-liquid.alpdt-has-padding>.alpdt-clock-cell{
+  padding:var(--alpdt-pad-top,0px) var(--alpdt-pad-right,0px) var(--alpdt-pad-bottom,0px) var(--alpdt-pad-left,0px)!important;
+  box-sizing:border-box!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-liquid.alpdt-has-padding>.alpdt-clock-cell>.alpdt-clock-number{
+  padding:0!important;
+  margin:0!important;
+}
+/* Style-specific help obeys hidden even when admin framework provides p display rules. */
+.alpdt-admin [data-alpdt-style-help][hidden]{display:none!important}
+
+/* 1.0.26 | Card/circle gradient for Liquid must remain visible behind its liquid level.
+   The normal solid-card liquid animation retains its original opaque fill. */
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-liquid.alpdt-bg-grad-cards .alpdt-clock-cell>.alpdt-clock-number {
+  background:var(--alpdt-grad-value)!important;
+  background-image:var(--alpdt-grad-value)!important;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-liquid.alpdt-bg-grad-cards .alpdt-clock-cell>.alpdt-clock-number::before {
+  opacity:.42;
+}
+.alpdt-countdown.alpdt-clock-grid.alpdt-clock-liquid.alpdt-bg-grad-cards .alpdt-clock-cell>.alpdt-clock-number::after {
+  opacity:.62;
+}

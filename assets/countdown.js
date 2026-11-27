@@ -675,7 +675,11 @@
     if (node.dataset.alpdtFetching === '1') return;
     var base = node.getAttribute('data-alpdt-next-url');
     if (!base || !window.fetch) return;
-    var url = new URL(base, document.baseURI);
+    var url;
+    try {
+      url = new URL(base, document.baseURI);
+    } catch (e) { return; }
+    if ((url.protocol !== 'https:' && url.protocol !== 'http:') || url.origin !== window.location.origin || url.pathname.indexOf('/alpdt/v1/next') === -1) return;
     ['recurrence','repeat-time','repeat-weekday','repeat-day'].forEach(function(field){
       var value = node.getAttribute('data-alpdt-' + field);
       if (value) url.searchParams.set(field.replace(/-/g,'_'), value);

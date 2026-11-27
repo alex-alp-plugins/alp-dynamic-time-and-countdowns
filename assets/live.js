@@ -14,6 +14,7 @@
       params = JSON.parse(node.getAttribute('data-alpdt-config'));
       url = new URL(node.dataset.alpdtEndpoint, document.baseURI);
     } catch (e) { return; }
+    if ((url.protocol !== 'https:' && url.protocol !== 'http:') || url.origin !== window.location.origin || url.pathname.indexOf('/alpdt/v1/render') === -1) return;
     if (!params || typeof params !== 'object' || Array.isArray(params)) return;
     Object.keys(params).forEach(function (key) { url.searchParams.set(key, params[key]); });
     fetch(url.href, { credentials: 'omit', cache: 'no-store' })

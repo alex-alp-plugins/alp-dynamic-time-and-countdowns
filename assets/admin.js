@@ -3,6 +3,21 @@
   var root = document.querySelector('.alpdt-admin');
   if (!root) return;
   var i18n = window.alpdtAdmin || {};
+  function escapeSelector(value) {
+    var str = String(value);
+    if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(str);
+    return str.replace(/[^a-zA-Z0-9_-]/g, '\\$&');
+  }
+  function safeLocalEndpoint(rawUrl, expectedPath) {
+    if (!rawUrl || typeof rawUrl !== 'string') return null;
+    try {
+      var parsed = new URL(rawUrl, document.baseURI);
+      if ((parsed.protocol === 'https:' || parsed.protocol === 'http:') && parsed.origin === window.location.origin && (!expectedPath || parsed.pathname.indexOf(expectedPath) !== -1)) {
+        return parsed;
+      }
+    } catch (e) {}
+    return null;
+  }
   // External SEO/security notices sometimes target the first wp-admin h1 and
   // are injected into our hero after render. Move only those notices into a
   // visible region ABOVE the hero; never hide WordPress or third-party alerts.
@@ -37,7 +52,7 @@
     var listId = 'alpdt-picker-' + select.id;
     trigger.id = 'alpdt-picker-trigger-' + select.id;
     list.id = listId; trigger.setAttribute('aria-controls', listId); list.setAttribute('aria-labelledby', trigger.id);
-    var label = root.querySelector('label[for="' + select.id + '"]');
+    var label = root.querySelector('label[for="' + escapeSelector(select.id) + '"]');
     trigger.setAttribute('aria-label', label ? label.textContent.trim() : (select.getAttribute('aria-label') || (i18n.selectOption || 'Choose an option')));
     if (label) label.htmlFor = trigger.id;
     select.parentNode.insertBefore(container, select.nextSibling);
@@ -158,17 +173,49 @@
   if (window.location.hash === '#alpdt-panel-compat') activate('compat', false);
   if (new URLSearchParams(window.location.search).has('alpdt_message')) activate('dates', false);
   if (new URLSearchParams(window.location.search).get('alpdt_view') === 'shortcodes') activate('shortcodes', false);
+  (function setupFeedbackDismiss() {
+    var notices = root.querySelectorAll('[data-alpdt-feedback]');
+    if (!notices.length) return;
+    if (window.history && typeof window.history.replaceState === 'function') {
+      try {
+        var cleanUrl = new URL(window.location.href);
+        if (cleanUrl.searchParams.has('alpdt_message')) {
+          cleanUrl.searchParams.delete('alpdt_message');
+          window.history.replaceState(null, '', cleanUrl.pathname + cleanUrl.search + cleanUrl.hash);
+        }
+      } catch (e) {}
+    }
+    notices.forEach(function (banner) {
+      var isError = banner.dataset.alpdtFeedbackType === 'error';
+      var delay = isError ? 8000 : 4500;
+      var timer = null;
+      function dismiss() {
+        if (!banner.isConnected || banner.dataset.alpdtDismissed === '1') return;
+        banner.dataset.alpdtDismissed = '1';
+        window.clearTimeout(timer);
+        banner.classList.add('alpdt-feedback-hiding');
+        var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.setTimeout(function () { if (banner.isConnected) banner.remove(); }, reduced ? 0 : 350);
+      }
+      function arm() {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(dismiss, delay);
+      }
+      banner.addEventListener('mouseenter', function () { window.clearTimeout(timer); });
+      banner.addEventListener('mouseleave', arm);
+      banner.addEventListener('focusin', function () { window.clearTimeout(timer); });
+      banner.addEventListener('focusout', arm);
+      arm();
+    });
+  })();
 
   var type = document.getElementById('alpdt-type'), postPreviewDate = document.getElementById('alpdt-preview-post-date'), exprHelp = document.getElementById('alpdt-expression-help'), from = document.getElementById('alpdt-from'),
     to = document.getElementById('alpdt-to'), saved = document.getElementById('alpdt-saved'),
     mode = document.getElementById('alpdt-mode'), unit = document.getElementById('alpdt-unit'),
     txt = document.getElementById('alpdt-text'), offset = document.getElementById('alpdt-offset'),
     format = document.getElementById('alpdt-format'), countdownDisplay = document.getElementById('alpdt-countdown-display'),
-    copyrightStyle = document.getElementById('alpdt-copyright-style'), clockStyle = document.getElementById('alpdt-clock-style'), clockLayout = document.getElementById('alpdt-clock-layout'), lightsMode = document.getElementById('alpdt-lights-mode'), celebrationMessage = document.getElementById('alpdt-celebration-message'), celebrationDuration = document.getElementById('alpdt-celebration-duration'), celebrationMode = document.getElementById('alpdt-celebration-mode'), celebrationPreview = document.getElementById('alpdt-celebration-preview'), preview = document.getElementById('alpdt-preview'),
+    copyrightStyle = document.getElementById('alpdt-copyright-style'), clockStyle = document.getElementById('alpdt-clock-style'), clockLayout = document.getElementById('alpdt-clock-layout'), celebrationMessage = document.getElementById('alpdt-celebration-message'), celebrationDuration = document.getElementById('alpdt-celebration-duration'), celebrationMode = document.getElementById('alpdt-celebration-mode'), celebrationPreview = document.getElementById('alpdt-celebration-preview'), preview = document.getElementById('alpdt-preview'),
     code = document.getElementById('alpdt-shortcode'), copy = document.getElementById('alpdt-copy'),
-    seoArea = document.getElementById('alpdt-seo-actions'), seoProvider = document.getElementById('alpdt-seo-provider'),
-    seoCopy = document.getElementById('alpdt-seo-copy'), seoValue = document.getElementById('alpdt-seo-value'),
-    seoHelp = document.getElementById('alpdt-seo-help'), seoStatus = document.getElementById('alpdt-seo-status'),
     msgBefore = document.getElementById('alpdt-message-before'), msgOn = document.getElementById('alpdt-message-on'), msgAfter = document.getElementById('alpdt-message-after'),
     previewCaption = document.getElementById('alpdt-preview-caption'),
     status = document.getElementById('alpdt-status'), typeHelp = document.getElementById('alpdt-type-help'),
@@ -223,6 +270,42 @@
     });
   });
 
+  // Corner links mirror the approved padding pair UI. Link state is editor-only;
+  // the existing individual clock_radius_* shortcode attributes remain unchanged.
+  var radiusLinks=Array.prototype.slice.call(root.querySelectorAll('[data-alpdt-radius-link]'));
+  var radiusPairs={top:['top_left','top_right'],bottom:['bottom_left','bottom_right']};
+  var radiusInputs={};
+  Object.keys(radiusPairs).forEach(function(edge){
+    radiusPairs[edge].forEach(function(corner){
+      radiusInputs[corner]=root.querySelector('[data-alpdt-design="clock_radius_'+corner+'"]');
+    });
+  });
+  function resetRadiusLinks(){radiusLinks.forEach(function(button){setPaddingLinked(button,false);});}
+  radiusLinks.forEach(function(button){
+    button.addEventListener('click',function(){
+      var edge=button.dataset.alpdtRadiusLink, pair=radiusPairs[edge];if(!pair)return;
+      var linked=button.getAttribute('aria-pressed')!=='true';
+      setPaddingLinked(button,linked);
+      if(linked){
+        var a=radiusInputs[pair[0]],b=radiusInputs[pair[1]];
+        var value=a&&a.value!==''?a.value:(b?b.value:'');
+        pair.forEach(function(corner){if(radiusInputs[corner])radiusInputs[corner].value=value;});
+      }
+      refresh();
+    });
+  });
+  Object.keys(radiusPairs).forEach(function(edge){
+    radiusPairs[edge].forEach(function(corner){
+      var input=radiusInputs[corner];if(!input)return;
+      ['input','change'].forEach(function(name){input.addEventListener(name,function(){
+        var button=root.querySelector('[data-alpdt-radius-link="'+edge+'"]');
+        if(button&&button.getAttribute('aria-pressed')==='true'){
+          radiusPairs[edge].forEach(function(other){if(other!==corner && radiusInputs[other])radiusInputs[other].value=input.value;});
+        }
+      });});
+    });
+  });
+
   // Optional palette slots are actual stored colors, not cosmetic editor chips.
   var extraColorCounts={confetti:4,balloon:4,christmas:5};
   function syncExtraColorFields(){
@@ -241,13 +324,32 @@
       var kind=button.dataset.alpdtAddColor,max=Number(button.dataset.alpdtMax);
       extraColorCounts[kind]=Math.min(max,extraColorCounts[kind]+1);
       syncExtraColorFields();
-      var field=root.querySelector('[data-alpdt-extra-color-field="'+kind+':'+extraColorCounts[kind]+'"]');
+      var field=root.querySelector('[data-alpdt-extra-color-field="'+escapeSelector(kind+':'+extraColorCounts[kind])+'"]');
       if(field){var first=field.querySelector('input');if(first){first.dataset.alpdtTouched='1';first.focus();}}
       refresh();
     });
   });
   // One stored attribute per font size; unit selectors are presentation controls.
   // Clamp accepts exactly three safe CSS lengths, never arbitrary CSS/functions.
+  function defaultDigitSize(style) { return style === 'blood' ? '60' : '50'; }
+  function syncSizeInputMode(input, unit) {
+    if (!input || !/^(digit_size|label_size)$/.test(input.dataset.alpdtDesign)) return;
+    if (unit === 'clamp') {
+      input.type = 'text';
+      input.removeAttribute('min');
+      input.removeAttribute('max');
+      input.removeAttribute('step');
+      input.inputMode = 'text';
+    } else {
+      var specs = { px: input.dataset.alpdtDesign === 'digit_size' ? [18, 110, 1] : [6, 200, 1], rem: [0.01, 25, 0.1], em: [0.01, 25, 0.1], '%': [1, 1200, 1], vw: [0.1, 100, 0.5], vh: [0.1, 100, 0.5] };
+      var s = specs[unit] || specs.px;
+      input.type = 'number';
+      input.min = String(s[0]);
+      input.max = String(s[1]);
+      input.step = String(s[2]);
+      input.inputMode = 'decimal';
+    }
+  }
   var fontUnitControls = Array.prototype.slice.call(root.querySelectorAll('[data-alpdt-font-unit]'));
   function validLengthPart(text, insideClamp, key) {
     var match = /^([0-9]{1,4}(?:\.[0-9]{1,3})?)(px|rem|em|%|vw|vh)$/.exec(text.trim().toLowerCase());
@@ -258,7 +360,7 @@
   }
   function fontValue(input) {
     var key=input.dataset.alpdtDesign;
-    var select=root.querySelector('[data-alpdt-font-unit="'+key+'"]');
+    var select=root.querySelector('[data-alpdt-font-unit="'+escapeSelector(key)+'"]');
     var unit=select?select.value:'px', value=input.value.trim().toLowerCase();
     if(unit==='clamp') {
       var match=/^clamp\(\s*([^,()]+)\s*,\s*([^,()]+)\s*,\s*([^,()]+)\s*\)$/.exec(value);
@@ -270,39 +372,44 @@
     return validLengthPart(combined,false,key)?(unit==='px'?value:combined):'';
   }
   function fontSet(input, value) {
-    var select=root.querySelector('[data-alpdt-font-unit="'+input.dataset.alpdtDesign+'"]');
+    var select=root.querySelector('[data-alpdt-font-unit="'+escapeSelector(input.dataset.alpdtDesign)+'"]');
     var match=/^([0-9]{1,4}(?:\.[0-9]{1,3})?)(px|rem|em|%|vw|vh)$/.exec(String(value).trim().toLowerCase());
-    if(/^clamp\(/i.test(String(value).trim())) {
-      select.value='clamp';input.value=String(value).trim();
-    } else if(match) {select.value=match[2];input.value=match[1];}
-    else {select.value='px';input.value=value;}
+    var nextVal=String(value).trim();
+    if(/^clamp\(/i.test(nextVal)) {
+      select.value='clamp';syncSizeInputMode(input,'clamp');input.value=nextVal;
+    } else if(match) {select.value=match[2];syncSizeInputMode(input,match[2]);input.value=match[1];}
+    else {select.value='px';syncSizeInputMode(input,'px');input.value=value;}
     input.placeholder=select.value==='clamp'?'clamp(20px, 4vw, 72px)':'';
-    input.inputMode=select.value==='clamp'?'text':'decimal';
+    if(select.value==='clamp')input.inputMode='text';else input.inputMode='decimal';
     input.closest('.alpdt-font-size-field').classList.toggle('alpdt-clamp-size',select.value==='clamp');
     if(select.alpdtRepaint)select.alpdtRepaint();
     input.classList.remove('alpdt-invalid');input.removeAttribute('aria-invalid');input.setCustomValidity('');
     select.dataset.alpdtPreviousUnit=select.value;
   }
   fontUnitControls.forEach(function(select) {
-    var input=root.querySelector('[data-alpdt-design="'+select.dataset.alpdtFontUnit+'"]');
+    var input=root.querySelector('[data-alpdt-design="'+escapeSelector(select.dataset.alpdtFontUnit)+'"]');
     if(!input)return;
     select.addEventListener('change',function() {
       var old=select.dataset.alpdtPreviousUnit||'px';
       var number=Number(input.value), valid=Number.isFinite(number);
+      var currentStyle=(root.querySelector('#alpdt-clock-style')||{}).value||'simple';
+      var nextVal=input.value;
       if(select.value==='clamp') {
         if(!/^clamp\(/.test(input.value)){
-          var px=old==='px'&&valid?number:(input.dataset.alpdtDesign==='digit_size'?60:14);
-          input.value='clamp('+Math.max(1,Math.round(px*.4))+'px, '+(input.dataset.alpdtDesign==='digit_size'?'4vw':'2vw')+', '+Math.min(300,Math.max(6,Math.round(px)))+'px)';
+          var px=old==='px'&&valid?number:(input.dataset.alpdtDesign==='digit_size'?Number(defaultDigitSize(currentStyle)):14);
+          nextVal='clamp('+Math.max(1,Math.round(px*.4))+'px, '+(input.dataset.alpdtDesign==='digit_size'?'4vw':'2vw')+', '+Math.min(300,Math.max(6,Math.round(px)))+'px)';
         }
       } else if(old==='clamp'){
-        input.value=input.dataset.alpdtDesign==='digit_size'?'60':'14';
+        nextVal=input.dataset.alpdtDesign==='digit_size'?defaultDigitSize(currentStyle):'14';
       } else if(valid && old!==select.value) {
         // Approximate conversions use a 16px root and a 1440x900 reference viewport.
         var px=old==='rem'||old==='em'?number*16:old==='%'?number*16/100:old==='vw'?number*14.4:old==='vh'?number*9:number;
         var converted=select.value==='rem'||select.value==='em'?px/16:select.value==='%'?px*100/16:select.value==='vw'?px/14.4:select.value==='vh'?px/9:px;
-        input.value=String(Math.round(converted*1000)/1000);
+        nextVal=String(Math.round(converted*1000)/1000);
       }
       select.dataset.alpdtPreviousUnit=select.value;
+      syncSizeInputMode(input,select.value);
+      input.value=nextVal;
       input.placeholder=select.value==='clamp'?'clamp(20px, 4vw, 72px)':'';
       input.inputMode=select.value==='clamp'?'text':'decimal';
       input.closest('.alpdt-font-size-field').classList.toggle('alpdt-clamp-size',select.value==='clamp');
@@ -311,7 +418,9 @@
       input.dispatchEvent(new Event('change',{bubbles:true}));
     });
     select.dataset.alpdtPreviousUnit='px';
+    syncSizeInputMode(input, select.value);
     input.addEventListener('input',function() {
+      if(input.dataset.alpdtSyncingDefault!=='1')input.dataset.alpdtTouched='1';
       var valid=!!fontValue(input);
       input.classList.toggle('alpdt-invalid',!valid);
       input.setCustomValidity(valid?'':(i18n.fontSizeInvalid||'Enter a valid font size for the selected unit.'));
@@ -370,6 +479,9 @@
       panelColor.disabled = panelTransparent.checked;
       var swatch = root.querySelector('[data-alpdt-color-picker="panel_color"]');
       if (swatch) { swatch.disabled = panelTransparent.checked; if (panelTransparent.checked && swatch.alpdtClose) swatch.alpdtClose(false); }
+      if (panelTransparent.checked && typeof gradientPickers === 'object' && gradientPickers.panel_color && gradientPickers.panel_color.isGradient()) {
+        gradientPickers.panel_color.clearGradient(false);
+      }
       refresh();
     });
   }
@@ -378,7 +490,29 @@
   var isHex = function (v) { return /^#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?$/.test(v); };
   var openColor = null;
   var quickDefaults = ['#000000', '#F33B49', '#053197', '#07B57B', '#FFCC00', '#FFFFFF'];
-  var recentColors = Array.isArray(i18n.quickColorValues) ? i18n.quickColorValues.filter(function(c){return /^#[0-9a-fA-F]{6}(?:[0-9a-fA-F]{2})?$/.test(c);}).map(function(c){return c.toUpperCase();}).slice(0,24) : quickDefaults.slice();
+  // Store full gradients as compact, strictly validated scalar presets so existing
+  // user-meta arrays, WordPress privacy export/erase, and HEX palettes stay intact.
+  function parseQuickGradient(value){
+    if(typeof value!=='string')return null;
+    var m=/^gradient:(linear|radial):([0-9]{1,3}):(#[a-f0-9]{6}(?:[a-f0-9]{2})?):(#[a-f0-9]{6}(?:[a-f0-9]{2})?)$/i.exec(value);
+    return m && Number(m[2])<=360 ? {type:m[1].toLowerCase(),angle:Number(m[2]),start:m[3].toUpperCase(),end:m[4].toUpperCase()}:null;
+  }
+  function quickGradientId(g){return 'gradient:'+g.type+':'+g.angle+':'+g.start.toUpperCase()+':'+g.end.toUpperCase();}
+  function normalizeQuickPreset(value){
+    if(typeof value!=='string')return null;
+    if(isHex(value))return value.toUpperCase();
+    var grad=parseQuickGradient(value);
+    return grad?quickGradientId(grad):null;
+  }
+  function quickPresetPaint(value){
+    var grad=parseQuickGradient(value);
+    return grad?(grad.type==='radial'?'radial-gradient(circle, '+grad.start+', '+grad.end+')':'linear-gradient('+grad.angle+'deg, '+grad.start+', '+grad.end+')'):value;
+  }
+  function quickPresetLabel(value){
+    var grad=parseQuickGradient(value);
+    return grad?(grad.type==='radial'?'Radial':('Linear '+grad.angle+'°'))+' · '+grad.start+' → '+grad.end:value;
+  }
+  var recentColors = Array.isArray(i18n.quickColorValues) ? i18n.quickColorValues.map(normalizeQuickPreset).filter(Boolean).slice(0,24) : quickDefaults.slice();
   var paletteRenderers = [], paletteStatus = [], paletteSaving = false;
   function announcePalette(message,error) {
     paletteStatus.forEach(function(item){item.textContent=message;item.classList.toggle('alpdt-palette-error',!!error);});
@@ -386,13 +520,14 @@
   function redrawPalettes() { paletteRenderers.forEach(function(render){render();}); }
   function savePalette(colors) {
     if (paletteSaving) return Promise.resolve(false);
-    if (!i18n.quickColorsUrl || !i18n.quickColorsNonce) {
+    var ajaxUrl = safeLocalEndpoint(i18n.quickColorsUrl, 'admin-ajax.php');
+    if (!ajaxUrl || !i18n.quickColorsNonce) {
       announcePalette(i18n.quickColorFailed||'Could not save Quick Colors.',true);
       return Promise.resolve(false);
     }
     paletteSaving=true;
     var body = new URLSearchParams({action:'alpdt_save_quick_colors',nonce:i18n.quickColorsNonce,colors:JSON.stringify(colors)});
-    return fetch(i18n.quickColorsUrl,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'},body:body.toString()})
+    return fetch(ajaxUrl.href,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/x-www-form-urlencoded; charset=UTF-8'},body:body.toString()})
       .then(function(res){return res.json().then(function(data){if(!res.ok || !data.success || !data.data || !Array.isArray(data.data.colors))throw Error((data.data && data.data.message)||i18n.quickColorFailed);return data.data.colors;});})
       .then(function(next){paletteSaving=false;recentColors=next;redrawPalettes();return true;})
       .catch(function(err){paletteSaving=false;announcePalette(err.message||i18n.quickColorFailed,true);return false;});
@@ -447,10 +582,34 @@
   function elem(tag,klass,parent,text) {
     var e=document.createElement(tag);if(klass)e.className=klass;if(text!=null)e.textContent=text;if(parent)parent.appendChild(e);return e;
   }
+  var gradTypeHidden=document.getElementById('alpdt-bg-gradient-type'),
+    gradTargetHidden=document.getElementById('alpdt-bg-gradient-target'),
+    gradStartHidden=document.getElementById('alpdt-bg-gradient-start'),
+    gradEndHidden=document.getElementById('alpdt-bg-gradient-end'),
+    gradAngleHidden=document.getElementById('alpdt-bg-gradient-angle');
+  var gradientPickers={};
+  function resolveGradientTarget(fieldName){
+    if(fieldName==='glow_background_color'||fieldName==='panel_color')return 'container';
+    var style=(root.querySelector('#alpdt-clock-style')||{}).value||'simple';
+    return (style==='snowfall'||style==='christmas_lights')?'container':'cards';
+  }
+  function buildGradientCss(type,start,end,angle){
+    return type==='radial'?'radial-gradient(circle, '+start+', '+end+')':'linear-gradient('+angle+'deg, '+start+', '+end+')';
+  }
+  function activeGradientPicker(){
+    return Object.keys(gradientPickers).find(function(key){return gradientPickers[key].isGradient();})||null;
+  }
+  function pickerOwnerHidden(fieldName){
+    var p=gradientPickers[fieldName];
+    if(!p)return false;
+    var field=p.input.closest('.alpdt-design-field,.alpdt-flip-panel-field');
+    return !!(field&&field.hidden);
+  }
   Array.prototype.forEach.call(root.querySelectorAll('[data-alpdt-color-picker]'),function(swatch){
     var name=swatch.dataset.alpdtColorPicker;
     var hex=designInputs.find(function(input){return input.dataset.alpdtDesign===name;});
     if(!hex)return;
+    var supportsGrad=swatch.dataset.alpdtSupportsGradient==='1';
     var defaultPickerColor=isHex(hex.value)?hex.value:(isHex(swatch.dataset.alpdtColor)?swatch.dataset.alpdtColor:'#FFFFFF');
     hex.dataset.alpdtValid=isHex(hex.value)?hex.value:'';
     var shell=swatch.closest('.alpdt-color-controls');
@@ -461,7 +620,42 @@
     var heading=elem('h4','alpdt-color-pop-title',header,i18n.colorPicker||'Color Picker');heading.id=popId+'-title';
     pop.setAttribute('aria-labelledby',heading.id);
     var close=elem('button','alpdt-color-close',header,'×');close.type='button';close.setAttribute('aria-label',i18n.closeColor||'Close color picker');
+    var fillMode='solid', activeStop='start';
+    var gradState={type:'linear',start:'#053197',end:'#2FC5B5',angle:135};
+    var solidBtn=null, gradBtn=null, gradPanel=null, gradPreview=null, stopStartBtn=null, stopEndBtn=null, stopStartHex=null, stopEndHex=null, stopStartSwatch=null, stopEndSwatch=null, linearBtn=null, radialBtn=null, angleRow=null, angleRange=null, angleNum=null;
+    if(supportsGrad){
+      var modeTabs=elem('div','alpdt-color-mode-tabs',pop);modeTabs.setAttribute('role','group');modeTabs.setAttribute('aria-label',i18n.gradientModeLabel||'Fill mode');
+      solidBtn=elem('button','alpdt-color-mode-btn',modeTabs,i18n.solidColor||'Solid');solidBtn.type='button';solidBtn.setAttribute('aria-pressed','true');
+      gradBtn=elem('button','alpdt-color-mode-btn',modeTabs,i18n.gradientColor||'Gradient');gradBtn.type='button';gradBtn.setAttribute('aria-pressed','false');
+    }
     var body=elem('div','alpdt-color-pop-body',pop);
+    if(supportsGrad){
+      gradPanel=elem('div','alpdt-grad-panel',body);gradPanel.hidden=true;
+      elem('span','alpdt-grad-caption',gradPanel,i18n.gradientStopsLabel||'Gradient colors');
+      var stopsWrap=elem('div','alpdt-grad-stops',gradPanel);stopsWrap.setAttribute('role','group');stopsWrap.setAttribute('aria-label',i18n.gradientStopsLabel||'Gradient stops');
+      function makeStop(stopKey,stopTitle,initColor){
+        var b=elem('button','alpdt-grad-stop',stopsWrap);b.type='button';b.setAttribute('aria-pressed',stopKey==='start'?'true':'false');
+        var sw=elem('span','alpdt-grad-stop-swatch',b);sw.setAttribute('aria-hidden','true');sw.style.setProperty('--alpdt-stop-color',initColor);
+        var meta=elem('span','alpdt-grad-stop-meta',b);
+        elem('span','alpdt-grad-stop-label',meta,stopTitle);
+        var hx=elem('span','alpdt-grad-stop-hex',meta,initColor);
+        return {btn:b,sw:sw,hx:hx};
+      }
+      var s1=makeStop('start',i18n.gradientStart||'Start',gradState.start);stopStartBtn=s1.btn;stopStartSwatch=s1.sw;stopStartHex=s1.hx;
+      var s2=makeStop('end',i18n.gradientEnd||'End',gradState.end);stopEndBtn=s2.btn;stopEndSwatch=s2.sw;stopEndHex=s2.hx;
+      var gradPreviewWrap=elem('div','alpdt-grad-preview-wrap',gradPanel);
+      gradPreview=elem('div','alpdt-grad-preview',gradPreviewWrap);gradPreview.setAttribute('aria-hidden','true');
+      var optsRow=elem('div','alpdt-grad-options',gradPanel);optsRow.hidden=true;
+      var typeGrp=elem('div','alpdt-grad-type-group',optsRow);typeGrp.setAttribute('role','group');typeGrp.setAttribute('aria-label',i18n.gradientTypeLabel||'Gradient type');
+      linearBtn=elem('button','alpdt-grad-type-btn',typeGrp,i18n.gradientLinear||'Linear');linearBtn.type='button';linearBtn.setAttribute('aria-pressed','true');
+      radialBtn=elem('button','alpdt-grad-type-btn',typeGrp,i18n.gradientRadial||'Radial');radialBtn.type='button';radialBtn.setAttribute('aria-pressed','false');
+      angleRow=elem('div','alpdt-grad-angle-compact',optsRow);
+      var angleLabel=elem('label','alpdt-grad-angle-label',angleRow,i18n.gradientAngle||'Angle');
+      angleRange=elem('input','alpdt-grad-angle-range',angleRow);angleRange.type='range';angleRange.min='0';angleRange.max='360';angleRange.step='1';angleRange.value='135';angleRange.setAttribute('aria-label',(i18n.gradientAngle||'Angle')+' (0–360°)');
+      var angleEntry=elem('span','alpdt-grad-angle-entry',angleRow);
+      angleNum=elem('input','alpdt-grad-angle-num',angleEntry);angleNum.id=popId+'-gradient-angle';angleNum.type='number';angleNum.min='0';angleNum.max='360';angleNum.step='1';angleNum.value='135';angleNum.inputMode='numeric';angleNum.setAttribute('aria-label',(i18n.gradientAngle||'Angle')+' (°)');angleLabel.htmlFor=angleNum.id;
+      var angleDegrees=elem('span','alpdt-grad-angle-degrees',angleEntry,'°');angleDegrees.setAttribute('aria-hidden','true');
+    }
     var square=elem('div','alpdt-color-square',body);square.tabIndex=0;
     square.setAttribute('role','group');square.setAttribute('aria-label',i18n.saturationBrightness||'Saturation and brightness');
     var marker=elem('span','alpdt-color-marker',square);marker.setAttribute('aria-hidden','true');
@@ -481,6 +675,11 @@
     var percentLabel=elem('label','alpdt-color-pop-label',opacityGroup,i18n.opacity||'Opacity');percentLabel.htmlFor=popId+'-opacity';
     var percent=elem('input','alpdt-color-percent',opacityGroup);percent.type='number';percent.id=popId+'-opacity';percent.min='0';percent.max='100';percent.step='1';
     var sign=elem('span','alpdt-color-percent-sign',opacityGroup,'%');sign.setAttribute('aria-hidden','true');
+    if(supportsGrad)body.appendChild(optsRow);
+    var clearBgBtn=null;
+    if(name==='glow_background_color'){
+      clearBgBtn=elem('button','alpdt-grad-clear-btn',body,i18n.clearBackground||'Use style default');clearBgBtn.type='button';
+    }
     var quick=elem('div','alpdt-color-quick',pop);
     var quickHead=elem('div','alpdt-quick-head',quick);
     var quickTitle=elem('h5','alpdt-color-quick-title',quickHead,i18n.quickColors||'Quick colors');
@@ -493,27 +692,175 @@
     var chips=elem('div','alpdt-color-chips',quick);
     var quickFeedback=elem('p','alpdt-color-quick-feedback',quick);quickFeedback.setAttribute('role','status');quickFeedback.setAttribute('aria-live','polite');paletteStatus.push(quickFeedback);
     var hsv=toHSV(defaultPickerColor), opacity=getOpacity(defaultPickerColor);
+    function targetHex(){
+      if(fillMode==='gradient')return gradState[activeStop];
+      return isHex(hex.value)?hex.value:(isHex(hex.dataset.alpdtValid)?hex.dataset.alpdtValid:defaultPickerColor);
+    }
+    function syncGradientInputs(){
+      if(!supportsGrad||fillMode!=='gradient')return;
+      var cssGrad=buildGradientCss(gradState.type,gradState.start,gradState.end,gradState.angle);
+      if(gradTypeHidden)gradTypeHidden.value=gradState.type;
+      if(gradTargetHidden)gradTargetHidden.value=resolveGradientTarget(name);
+      if(gradStartHidden)gradStartHidden.value=gradState.start;
+      if(gradEndHidden)gradEndHidden.value=gradState.end;
+      if(gradAngleHidden)gradAngleHidden.value=String(gradState.angle);
+      hex.dataset.alpdtGradientActive='1';
+      hex.classList.add('alpdt-gradient-summary');
+      hex.classList.remove('alpdt-invalid');hex.removeAttribute('aria-invalid');
+      hex.readOnly=true;
+      hex.value=(gradState.type==='radial'?(i18n.gradientRadial||'Radial'):(i18n.gradientLinear||'Linear')+' '+gradState.angle+'°')+' · '+gradState.start+' → '+gradState.end;
+      swatch.style.setProperty('--alpdt-swatch',cssGrad);
+      swatch.dataset.alpdtColor=gradState.start;
+      if(gradPreview)gradPreview.style.setProperty('--alpdt-grad-swatch',cssGrad);
+      if(stopStartSwatch)stopStartSwatch.style.setProperty('--alpdt-stop-color',gradState.start);
+      if(stopEndSwatch)stopEndSwatch.style.setProperty('--alpdt-stop-color',gradState.end);
+      if(stopStartHex)stopStartHex.textContent=gradState.start;
+      if(stopEndHex)stopEndHex.textContent=gradState.end;
+      square.setAttribute('aria-label',(i18n.saturationBrightness||'Saturation and brightness')+' ('+(activeStop==='start'?(i18n.gradientStart||'Start'):(i18n.gradientEnd||'End'))+')');
+      if(stopStartBtn)stopStartBtn.setAttribute('aria-pressed',activeStop==='start'?'true':'false');
+      if(stopEndBtn)stopEndBtn.setAttribute('aria-pressed',activeStop==='end'?'true':'false');
+      if(linearBtn)linearBtn.setAttribute('aria-pressed',gradState.type==='linear'?'true':'false');
+      if(radialBtn)radialBtn.setAttribute('aria-pressed',gradState.type==='radial'?'true':'false');
+      if(angleRow)angleRow.hidden=gradState.type!=='linear';
+      if(angleRange)angleRange.value=String(gradState.angle);
+      // Do not overwrite a partially typed angle while the numeric field has focus.
+      if(angleNum && document.activeElement!==angleNum)angleNum.value=String(gradState.angle);
+      updateGradientPreview();
+    }
     function paint(){
       var rgb=fromHSV(hsv.h,hsv.s,hsv.v);
       square.style.setProperty('--alpdt-hue',hsv.h);
       marker.style.left=(hsv.s*100)+'%';marker.style.top=((1-hsv.v)*100)+'%';
       hue.value=String(Math.round(hsv.h));alpha.value=String(opacity);percent.value=String(opacity);
-      chips.querySelectorAll('.alpdt-color-chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.alpdtChipValue===hex.value.toUpperCase()?'true':'false');});
-      var previewColor=isHex(hex.value)?hex.value:defaultPickerColor;
+      var previewColor=targetHex();
+      var currentPreset=fillMode==='gradient'?quickGradientId(gradState):previewColor.toUpperCase();
+      chips.querySelectorAll('.alpdt-color-chip').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.alpdtChipValue===currentPreset?'true':'false');});
       samplePaint.style.backgroundColor=previewColor;
-      swatch.style.setProperty('--alpdt-swatch',previewColor);
-      swatch.dataset.alpdtColor=previewColor;
+      if(fillMode==='gradient'){syncGradientInputs();}
+      else{
+        swatch.style.setProperty('--alpdt-swatch',previewColor);
+        swatch.dataset.alpdtColor=previewColor;
+      }
       edit.value=previewColor.toUpperCase();
       alpha.style.setProperty('--alpdt-alpha-base',rgb);
     }
     function setColor(value){
       if(!isHex(value))return;
-      hex.dataset.alpdtTouched='1';hex.value=value.toUpperCase();hex.dataset.alpdtValid=hex.value;
+      var upper=value.toUpperCase();
+      if(fillMode==='gradient'){
+        gradState[activeStop]=upper;
+        hsv=toHSV(upper);opacity=getOpacity(upper);paint();
+        if(gradTypeHidden)gradTypeHidden.dispatchEvent(new Event('change',{bubbles:true}));
+        return;
+      }
+      hex.dataset.alpdtTouched='1';hex.value=upper;hex.dataset.alpdtValid=upper;
       hex.classList.remove('alpdt-invalid');hex.removeAttribute('aria-invalid');
-      hsv=toHSV(hex.value);opacity=getOpacity(hex.value);paint();
+      hsv=toHSV(upper);opacity=getOpacity(upper);paint();
       hex.dispatchEvent(new Event('input',{bubbles:true}));
     }
     function setHSV(){setColor(withAlpha(fromHSV(hsv.h,hsv.s,hsv.v),opacity));}
+    function setFillMode(nextMode,silent){
+      if(!supportsGrad)return;
+      fillMode=nextMode==='gradient'?'gradient':'solid';
+      if(solidBtn)solidBtn.setAttribute('aria-pressed',fillMode==='solid'?'true':'false');
+      if(gradBtn)gradBtn.setAttribute('aria-pressed',fillMode==='gradient'?'true':'false');
+      if(gradPanel)gradPanel.hidden=fillMode!=='gradient';
+      if(supportsGrad&&optsRow)optsRow.hidden=fillMode!=='gradient';
+      quickAdd.textContent=fillMode==='gradient'?(i18n.addGradient||'Add gradient'):(i18n.addColor||'Add color');
+      quickAdd.setAttribute('aria-label',fillMode==='gradient'?(i18n.addQuickGradient||'Save current gradient to Quick Colors'):(i18n.addQuickColor||'Add current color to Quick Colors'));
+      if(fillMode==='gradient'){
+        Object.keys(gradientPickers).forEach(function(other){
+          if(other!==name)gradientPickers[other].clearGradient(true);
+        });
+        if(isHex(hex.dataset.alpdtValid)&&!hex.dataset.alpdtGradientSeeded){
+          gradState.start=hex.dataset.alpdtValid.toUpperCase();
+          hex.dataset.alpdtGradientSeeded='1';
+        }
+        syncGradientInputs();
+        var stopHex=gradState[activeStop];
+        hsv=toHSV(stopHex);opacity=getOpacity(stopHex);paint();
+        if(!silent && gradTypeHidden)gradTypeHidden.dispatchEvent(new Event('change',{bubbles:true}));
+      }else{
+        square.setAttribute('aria-label',i18n.saturationBrightness||'Saturation and brightness');
+        delete hex.dataset.alpdtGradientActive;
+        hex.classList.remove('alpdt-gradient-summary');
+        hex.readOnly=false;
+        hex.value=isHex(hex.dataset.alpdtValid)?hex.dataset.alpdtValid:(name==='glow_background_color'?'':defaultPickerColor);
+        var solidSafe=isHex(hex.value)?hex.value:defaultPickerColor;
+        hsv=toHSV(solidSafe);opacity=getOpacity(solidSafe);paint();
+        if(!silent){
+          if(gradTypeHidden)gradTypeHidden.value='none';
+          hex.dispatchEvent(new Event('change',{bubbles:true}));
+        }
+        updateGradientPreview();
+      }
+      if(!pop.hidden)place();
+    }
+    if(supportsGrad){
+      gradientPickers[name]={
+        input:hex,
+        isGradient:function(){return fillMode==='gradient';},
+        setGradient:function(cfg){
+          gradState.type=cfg&&cfg.type==='radial'?'radial':'linear';
+          gradState.start=cfg&&isHex(cfg.start)?cfg.start.toUpperCase():'#053197';
+          gradState.end=cfg&&isHex(cfg.end)?cfg.end.toUpperCase():'#2FC5B5';
+          gradState.angle=cfg&&/^[0-9]{1,3}$/.test(String(cfg.angle))&&Number(cfg.angle)<=360?Number(cfg.angle):135;
+          hex.dataset.alpdtGradientSeeded='1';
+          setFillMode('gradient',true);
+        },
+        clearGradient:function(silent){setFillMode('solid',!!silent);}
+      };
+      solidBtn.addEventListener('click',function(){setFillMode('solid',false);});
+      gradBtn.addEventListener('click',function(){setFillMode('gradient',false);});
+      function selectStop(stopKey){
+        activeStop=stopKey;
+        var stHex=gradState[activeStop];
+        hsv=toHSV(stHex);opacity=getOpacity(stHex);paint();
+      }
+      stopStartBtn.addEventListener('click',function(){selectStop('start');});
+      stopEndBtn.addEventListener('click',function(){selectStop('end');});
+      linearBtn.addEventListener('click',function(){gradState.type='linear';syncGradientInputs();if(gradTypeHidden)gradTypeHidden.dispatchEvent(new Event('change',{bubbles:true}));if(!pop.hidden)place();});
+      radialBtn.addEventListener('click',function(){gradState.type='radial';syncGradientInputs();if(gradTypeHidden)gradTypeHidden.dispatchEvent(new Event('change',{bubbles:true}));if(!pop.hidden)place();});
+      function updateAngle(val){
+        var n=clamp(Math.round(Number(val)||0),0,360);
+        gradState.angle=n;syncGradientInputs();
+        if(gradAngleHidden)gradAngleHidden.dispatchEvent(new Event('change',{bubbles:true}));
+      }
+      angleRange.addEventListener('input',function(){updateAngle(angleRange.value);angleNum.value=String(gradState.angle);angleNum.removeAttribute('aria-invalid');});
+      // The field also accepts a typed number. Incomplete/invalid input is not
+      // applied to the preview or the saved shortcode until a valid value exists.
+      angleNum.addEventListener('input',function(){
+        var raw=angleNum.value.trim();
+        if(!/^\d{1,3}$/.test(raw)||Number(raw)>360){
+          angleNum.setAttribute('aria-invalid','true');
+          return;
+        }
+        angleNum.removeAttribute('aria-invalid');
+        updateAngle(raw);
+      });
+      angleNum.addEventListener('change',function(){
+        var raw=angleNum.value.trim();
+        if(raw!=='')updateAngle(raw);
+        angleNum.value=String(gradState.angle);
+        angleNum.removeAttribute('aria-invalid');
+      });
+    }
+    if(clearBgBtn){
+      clearBgBtn.addEventListener('click',function(){
+        fillMode='solid';
+        if(solidBtn)solidBtn.setAttribute('aria-pressed','true');
+        if(gradBtn)gradBtn.setAttribute('aria-pressed','false');
+        if(gradPanel)gradPanel.hidden=true;
+        if(supportsGrad&&optsRow)optsRow.hidden=true;
+        delete hex.dataset.alpdtGradientActive;delete hex.dataset.alpdtTouched;delete hex.dataset.alpdtGradientSeeded;
+        hex.classList.remove('alpdt-gradient-summary','alpdt-invalid');hex.removeAttribute('aria-invalid');hex.readOnly=false;
+        hex.value='';hex.dataset.alpdtValid='';
+        if(gradTypeHidden && activeGradientPicker()===null)gradTypeHidden.value='none';
+        hsv=toHSV(defaultPickerColor);opacity=getOpacity(defaultPickerColor);paint();
+        hex.dispatchEvent(new Event('change',{bubbles:true}));
+        closePicker(true);
+      });
+    }
     function place(){
       // Keep the palette in the *visible wp-admin content viewport*, not in
       // the column's coordinate space. The old 'flip above' calculation could
@@ -551,7 +898,7 @@
     function openPicker(){
       if(openColor && openColor!==closePicker)openColor(false);
       pop.hidden=false;swatch.setAttribute('aria-expanded','true');hex.setAttribute('aria-expanded','true');shell.classList.add('alpdt-color-active');openColor=closePicker;
-      var safe=isHex(hex.value)?hex.value:(isHex(hex.dataset.alpdtValid)?hex.dataset.alpdtValid:defaultPickerColor);hsv=toHSV(safe);opacity=getOpacity(safe);paint();
+      var safe=targetHex();hsv=toHSV(safe);opacity=getOpacity(safe);paint();
       place();pop.scrollTop=0;edit.focus({preventScroll:true});edit.select();
     }
     swatch.setAttribute('aria-haspopup','dialog');swatch.setAttribute('aria-controls',popId);
@@ -589,14 +936,16 @@
       event.preventDefault();setHSV();
     });
     edit.addEventListener('input',function(){edit.classList.toggle('alpdt-invalid',!isHex(edit.value));if(isHex(edit.value))setColor(edit.value);});
-    edit.addEventListener('blur',function(){if(!isHex(edit.value)){edit.value=hex.dataset.alpdtValid||'#FFFFFF';edit.classList.remove('alpdt-invalid');}});
+    edit.addEventListener('blur',function(){if(!isHex(edit.value)){edit.value=targetHex();edit.classList.remove('alpdt-invalid');}});
     hex.addEventListener('input',function(){
+      if(fillMode==='gradient')return;
       if(hex.dataset.alpdtApplyingTheme!=='1')hex.dataset.alpdtTouched='1';
       var valid=isHex(hex.value);hex.classList.toggle('alpdt-invalid',!valid);
       if(valid){hex.removeAttribute('aria-invalid');hex.dataset.alpdtValid=hex.value.toUpperCase();hsv=toHSV(hex.value);opacity=getOpacity(hex.value);paint();}
       else hex.setAttribute('aria-invalid','true');
     });
     hex.addEventListener('blur',function(){
+      if(fillMode==='gradient')return;
       if(name==='glow_background_color' && hex.value.trim()===''){
         // An empty optional color must stay unset after focus/blur.
         hex.dataset.alpdtValid='';hex.classList.remove('alpdt-invalid');hex.removeAttribute('aria-invalid');
@@ -605,19 +954,31 @@
       if(!isHex(hex.value)){hex.value=hex.dataset.alpdtValid||defaultPickerColor;hex.classList.remove('alpdt-invalid');hex.removeAttribute('aria-invalid');}
       hex.value=hex.value.toUpperCase();paint();hex.dispatchEvent(new Event('change',{bubbles:true}));
     });
-    swatch.alpdtSetColor=function(value){if(!isHex(value))return;hex.value=value.toUpperCase();hex.dataset.alpdtValid=hex.value;hsv=toHSV(value);opacity=getOpacity(value);paint();};
+    swatch.alpdtSetColor=function(value){if(!isHex(value)||fillMode==='gradient')return;hex.value=value.toUpperCase();hex.dataset.alpdtValid=hex.value;hsv=toHSV(value);opacity=getOpacity(value);paint();};
     function renderQuickColors() {
       chips.replaceChildren();
       chips.classList.toggle('alpdt-is-managing',managingColors);
       if(!recentColors.length)elem('p','alpdt-color-empty',chips,i18n.quickColorEmpty||'No quick colors saved. Use + to add one.');
       recentColors.forEach(function(value){
         var tile=elem('div','alpdt-color-tile',chips);
-        var button=elem('button','alpdt-color-chip',tile);button.type='button';button.style.setProperty('--alpdt-chip',value);button.dataset.alpdtChipValue=value;button.setAttribute('aria-pressed',value===hex.value.toUpperCase()?'true':'false');
-        button.setAttribute('aria-label',value);button.title=value;
-        button.addEventListener('click',function(){setColor(value);});
+        var button=elem('button','alpdt-color-chip',tile);button.type='button';button.style.setProperty('--alpdt-chip',quickPresetPaint(value));button.dataset.alpdtChipValue=value;
+        var grad=parseQuickGradient(value), current=fillMode==='gradient'?quickGradientId(gradState):targetHex().toUpperCase();
+        button.setAttribute('aria-pressed',value===current?'true':'false');
+        button.classList.toggle('alpdt-gradient-preset',!!grad);
+        button.setAttribute('aria-label',quickPresetLabel(value));button.title=quickPresetLabel(value);
+        button.addEventListener('click',function(){
+          if(grad){
+            if(!supportsGrad){announcePalette(i18n.gradientOnlyField||'This preset requires a gradient-capable background.',true);return;}
+            gradientPickers[name].setGradient(grad);
+            if(gradTypeHidden)gradTypeHidden.dispatchEvent(new Event('change',{bubbles:true}));
+            paint();
+            return;
+          }
+          setColor(value);
+        });
         var remove=elem('button','alpdt-color-chip-remove',tile,'×');remove.type='button';
-        remove.setAttribute('aria-label',(i18n.removeQuickColor||'Remove color %s from Quick Colors').replace('%s',value));
-        remove.setAttribute('title',(i18n.removeQuickColor||'Remove color %s from Quick Colors').replace('%s',value));
+        remove.setAttribute('aria-label',(i18n.removeQuickPreset||'Remove preset %s from Quick Colors').replace('%s',quickPresetLabel(value)));
+        remove.setAttribute('title',(i18n.removeQuickPreset||'Remove preset %s from Quick Colors').replace('%s',quickPresetLabel(value)));
         remove.hidden=!managingColors;
         remove.addEventListener('click',function(){requestQuickColorRemoval(value,remove);});
       });
@@ -625,11 +986,12 @@
     }
     quickAdd.addEventListener('click',function(){
         if(paletteSaving)return;
-        var color=hex.value.toUpperCase();
-        if(!isHex(color)){announcePalette(i18n.quickColorFailed||'Choose a valid HEX color.',true);return;}
-        if(recentColors.includes(color)){announcePalette(i18n.quickColorAlreadySaved||'This color is already saved.',false);return;}
-        if(recentColors.length>=24){announcePalette(i18n.quickColorLimit||'You can save up to 24 colors.',true);return;}
-        savePalette(recentColors.concat([color])).then(function(ok){if(ok)announcePalette(i18n.quickColorAdded||'Color added.');});
+        var grad=fillMode==='gradient' && supportsGrad;
+        var value=grad?quickGradientId(gradState):targetHex().toUpperCase();
+        if(!normalizeQuickPreset(value)){announcePalette(i18n.quickColorFailed||'Choose a valid color or gradient.',true);return;}
+        if(recentColors.includes(value)){announcePalette(i18n.quickColorAlreadySaved||'This preset is already saved.',false);return;}
+        if(recentColors.length>=24){announcePalette(i18n.quickColorLimit||'You can save up to 24 colors and gradients.',true);return;}
+        savePalette(recentColors.concat([value])).then(function(ok){if(ok)announcePalette(grad?(i18n.quickGradientAdded||'Gradient added.'):(i18n.quickColorAdded||'Color added.'));});
       });
     paletteRenderers.push(renderQuickColors);
     renderQuickColors();
@@ -669,30 +1031,44 @@
       hex.dataset.alpdtApplyingTheme = '1';
       hex.value = next;
       hex.dataset.alpdtValid = next;
-      var picker = root.querySelector('[data-alpdt-color-picker="'+hex.dataset.alpdtDesign+'"]');
+      var picker = root.querySelector('[data-alpdt-color-picker="'+escapeSelector(hex.dataset.alpdtDesign)+'"]');
       if (picker && picker.alpdtSetColor) picker.alpdtSetColor(next);
       hex.dispatchEvent(new Event('input', {bubbles:true}));
       delete hex.dataset.alpdtApplyingTheme;
     });
+    var digitInput = root.querySelector('#alpdt-digit-size');
+    var digitUnit = root.querySelector('#alpdt-digit-size-unit');
+    if (digitInput && digitInput.dataset.alpdtTouched !== '1' && (!digitUnit || digitUnit.value === 'px')) {
+      digitInput.dataset.alpdtSyncingDefault = '1';
+      fontSet(digitInput, defaultDigitSize(clockStyle.value));
+      digitInput.dispatchEvent(new Event('input', {bubbles:true}));
+      delete digitInput.dataset.alpdtSyncingDefault;
+    }
+    if (gradientPickers.card_color && gradientPickers.card_color.isGradient() && gradTargetHidden) {
+      gradTargetHidden.value = resolveGradientTarget('card_color');
+    }
   });
   var resetAppearance=document.getElementById('alpdt-reset-appearance');
   if (resetAppearance) resetAppearance.addEventListener('click',function(){
     extraColorCounts={confetti:4,balloon:4,christmas:5};syncExtraColorFields();
+    Object.keys(gradientPickers).forEach(function(k){gradientPickers[k].clearGradient(true);});
     var palette=colorPalettes[clockStyle.value]||colorPalettes.standard;
     designInputs.forEach(function(input){
       var key=input.dataset.alpdtDesign;
-      if(['clock_weight','clock_italic','card_inner_spacing','bulb_card_gap','bulb_count','glow_background_color'].includes(key) || key==='clock_radius' || key==='clock_padding' || /^(?:clock|countdown)_padding_(?:top|right|bottom|left)$/.test(key)){input.value='';delete input.dataset.alpdtTouched;input.dispatchEvent(new Event('change',{bubbles:true}));return;}
-      var defaults={clock_size:'170',digit_size:'60',label_size:'14',clock_font:'auto',blood_font:'creepster',clock_width:'auto'};
+      if(['clock_weight','clock_italic','card_inner_spacing','bulb_card_gap','bulb_count','glow_background_color'].includes(key) || key==='clock_radius' || /^clock_radius_(?:top|bottom)_(?:left|right)$/.test(key) || key==='clock_padding' || /^(?:clock|countdown)_padding_(?:top|right|bottom|left)$/.test(key)){input.value='';input.dataset.alpdtValid='';delete input.dataset.alpdtTouched;delete input.dataset.alpdtGradientSeeded;var clearPicker=root.querySelector('[data-alpdt-color-picker="'+escapeSelector(key)+'"]');if(clearPicker&&key==='glow_background_color'){clearPicker.style.setProperty('--alpdt-swatch','#EAF7F8');clearPicker.dataset.alpdtColor='#EAF7F8';}input.dispatchEvent(new Event('change',{bubbles:true}));return;}
+      var defaults={clock_size:'170',digit_size:defaultDigitSize(clockStyle.value),label_size:'14',clock_font:'auto',blood_font:'creepster',clock_width:'auto',bg_gradient_type:'none',bg_gradient_target:'container',bg_gradient_start:'#053197',bg_gradient_end:'#2FC5B5',bg_gradient_angle:'135'};
       var value=palette[key]||defaults[key]||(/^(?:confetti|balloon)_(?:[1-9]|10)_color$/.test(key)||/^christmas_(?:[1-9]|1[0-2])_color$/.test(key)?input.defaultValue:'');if(!value)return;
-      delete input.dataset.alpdtTouched;
+      delete input.dataset.alpdtTouched;delete input.dataset.alpdtGradientSeeded;
       input.value=value;input.dataset.alpdtValid=value;
       if(key==='digit_size'||key==='label_size')fontSet(input,value);
-      var picker=root.querySelector('[data-alpdt-color-picker="'+key+'"]');
+      var picker=root.querySelector('[data-alpdt-color-picker="'+escapeSelector(key)+'"]');
       if(picker&&picker.alpdtSetColor)picker.alpdtSetColor(value);
       input.classList.remove('alpdt-invalid');input.removeAttribute('aria-invalid');
       input.dispatchEvent(new Event('change',{bubbles:true}));
     });
+    Array.prototype.forEach.call(root.querySelectorAll('.alpdt-field select'),function(select){if(select.alpdtRepaint)select.alpdtRepaint();});
     resetPaddingLinks();
+    resetRadiusLinks();
     if (panelTransparent) { panelTransparent.checked=false; panelTransparent.dispatchEvent(new Event('change',{bubbles:true})); }
     if(openColor)openColor(false);
   });
@@ -751,6 +1127,10 @@
       clock_weight:['simple','glow','flip','slide','pulse','sweep','ring','celebration','confetti','odometer','neon','liquid','orbit','glitch','hourglass','snowfall','christmas_lights'],
       clock_italic:['simple','glow','flip','slide','pulse','sweep','ring','celebration','confetti','odometer','neon','liquid','orbit','glitch','hourglass','snowfall','christmas_lights'],
       clock_radius:['flip','odometer','neon','matrix','morph','glitch','hourglass','celebration','confetti','blood','snowfall','christmas_lights'],
+      clock_radius_top_left:['flip','odometer','neon','matrix','morph','glitch','hourglass','celebration','confetti','blood','snowfall','christmas_lights'],
+      clock_radius_top_right:['flip','odometer','neon','matrix','morph','glitch','hourglass','celebration','confetti','blood','snowfall','christmas_lights'],
+      clock_radius_bottom_left:['flip','odometer','neon','matrix','morph','glitch','hourglass','celebration','confetti','blood','snowfall','christmas_lights'],
+      clock_radius_bottom_right:['flip','odometer','neon','matrix','morph','glitch','hourglass','celebration','confetti','blood','snowfall','christmas_lights'],
       card_color:['flip','ring','odometer','neon','liquid','matrix','morph','orbit','glitch','hourglass','snowfall','christmas_lights'],
       accent_color:['flip','sweep','ring','celebration','neon','liquid','matrix','morph','orbit','glitch','hourglass'],
       track_color:['ring','orbit','hourglass'],
@@ -778,11 +1158,23 @@
     if(cardLabel)cardLabel.textContent=style==='snowfall'?(i18n.snowfallBackground||'Snowfall background'):style==='christmas_lights'?(i18n.christmasBackground||'Christmas Lights background'):(i18n.cardBackground||'Card / circle background');
     var sizeSection=root.querySelector('[data-alpdt-design-section="size"]');
     if(sizeSection)sizeSection.hidden=!['ring','liquid','orbit'].includes(style);
+    // Each helper must describe the selected design, never an unrelated clock.
+    var contextualHelp={width:style==='christmas_lights'?'christmas_lights':'default',
+      card:['odometer','flip','liquid','ring','orbit','snowfall','christmas_lights'].includes(style)?style:'default'};
+    root.querySelectorAll('[data-alpdt-style-help]').forEach(function(help){
+      var parts=(help.dataset.alpdtStyleHelp||'').split(':');
+      help.hidden=parts.length!==2 || contextualHelp[parts[0]]!==parts[1];
+    });
     var diameterLabel=root.querySelector('label[for="alpdt-clock-size"]');
     if(diameterLabel) diameterLabel.textContent=style==='orbit'?i18n.orbitDiameter||'Orbit diameter (px)':style==='liquid'?i18n.liquidDiameter||'Liquid circle diameter (px)':i18n.circleDiameter||'Circle diameter (px)';
     root.querySelectorAll('[data-alpdt-blood-font]').forEach(function(field){field.hidden=style!=='blood';});
-    var fontApplicable = !['matrix','morph','blood'].includes(clockStyle.value);
+    var fontApplicable = !['matrix','morph'].includes(clockStyle.value);
     root.querySelectorAll('.alpdt-font-field,.alpdt-font-help').forEach(function(el){el.hidden=!fontApplicable;});
+    var fontHelpEl=root.querySelector('.alpdt-font-field .alpdt-field-help');
+    if(fontHelpEl){
+      if(!fontHelpEl.dataset.alpdtDefaultText)fontHelpEl.dataset.alpdtDefaultText=fontHelpEl.textContent;
+      fontHelpEl.textContent=style==='blood'?(i18n.bloodUnitFontHelp||'In Blood Dripping, this font applies to the unit labels (Days, Hours, Minutes, Seconds). Numbers keep the Blood Dripping font above.'):fontHelpEl.dataset.alpdtDefaultText;
+    }
     root.querySelectorAll('[data-alpdt-design-section]').forEach(function(section){
       var fields=section.querySelectorAll('.alpdt-design-field');
       section.hidden=!!fields.length && !Array.prototype.some.call(fields,function(field){return !field.hidden;});
@@ -808,29 +1200,51 @@
     }
     if (t === 'smart_date') { if(live.checked && !['post_published','post_modified'].includes(expression.value))data.live='true';data.expression=expression.value; if (expression.value==='date_difference') { data.from=diffFrom.value;data.to=diffTo.value; } if (expression.value==='season')data.hemisphere=hemisphere.value; if (!['quarter','season','date_difference'].includes(expression.value))data.format=format.value; }
     if (t === 'countdown') { if (recurrence.value !== 'none') { data.recurrence=recurrence.value;data.repeat_time=repeatTime.value; if(recurrence.value==='weekly')data.repeat_weekday=repeatWeekday.value; if(recurrence.value==='monthly')data.repeat_day=repeatDay.value; } else { data.to=to.value; if(endAction.value!=='none'){data.end_action=endAction.value;if(endAction.value==='message')data.end_message=endMessage.value.trim();if(endAction.value==='redirect')data.end_url=endUrl.value.trim();}} data.countdown_display = countdownDisplay.value; if (['full','custom'].includes(countdownDisplay.value) && clockStyle.value !== 'simple') data.clock_style = clockStyle.value; if (['full','custom'].includes(countdownDisplay.value) && clockLayout && clockLayout.value === 'horizontal' && ['simple','glow','flip','slide','pulse','sweep','ring','odometer','neon','liquid','matrix','glitch','morph','celebration','confetti','snowfall','christmas_lights'].includes(clockStyle.value)) data.clock_layout='horizontal'; if (countdownDisplay.value === 'custom') data.clock_units = unitChecks.filter(function(el){return el.checked;}).map(function(el){return el.dataset.alpdtClockUnit;}).join(','); }
-    if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value) && clockStyle.value==='christmas_lights' && lightsMode && lightsMode.value) data.lights_mode=lightsMode.value;
     if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value) && ['celebration','confetti'].includes(clockStyle.value)) { data.celebration_duration=celebrationDuration ? celebrationDuration.value : '5'; data.celebration_mode=celebrationMode ? celebrationMode.value : 'end'; if (celebrationMessage && celebrationMessage.value.trim()) data.celebration_message=celebrationMessage.value.trim().slice(0,120); }
-    if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value)) designInputs.forEach(function (input) {
-      var key=input.dataset.alpdtDesign;
-      var owner=input.closest('.alpdt-design-field');
-      if (owner && owner.hidden) return;
-      if (/^(?:clock_radius|clock_padding(?:_(?:top|right|bottom|left))?|countdown_padding_(?:top|right|bottom|left))$/.test(key) && (input.value==='' || !/^(?:[0-9]|[1-7][0-9]|80)$/.test(input.value))) return;
-      if (key==='clock_width' && input.value!=='full') return;
-      if (key==='card_inner_spacing' && !/^(?:[0-9]|[12][0-9]|30)$/.test(input.value)) return;
-      if (key==='bulb_count' && (clockStyle.value!=='christmas_lights' || !/^[0-9]{1,2}$/.test(input.value) || Number(input.value)<8 || Number(input.value)>60)) return;
-      if (key==='bulb_card_gap' && (clockStyle.value!=='christmas_lights' || !/^(?:[0-9]|[1-6][0-9]|70)$/.test(input.value))) return;
-      if (key==='clock_weight' && input.value!=='' && !/^(300|400|500|600|700|800|900)$/.test(input.value)) return;
-      if (key==='clock_italic' && input.value!=='' && !/^(normal|italic)$/.test(input.value)) return;
-      if (['clock_weight','clock_italic'].includes(key) && input.value==='') return;
-      if (key==='blood_font' && clockStyle.value!=='blood') return;
-      if (key==='clock_font' && input.value==='auto') return;
-      if(key==='glow_background_color' && clockStyle.value!=='glow')return;
-      if (key==='digit_size'||key==='label_size') {var cssSize=fontValue(input);if(cssSize)data[key]=cssSize;return;}
-      if (/^(?:confetti|balloon)_(?:[1-9]|10)_color$/.test(key)) {
-        if (clockStyle.value!=='confetti' || !paletteChanged(key.split('_')[0])) return;
-      }
-      if (input.value !== '' && (!key.endsWith('_color') || isHex(input.value))) data[key]=input.value;
-    });
+    if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value)) {
+      var activeGradOwner=activeGradientPicker();
+      var activeGradVisible=!activeGradOwner || !pickerOwnerHidden(activeGradOwner);
+      var activeGradType=activeGradVisible&&gradTypeHidden?gradTypeHidden.value:'none';
+      designInputs.forEach(function (input) {
+        var key=input.dataset.alpdtDesign;
+        var owner=input.closest('.alpdt-design-field');
+        if (owner && owner.hidden) return;
+        if (input.dataset.alpdtGradientActive==='1') {
+          if (key==='glow_background_color') return;
+          if (isHex(input.dataset.alpdtValid)) data[key]=input.dataset.alpdtValid;
+          return;
+        }
+        if (key==='bg_gradient_type') { if(activeGradType==='linear'||activeGradType==='radial')data[key]=activeGradType; return; }
+        if (/^bg_gradient_(?:start|end|angle|target)$/.test(key)) {
+          if (activeGradType!=='linear'&&activeGradType!=='radial') return;
+          if (key==='bg_gradient_angle') {
+            if(activeGradType!=='linear')return;
+            var ang=Number(input.value);
+            if(/^[0-9]{1,3}$/.test(input.value) && ang>=0 && ang<=360)data[key]=String(ang);
+            return;
+          }
+          if (key==='bg_gradient_target') { if(input.value==='container'||input.value==='cards')data[key]=input.value; return; }
+          if (isHex(input.value)) data[key]=input.value;
+          return;
+        }
+        if (/^(?:clock_radius(?:_(?:top|bottom)_(?:left|right))?|clock_padding(?:_(?:top|right|bottom|left))?|countdown_padding_(?:top|right|bottom|left))$/.test(key) && (input.value==='' || !/^(?:[0-9]|[1-7][0-9]|80)$/.test(input.value))) return;
+        if (key==='clock_width' && input.value!=='full') return;
+        if (key==='card_inner_spacing' && !/^(?:[0-9]|[12][0-9]|30)$/.test(input.value)) return;
+        if (key==='bulb_count' && (clockStyle.value!=='christmas_lights' || !/^[0-9]{1,2}$/.test(input.value) || Number(input.value)<8 || Number(input.value)>60)) return;
+        if (key==='bulb_card_gap' && (clockStyle.value!=='christmas_lights' || !/^(?:[0-9]|[1-6][0-9]|70)$/.test(input.value))) return;
+        if (key==='clock_weight' && input.value!=='' && !/^(300|400|500|600|700|800|900)$/.test(input.value)) return;
+        if (key==='clock_italic' && input.value!=='' && !/^(normal|italic)$/.test(input.value)) return;
+        if (['clock_weight','clock_italic'].includes(key) && input.value==='') return;
+        if (key==='blood_font' && clockStyle.value!=='blood') return;
+        if (key==='clock_font' && input.value==='auto') return;
+        if(key==='glow_background_color' && clockStyle.value!=='glow')return;
+        if (key==='digit_size'||key==='label_size') {var cssSize=fontValue(input);if(cssSize)data[key]=cssSize;return;}
+        if (/^(?:confetti|balloon)_(?:[1-9]|10)_color$/.test(key)) {
+          if (clockStyle.value!=='confetti' || !paletteChanged(key.split('_')[0])) return;
+        }
+        if (input.value !== '' && (!key.endsWith('_color') || isHex(input.value))) data[key]=input.value;
+      });
+    }
     if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value) && ['flip','celebration','confetti'].includes(clockStyle.value) && panelTransparent && panelTransparent.checked) data.panel_color='transparent';
     if (t === 'countdown' && ['full','custom'].includes(countdownDisplay.value)) labelInputs.forEach(function(input){if(input.value.trim())data['label_'+input.dataset.alpdtUnitLabel]=input.value.trim().slice(0,32);});
     if (t === 'anniversary_message') { [['before',msgBefore],['on',msgOn],['after',msgAfter]].forEach(function(pair){if(pair[1] && pair[1].value.trim())data[pair[0]]=pair[1].value.trim().slice(0,240);}); }
@@ -841,46 +1255,6 @@
     if (t === 'date') data.format = format.value;
     return data;
   }
-  function sameSavedConfiguration(original,generated) {
-    var left=parseStoredConfig(original),right=parseStoredConfig(generated);
-    if(!left || !right)return false;
-    var defaults={mode:'anniversary',unit:'years',text:'true',format:'j F Y',offset:'0',copyright_style:'range'};
-    return Array.from(new Set(Object.keys(left).concat(Object.keys(right)))).every(function(key){
-      return String(left[key]===undefined?(defaults[key]===undefined?'':defaults[key]):left[key])===
-        String(right[key]===undefined?(defaults[key]===undefined?'':defaults[key]):right[key]);
-    });
-  }
-  function seoRegisteredName(data) {
-    if(editingConfig && sameSavedConfiguration(editingConfig.code,code.value) && i18n.seoSavedVars && i18n.seoSavedVars[editingConfig.slug])return i18n.seoSavedVars[editingConfig.slug];
-    if(data.type==='year' && (!data.offset || data.offset==='0'))return 'alpdt_year';
-    if(data.type==='month')return 'alpdt_month';
-    if(data.type==='copyright' && data.copyright_style==='current')return 'alpdt_year';
-    if(data.type==='elapsed' && data.id && data.mode==='calendar' && data.unit==='years' && data.text==='false')return 'alpdt_since_'+data.id.replace(/-/g,'_');
-    return '';
-  }
-  function refreshSEO(data) {
-    if(!seoArea || !seoCopy)return;
-    seoArea.hidden = data.type==='countdown';
-    if(seoArea.hidden)return;
-    var registered=seoRegisteredName(data);
-    var name=registered?(seoProvider.value==='yoast'?'%%'+registered+'%%':'%'+registered+'%'):'';
-    seoCopy.disabled=!name;
-    seoCopy.dataset.alpdtSeoValue=name;
-    seoValue.hidden=!name;
-    seoValue.textContent=name;
-    seoHelp.textContent=name?(i18n.seoReady||'Ready for the selected SEO plugin.'):(editingConfig?(i18n.seoUnsavedChanges||'Save your changes first.'):(i18n.seoSaveFirst||'Save this configuration first.'));
-    seoStatus.replaceChildren();seoStatus.classList.remove('alpdt-copy-ok');
-  }
-  if(seoProvider)seoProvider.addEventListener('change',function(){refreshSEO(attrs());});
-  if(seoCopy)seoCopy.addEventListener('click',function(){
-    var value=seoCopy.dataset.alpdtSeoValue||'';if(!value)return;
-    function failure(){
-      var selection=window.getSelection(),range=document.createRange();range.selectNodeContents(seoValue);selection.removeAllRanges();selection.addRange(range);
-      showCopyNotice('variable',false);
-    }
-    if(navigator.clipboard && navigator.clipboard.writeText)navigator.clipboard.writeText(value).then(function(){showCopyNotice('variable',true);}).catch(failure);
-    else failure();
-  });
   // Editing a message previews that exact field rather than today's automatic phase.
   // The phase is not added to attrs() or any saved shortcode.
   var anniversaryPreviewPhase = '';
@@ -903,7 +1277,6 @@
       if (data[key] !== '') parts.push(' ' + key + '="' + String(data[key]).replace(/["\[\]<>\\]/g, '') + '"');
     });
     code.value = parts.join('') + ']';
-    refreshSEO(data);
     var valid = ['elapsed', 'ordinal', 'copyright', 'anniversary_message'].indexOf(data.type) < 0 || !!(data.id || data.from) || (data.type === 'copyright' && data.copyright_style === 'current');
     if (data.type === 'countdown') valid = (data.recurrence || !!data.to) && (data.countdown_display !== 'custom' || !!data.clock_units) && (data.end_action!=='redirect' || /^\/(?!\/)[a-zA-Z0-9/_-]*$/.test(data.end_url));
     if (data.type === 'smart_date' && data.expression==='date_difference') valid = /^\d{4}-\d{2}-\d{2}$/.test(data.from) && /^\d{4}-\d{2}-\d{2}$/.test(data.to);
@@ -911,12 +1284,20 @@
       preview.classList.toggle('alpdt-preview-' + style, data.type === 'countdown' && ['full','custom'].includes(data.countdown_display) && clockStyle.value === style);
     });
     stopClock();
-    if (!valid) { requestId++; preview.textContent = i18n.previewEmpty || '—'; return; }
+    if (!valid) { requestId++; preview.textContent = i18n.previewEmpty || '—'; preview.classList.remove('alpdt-preview-has-gradient','alpdt-preview-solid-glow'); return; }
     var current = ++requestId;
-    preview.textContent = '…';
+    // Keep a live countdown visible while settings change; only the REST
+    // date calculation waits for the debounced request. This prevents the
+    // gradient and number styles from vanishing between edits.
+    if (data.type === 'countdown' && ['full','custom'].includes(data.countdown_display) && preview.querySelector('.alpdt-clock-grid')) {
+      updateGradientPreview();
+    } else {
+      preview.textContent = '…';
+    }
     clearTimeout(debounce);
     debounce = setTimeout(function () {
-      var url = new URL(i18n.restUrl, document.baseURI);
+      var url = safeLocalEndpoint(i18n.restUrl, '/alpdt/v1/render');
+      if (!url) { if (current === requestId) preview.textContent = i18n.previewUnavailable || '—'; return; }
       // The server returns text and a target. The clock design is previewed locally.
       ['type', 'id', 'from', 'to', 'mode', 'unit', 'format', 'text', 'offset', 'before', 'on', 'after',
         'countdown_display', 'copyright_style', 'clock_units', 'expression', 'hemisphere', 'recurrence', 'repeat_time', 'repeat_weekday', 'repeat_day'].forEach(function (key) {
@@ -938,7 +1319,7 @@
         .catch(function () { if (current === requestId) preview.textContent = i18n.previewUnavailable || '—'; });
     }, 160);
   }
-  [type, from, to, diffFrom, diffTo, postPreviewDate, live, saved, mode, unit, txt, offset, format, countdownDisplay, copyrightStyle, clockStyle, clockLayout, lightsMode, celebrationMessage, celebrationDuration, celebrationMode, msgBefore, msgOn, msgAfter, expression, hemisphere, recurrence, repeatTime, repeatWeekday, repeatDay, endAction, endMessage, endUrl].concat(unitChecks,designInputs,labelInputs).filter(Boolean).forEach(function (el) {
+  [type, from, to, diffFrom, diffTo, postPreviewDate, live, saved, mode, unit, txt, offset, format, countdownDisplay, copyrightStyle, clockStyle, clockLayout, celebrationMessage, celebrationDuration, celebrationMode, msgBefore, msgOn, msgAfter, expression, hemisphere, recurrence, repeatTime, repeatWeekday, repeatDay, endAction, endMessage, endUrl].concat(unitChecks,designInputs,labelInputs).filter(Boolean).forEach(function (el) {
     el.addEventListener('input', refresh); el.addEventListener('change', refresh);
   });
   var clockTimer = null;
@@ -960,10 +1341,15 @@
       else if(key==='glow_background_color') {if(!isHex(value))return;grid.classList.add('alpdt-has-glow-background');}
       else if(key==='bulb_count') return;
       else if(key==='bulb_card_gap') { if (!/^(?:[0-9]|[1-6][0-9]|70)$/.test(value)) return; value=Number(value)+'px'; grid.classList.add('alpdt-has-bulb-gap'); }
-      else if(key==='clock_radius') {
+      else if(key==='clock_radius' || /^clock_radius_(?:top|bottom)_(?:left|right)$/.test(key)) {
         if(value==='' || !/^(?:[0-9]|[1-7][0-9]|80)$/.test(value))return;
         value=Number(value)+'px';
         grid.classList.add('alpdt-has-radius');
+        if(key!=='clock_radius') {
+          var cornerMap={clock_radius_top_left:'--alpdt-radius-tl',clock_radius_top_right:'--alpdt-radius-tr',clock_radius_bottom_right:'--alpdt-radius-br',clock_radius_bottom_left:'--alpdt-radius-bl'};
+          grid.style.setProperty(cornerMap[key],value);
+          return;
+        }
       }
       else if(/^(?:clock_padding(?:_(?:top|right|bottom|left))?|countdown_padding_(?:top|right|bottom|left))$/.test(key)) {
         if(value==='' || !/^(?:[0-9]|[1-7][0-9]|80)$/.test(value)) return;
@@ -985,7 +1371,24 @@
     grid.classList.toggle('alpdt-has-outer-padding',hasOuterPadding);
     if(grid.classList.contains('alpdt-clock-blood')) grid.dataset.alpdtBloodFont=(root.querySelector('#alpdt-blood-font')||{}).value==='nosifer'?'nosifer':'creepster';
     if (panelTransparent && panelTransparent.checked) grid.style.setProperty('--alpdt-flip-panel-bg','transparent');
-    var digitCss=grid.style.getPropertyValue('--alpdt-digit-size')||'60px';
+    var activeGradOwner=activeGradientPicker();
+    var gradType=(!activeGradOwner || !pickerOwnerHidden(activeGradOwner)) && gradTypeHidden ? gradTypeHidden.value : 'none';
+    if (gradType==='linear'||gradType==='radial') {
+      var gradStart=gradStartHidden?gradStartHidden.value:'';
+      var gradEnd=gradEndHidden?gradEndHidden.value:'';
+      var gradTarget=gradTargetHidden&&gradTargetHidden.value==='cards'?'cards':'container';
+      var gradAngle=gradAngleHidden?gradAngleHidden.value:'135';
+      if (isHex(gradStart) && isHex(gradEnd)) {
+        grid.classList.add('alpdt-bg-grad-'+gradType,'alpdt-bg-grad-'+gradTarget);
+        grid.style.setProperty('--alpdt-grad-start',gradStart.toLowerCase());
+        grid.style.setProperty('--alpdt-grad-end',gradEnd.toLowerCase());
+        if (gradType==='linear') {
+          var safeAng=(/^[0-9]{1,3}$/.test(gradAngle)&&Number(gradAngle)<=360)?gradAngle:'135';
+          grid.style.setProperty('--alpdt-grad-angle',safeAng+'deg');
+        }
+      }
+    }
+    var digitCss=grid.style.getPropertyValue('--alpdt-digit-size')||(grid.classList.contains('alpdt-clock-blood')?'60px':'50px');
     var diameter=parseInt(grid.style.getPropertyValue('--alpdt-size')||'170',10);
     if(/^[0-9]+(?:\.[0-9]+)?px$/.test(digitCss)) {
       var size=parseFloat(digitCss);
@@ -993,6 +1396,40 @@
     } else {
       grid.style.setProperty('--alpdt-ring-diameter','clamp(72px, calc('+digitCss+' * '+(Math.round(diameter/60*10000)/10000)+'), 300px)');
     }
+  }
+  // Keep the preview's rendered clock in sync immediately while a new REST
+  // date response is pending. Use the same validated gradient attributes as
+  // shortcode generation; do not use arbitrary text from input as CSS.
+  function updateGradientPreview(){
+    var grid=preview && preview.querySelector('.alpdt-clock-grid');
+    var activeOwner=activeGradientPicker();
+    var kind=activeOwner && !pickerOwnerHidden(activeOwner) && gradTypeHidden ? gradTypeHidden.value : 'none';
+    var start=gradStartHidden?gradStartHidden.value:'', end=gradEndHidden?gradEndHidden.value:'';
+    var valid=(kind==='linear'||kind==='radial') && isHex(start) && isHex(end);
+    if(!grid){
+      if(preview)preview.classList.remove('alpdt-preview-has-gradient','alpdt-preview-solid-glow');
+      return;
+    }
+    grid.classList.remove('alpdt-bg-grad-linear','alpdt-bg-grad-radial','alpdt-bg-grad-container','alpdt-bg-grad-cards');
+    ['--alpdt-grad-start','--alpdt-grad-end','--alpdt-grad-angle','--alpdt-grad-value'].forEach(function(prop){grid.style.removeProperty(prop);});
+    grid.style.removeProperty('background-image');
+    if(preview){
+      preview.classList.toggle('alpdt-preview-has-gradient',valid);
+      // An explicit Solid HEX must also remove the original Soft Glow mint
+      // wrapper. Relying on :has() alone left a visible pale border on some sites.
+      preview.classList.toggle('alpdt-preview-solid-glow',
+        !valid && grid.classList.contains('alpdt-clock-glow') && grid.classList.contains('alpdt-has-glow-background'));
+    }
+    if(!valid)return;
+    var target=gradTargetHidden && gradTargetHidden.value==='cards'?'cards':'container';
+    var angle=gradAngleHidden && /^[0-9]{1,3}$/.test(gradAngleHidden.value) && Number(gradAngleHidden.value)<=360 ? Number(gradAngleHidden.value):135;
+    var gradient=buildGradientCss(kind,start,end,angle);
+    grid.classList.add('alpdt-bg-grad-'+kind,'alpdt-bg-grad-'+target);
+    grid.style.setProperty('--alpdt-grad-start',start.toLowerCase());
+    grid.style.setProperty('--alpdt-grad-end',end.toLowerCase());
+    grid.style.setProperty('--alpdt-grad-angle',angle+'deg');
+    grid.style.setProperty('--alpdt-grad-value',gradient);
+    if(target==='container')grid.style.setProperty('background-image',gradient);
   }
   function startClock(target, unitString) {
     var chosen = unitString ? unitString.split(',') : ['days','hours','minutes','seconds'];
@@ -1051,7 +1488,23 @@
       var cell = document.createElement('span'); cell.className='alpdt-clock-cell'; cell.setAttribute('data-alpdt-unit',name);
       var number = document.createElement('span'); number.className='alpdt-clock-number';
       var digit = document.createElement('span'); digit.className='alpdt-clock-digit'; digit.textContent='00';
-      if (appearance === 'ring') number.innerHTML = '<svg class="alpdt-ring-svg" viewBox="0 0 120 120" focusable="false" aria-hidden="true"><circle class="alpdt-ring-track" cx="60" cy="60" r="49" pathLength="100"/><circle class="alpdt-ring-progress" cx="60" cy="60" r="49" pathLength="100"/></svg>';
+      if (appearance === 'ring') {
+        var ringSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        ringSvg.setAttribute('class', 'alpdt-ring-svg');
+        ringSvg.setAttribute('viewBox', '0 0 120 120');
+        ringSvg.setAttribute('focusable', 'false');
+        ringSvg.setAttribute('aria-hidden', 'true');
+        ['alpdt-ring-track', 'alpdt-ring-progress'].forEach(function(cls) {
+          var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          circle.setAttribute('class', cls);
+          circle.setAttribute('cx', '60');
+          circle.setAttribute('cy', '60');
+          circle.setAttribute('r', '49');
+          circle.setAttribute('pathLength', '100');
+          ringSvg.appendChild(circle);
+        });
+        number.appendChild(ringSvg);
+      }
       number.appendChild(digit); cell.appendChild(number);
       var lbl = document.createElement('span'); lbl.className='alpdt-clock-label'; lbl.textContent=labels[name];
       if (horizontal) {
@@ -1062,6 +1515,7 @@
       grid.appendChild(cell); cells[name]={cell:cell,digit:digit};
     });
     preview.textContent=''; preview.appendChild(grid);
+    updateGradientPreview();
     function tick() {
       var now = Math.floor(Date.now()/1000), remaining = Math.max(0,Math.ceil(target-Date.now()/1000));
       var parts = typeof window.ALPDTCountdownParts==='function' ? window.ALPDTCountdownParts(now,target,i18n.timezone||'UTC',chosen) : {};
@@ -1181,14 +1635,14 @@
     });
   }
   function importStored(config) {
-    var controls={from:from,to:to,id:saved,mode:mode,unit:unit,offset:offset,format:format,countdown_display:countdownDisplay,copyright_style:copyrightStyle,clock_style:clockStyle,clock_layout:clockLayout,lights_mode:lightsMode,celebration_duration:celebrationDuration,celebration_mode:celebrationMode,celebration_message:celebrationMessage,before:msgBefore,on:msgOn,after:msgAfter,expression:expression,hemisphere:hemisphere,recurrence:recurrence,repeat_time:repeatTime,repeat_weekday:repeatWeekday,repeat_day:repeatDay,end_action:endAction,end_message:endMessage,end_url:endUrl};
+    var controls={from:from,to:to,id:saved,mode:mode,unit:unit,offset:offset,format:format,countdown_display:countdownDisplay,copyright_style:copyrightStyle,clock_style:clockStyle,clock_layout:clockLayout,celebration_duration:celebrationDuration,celebration_mode:celebrationMode,celebration_message:celebrationMessage,before:msgBefore,on:msgOn,after:msgAfter,expression:expression,hemisphere:hemisphere,recurrence:recurrence,repeat_time:repeatTime,repeat_weekday:repeatWeekday,repeat_day:repeatDay,end_action:endAction,end_message:endMessage,end_url:endUrl};
     type.value=config.type;
     if (from) from.value=config.from||'2000';
     if (diffFrom) diffFrom.value=(config.from&&/^\d{4}-\d{2}-\d{2}$/.test(config.from))?config.from:'2026-01-01';
     if (diffTo) diffTo.value=(config.to&&/^\d{4}-\d{2}-\d{2}$/.test(config.to))?config.to:'2026-12-31';
     if (saved) saved.value=config.id||'';
     if (to) to.value=config.to||'2027-01-01T12:00';
-    var base={mode:'anniversary',unit:'years',offset:'0',format:'j F Y',countdown_display:'days',copyright_style:'range',expression:'today',hemisphere:'north',recurrence:'none',repeat_time:'12:00',repeat_weekday:'1',repeat_day:'1',end_action:'none',end_message:'',end_url:'',clock_style:'simple',clock_layout:'default',lights_mode:'multicolor',celebration_duration:'5',celebration_mode:'end',celebration_message:'',before:'',on:'',after:''};
+    var base={mode:'anniversary',unit:'years',offset:'0',format:'j F Y',countdown_display:'days',copyright_style:'range',expression:'today',hemisphere:'north',recurrence:'none',repeat_time:'12:00',repeat_weekday:'1',repeat_day:'1',end_action:'none',end_message:'',end_url:'',clock_style:'simple',clock_layout:'default',celebration_duration:'5',celebration_mode:'end',celebration_message:'',before:'',on:'',after:''};
     Object.keys(base).forEach(function(key){
       var el=controls[key];if(!el)return;
       var storedValue=config[key]!==undefined?config[key]:base[key];
@@ -1203,17 +1657,29 @@
       var selected=config.clock_units.split(',');unitChecks.forEach(function(input){input.checked=selected.includes(input.dataset.alpdtClockUnit);});
     } else unitChecks.forEach(function(input){input.checked=['days','hours','minutes','seconds'].includes(input.dataset.alpdtClockUnit);});
     labelInputs.forEach(function(input){input.value=config['label_'+input.dataset.alpdtUnitLabel]||'';});
+    Object.keys(gradientPickers).forEach(function(k){gradientPickers[k].clearGradient(true);});
     designInputs.forEach(function(input){
       var key=input.dataset.alpdtDesign;
       if(config[key]!==undefined){input.value=config[key];input.dataset.alpdtTouched='1';}
-      else if(key==='digit_size'||key==='label_size'){input.value=key==='digit_size'?'60':'14';delete input.dataset.alpdtTouched;}
+      else if(key==='digit_size'||key==='label_size'){input.value=key==='digit_size'?defaultDigitSize(config.clock_style||'simple'):'14';delete input.dataset.alpdtTouched;}
       else if(key==='clock_width'){input.value='auto';delete input.dataset.alpdtTouched;}
-      else if(key==='clock_radius'||key==='bulb_card_gap'||key==='bulb_count'||key==='glow_background_color'||/^(?:clock_padding(?:_(?:top|right|bottom|left))?|countdown_padding_(?:top|right|bottom|left))$/.test(key)){input.value='';delete input.dataset.alpdtTouched;}
+      else if(key==='bg_gradient_type'){input.value='none';delete input.dataset.alpdtTouched;}
+      else if(key==='bg_gradient_target'){input.value='container';delete input.dataset.alpdtTouched;}
+      else if(key==='bg_gradient_start'){input.value='#053197';delete input.dataset.alpdtTouched;}
+      else if(key==='bg_gradient_end'){input.value='#2FC5B5';delete input.dataset.alpdtTouched;}
+      else if(key==='bg_gradient_angle'){input.value='135';delete input.dataset.alpdtTouched;}
+      else if(key==='clock_radius'||/^clock_radius_(?:top|bottom)_(?:left|right)$/.test(key)||key==='bulb_card_gap'||key==='bulb_count'||key==='glow_background_color'||/^(?:clock_padding(?:_(?:top|right|bottom|left))?|countdown_padding_(?:top|right|bottom|left))$/.test(key)){input.value='';input.dataset.alpdtValid='';delete input.dataset.alpdtTouched;}
       else if(/^(?:confetti|balloon)_(?:[1-9]|10)_color$/.test(key) || /^christmas_(?:[1-9]|1[0-2])_color$/.test(key)){input.value=input.defaultValue;delete input.dataset.alpdtTouched;}
       if(key==='digit_size'||key==='label_size')fontSet(input,input.value);
-      var picker=root.querySelector('[data-alpdt-color-picker="'+key+'"]');
+      var picker=root.querySelector('[data-alpdt-color-picker="'+escapeSelector(key)+'"]');
       if(picker && picker.alpdtSetColor && config[key] && config[key]!=='transparent')picker.alpdtSetColor(config[key]);
     });
+    if(config.bg_gradient_type==='linear'||config.bg_gradient_type==='radial'){
+      var ownerKey=config.clock_style==='glow'&&config.bg_gradient_target!=='cards'?'glow_background_color':(config.bg_gradient_target==='container'&&['flip','celebration','confetti'].includes(config.clock_style)?'panel_color':'card_color');
+      if(gradientPickers[ownerKey]){
+        gradientPickers[ownerKey].setGradient({type:config.bg_gradient_type,start:config.bg_gradient_start||'#053197',end:config.bg_gradient_end||'#2FC5B5',angle:config.bg_gradient_angle||'135'});
+      }
+    }
     ['confetti','balloon','christmas'].forEach(function(kind){
       var count=kind==='christmas'?5:4;
       for(var x=count+1;x<=(kind==='christmas'?12:10);x++)if(config[kind+'_'+x+'_color'])count=x;
@@ -1225,6 +1691,7 @@
       paddingSides.forEach(function(side){if(paddingInputs.card[side])paddingInputs.card[side].value=config.clock_padding;});
     }
     resetPaddingLinks();
+    resetRadiusLinks();
     if (panelTransparent)panelTransparent.checked=config.panel_color==='transparent';
     Array.prototype.forEach.call(root.querySelectorAll('.alpdt-field select'),function(select){if(select.alpdtRepaint)select.alpdtRepaint();});
     activate('create',false);activateClockTab('units',false);refresh();
@@ -1289,7 +1756,7 @@
     } else fallback();
   });
   code.addEventListener('input', function () { status.textContent = ''; status.classList.remove('alpdt-copy-ok'); });
-  [type, from, to, diffFrom, diffTo, live, saved, mode, unit, txt, offset, format, countdownDisplay, copyrightStyle, clockStyle, clockLayout, lightsMode, celebrationMessage, celebrationDuration, celebrationMode, msgBefore, msgOn, msgAfter, expression, hemisphere, recurrence, repeatTime, repeatWeekday, repeatDay, endAction, endMessage, endUrl].concat(unitChecks,designInputs,labelInputs).filter(Boolean).forEach(function (field) {
+  [type, from, to, diffFrom, diffTo, live, saved, mode, unit, txt, offset, format, countdownDisplay, copyrightStyle, clockStyle, clockLayout, celebrationMessage, celebrationDuration, celebrationMode, msgBefore, msgOn, msgAfter, expression, hemisphere, recurrence, repeatTime, repeatWeekday, repeatDay, endAction, endMessage, endUrl].concat(unitChecks,designInputs,labelInputs).filter(Boolean).forEach(function (field) {
     field.addEventListener('change', function () { status.textContent = ''; status.classList.remove('alpdt-copy-ok'); });
   });
 

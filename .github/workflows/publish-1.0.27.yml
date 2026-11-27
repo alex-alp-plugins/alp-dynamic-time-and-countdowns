@@ -1,0 +1,64 @@
+name: Publish ALP Dynamic Time 1.0.27 to GitHub and WordPress.org
+
+'on':
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: alpdt-wordpress-org-svn
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.head_commit.message == 'ALPDT PUBLISH 1.0.27')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out exact release commit
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Validate version and package source
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Eq '^[[:space:]]*\*?[[:space:]]*Version:[[:space:]]*1\.0\.27[[:space:]]*$' alp-dynamic-time.php
+          grep -Fxq 'Stable tag: 1.0.27' readme.txt
+          test -f src/Presentation/Frontend/ShortcodeController.php
+          test -f src/Presentation/Admin/AdminController.php
+          test -f src/Domain/ClockRenderer.php
+          php -l alp-dynamic-time.php
+      - name: Publish GitHub Release 1.0.27
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if gh release view 1.0.27 >/dev/null 2>&1; then
+            echo 'Release 1.0.27 already exists; skipping creation.'
+          else
+            gh release create 1.0.27 --target "${GITHUB_SHA}" --title 'ALP Dynamic Time & Countdowns 1.0.27' --notes-file .github/RELEASE_NOTES-1.0.27.md --latest
+          fi
+      - name: Publish 1.0.27 to WordPress.org SVN
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: alp-dynamic-time-countdowns
+          ASSETS_DIR: .wordpress-org
+          VERSION: '1.0.27'
+      - name: Attach WordPress ZIP to GitHub Release
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if test -f alp-dynamic-time-countdowns.zip; then
+            gh release upload 1.0.27 alp-dynamic-time-countdowns.zip --clobber
+          fi
