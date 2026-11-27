@@ -2,6 +2,9 @@ name: Update WordPress.org Assets and Readme
 
 'on':
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['readme.txt', '.github/workflows/update-assets.yml']
 
 permissions:
   contents: read
@@ -12,6 +15,7 @@ concurrency:
 
 jobs:
   update:
+    if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.event.head_commit.message == 'ALPDT readme refresh 1.0.27')
     name: Sync readme and gallery (manual)
     runs-on: ubuntu-latest
     steps:

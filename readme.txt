@@ -26,13 +26,22 @@ Free WordPress countdown timer and dynamic dates plugin: 20 designs, anniversary
 * **SEO plugin integration:** Display supported dynamic dates in selected Rank Math, Yoast SEO and SEOPress output contexts.
 * **Privacy-conscious and accessible:** Locally bundled fonts, reduced-motion support, and no built-in analytics.
 
-= ⏳ Countdowns for Every Occasion =
+= ⏳ Animated Countdown Timers for Every Occasion =
 
-Make time-sensitive content stand out during **Black Friday, Cyber Monday, Christmas, New Year's Eve**, sales, launches, seasonal promotions, birthdays, and anniversaries. Choose the timer design and customize its appearance for your website.
+Create countdowns for product launches, special announcements, promotions, holidays, weddings, birthdays, and milestones. Choose between supported styles, adjust the presentation, and display remaining days, hours, minutes, and seconds. Time calculations use the WordPress site's configured timezone.
 
-= 📅 Dynamic Dates, Milestones and Anniversaries =
+= 📅 Dynamic Dates and Anniversaries =
 
-Use automatically updating dates for copyright notices, business milestones, years of experience, celebrations and recurring events. Create named configurations that you can update centrally.
+Show the current year or month, formatted calendar dates, copyright year ranges, elapsed time, anniversary numbers, and special messages. Smart date expressions and recurring dates can keep time-sensitive content current without manual annual edits.
+
+= 🔁 Save Once, Reuse Anywhere =
+
+Use the Generator to configure and save countdowns or dates as named shortcodes. Reuse a saved identifier across multiple pages and update its configuration from the plugin dashboard.
+
+* **Example countdown:** `[alpdt_time type="countdown" to="2027-12-31T23:59" countdown_display="full" clock_style="glow"]`
+* **Example saved configuration:** `[alpdt_time saved="new-year-countdown"]`
+
+The dedicated Gutenberg block and optional Divi 5 module let you select previously saved shortcodes. Divi 5 is not required for standard shortcodes or Gutenberg.
 
 = 🔁 Moving From Years Since - Timeless Texts? =
 
@@ -40,14 +49,22 @@ Use automatically updating dates for copyright notices, business milestones, yea
 
 Compatibility aliases are registered **only when those shortcode names are not already used by another active plugin**. Output and options may differ from the original; review pages after switching. ALP Dynamic Time & Countdowns is an independent plugin and is **not affiliated with or endorsed by** the original Years Since developers.
 
+
 = 🎬 Interactive Demos Coming Soon! =
 
-We're preparing live demonstrations of the countdown designs, animated effects and customization options. **Stay tuned!**
+We're preparing **live interactive demos** so you can explore the countdown designs, animations, customization options, and dynamic date features before installing the plugin.
 
-= 💜 Built by ALP Plugins =
+**Stay tuned!** More examples, creative inspiration, and interactive previews are on the way.
 
-All features currently included in this free release are available at no charge. Suggestions and feedback help shape future updates.
+= 💜 Built for WordPress =
 
+**Powerful time-based content, intuitive controls, and creative freedom.**
+
+All features included in version 1.0.27 are available free of charge.
+
+Built by **ALP Plugins** with a focus on flexibility, customization, performance, and a WordPress-friendly experience. The plugin includes no analytics or third-party transmission of countdown data.
+
+If you enjoy the plugin, consider supporting its development with feedback, suggestions, or an honest WordPress.org review. **Your feedback helps shape what comes next!**
 == Installation ==
 
 1. Upload the ALP Dynamic Time & Countdowns ZIP through Plugins > Add New Plugin > Upload Plugin.
